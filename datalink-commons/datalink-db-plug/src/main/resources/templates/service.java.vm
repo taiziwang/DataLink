@@ -1,0 +1,24 @@
+package ${package.Service};
+#set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
+
+import com.datalink.base.model.PageResult;
+import com.datalink.base.model.Result;
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import com.fasterxml.jackson.databind.JsonNode;
+/**
+ * $!{table.comment} 服务类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    void save${entity}(${entity} ${entityNameLow}) throws Exception;
+
+    Result saveOrUpdate${entity}(${entity} ${entityNameLow}) throws Exception;
+}
+#end

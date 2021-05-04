@@ -1,0 +1,143 @@
+package ${package.Controller};
+#set($serviceNameLow = ${table.serviceName.substring(0,1).toLowerCase()} + ${table.serviceName.substring(1)})
+#set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
+
+import com.datalink.base.model.PageResult;
+import com.datalink.base.model.Result;
+import com.datalink.base.model.User;
+import ${package.PackageName}.entity.${entity};
+import ${package.PackageName}.service.${table.serviceName};
+import com.datalink.user.service.UserService;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import lombok.extern.slf4j.Slf4j;
+
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+/**
+ * $!{table.comment} Controller
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Slf4j
+@Api(tags = "$!{table.comment}模块api")
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+#set($controllerNameLow = ${table.className.substring(0,1).toLowerCase()} + ${table.className.substring(1)})
+##@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${controllerNameLow}#end")
+@RequestMapping("/${entityNameLow}")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+    @Autowired
+    private ${table.serviceName} ${serviceNameLow};
+
+    /**
+     * 新增或者更新
+     */
+#set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
+
+    @ApiOperation(value = "动态新增修改")
+    @ApiImplicitParams({
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag}||$hidefield.indexOf(${field.propertyName})>-1)
+            @ApiImplicitParam(name = "${field.propertyName}", value = "${field.comment}", required = true, dataType = "${field.type}"),
+    #elseif($hidefield.indexOf(${field.propertyName})>-1)
+            @ApiImplicitParam(name = "${field.propertyName}", value = "${field.comment}", required = #if("NO"==${field.isNotNull})true #else false #end, dataType = "${field.type}"),
+    #end
+#end
+    })
+    @PostMapping("/saveOrUpdate")
+    public Result saveOrUpdate(@LoginUser User user,@RequestBody ${entity} ${entityNameLow}) throws Exception {
+        if (${entityNameLow}.getId() == null) {
+            ${entityNameLow}.setCreateUser(user.getUsername());
+        }
+        ${entityNameLow}.setUpdateUser(user.getUsername());
+        return ${serviceNameLow}.saveOrUpdate${entity}(${entityNameLow});
+    }
+
+    /**
+     * 动态查询列表
+     */
+    @ApiOperation(value = "动态查询列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "分页起始位置", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "sortField", value = "排序字段", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "sortValue", value = "排序值", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "searchField", value = "搜索字段", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "searchValue", value = "搜索值", required = false, dataType = "String")
+    })
+    @PostMapping("/list")
+    public PageResult<${entity}> list${entity}s(@RequestBody JSONObject para) {
+        return ${serviceNameLow}.selectForCTable(para);
+    }
+
+    /**
+     * 批量删除
+     */
+    @ApiOperation(value = "批量删除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids", value = "ID数组字符串", required = true, dataType = "String")
+    })
+    @DeleteMapping(value = "")
+    public Result deleteMul(String ids) {
+        if(ids==null||ids.equals("")){
+            return Result.failed("请选择要删除的记录");
+        }
+        String[] idstrs = ids.split(",");
+        List<Integer> error = new ArrayList<>();
+        for (int i = 0; i < idstrs.length; i++) {
+            Long id =Long.valueOf(idstrs[i]);
+            if(!${serviceNameLow}.removeById(id)){
+                error.add(id);
+            }
+        }
+        if(error.size()==0) {
+        return Result.succeed("删除成功");
+        }else{
+        return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
+        }
+    }
+
+    /**
+     * 获取指定ID的信息
+     */
+    @ApiOperation(value = "获取指定ID的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer")
+    })
+    @PostMapping("/getOneById")
+    public Result getOneById(@RequestBody ${entity} ${entityNameLow}) throws Exception {
+        ${entityNameLow} = ${serviceNameLow}.getById(${entityNameLow}.getId());
+        return Result.succeed(${entityNameLow},"获取成功");
+    }
+}
+
+#end

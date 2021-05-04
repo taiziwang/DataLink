@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>datalink-parent</artifactId>
+        <groupId>com.datalink</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>datalink-commons</artifactId>
+    <packaging>pom</packaging>
+    <description>通用组件</description>
+    <modules>
+        <module>datalink-mybatis-spring-boot-starter</module>
+        <module>datalink-base</module>
+        <module>datalink-db-plug</module>
+        <module>datalink-swagger-spring-boot-starter</module>
+    </modules>
+
+</project>
