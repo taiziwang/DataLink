@@ -1,0 +1,127 @@
+#set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 数据表格 -->
+            <table id="${entityNameLow}Table" lay-filter="${entityNameLow}Table"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="${entityNameLow}TbBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit${entityNameLow}Table">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del${entityNameLow}Table">删除</a>
+</script>
+#set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
+<!-- 表单弹窗 -->
+<script type="text/html" id="${entityNameLow}EditDialog">
+    <form id="${entityNameLow}EditForm" lay-filter="${entityNameLow}EditForm" class="layui-form model-form layui-form-pane">
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag}||$hidefield.indexOf(${field.propertyName})>-1)
+    #else
+        <div class="layui-form-item">
+            <label class="layui-form-label #if("NO"==${field.isNotNull})layui-form-required #end">${field.comment}</label>
+            <div class="layui-input-inline">
+                        #if(${field.type.equals("text")})
+                <textarea name="${field.propertyName}" style="width: 400px; height: 150px;" autocomplete="off" class="layui-textarea">
+                </textarea>
+                        #elseif(${field.propertyType.equals("Boolean")})
+                <input type="checkbox" #if("NO"==${field.isNotNull}) lay-verType="tips"  lay-verify="required" required #end lay-filter="${field.propertyName}" name="${field.propertyName}" lay-skin="switch" lay-text="正常|禁用" value="true"  >
+                        #elseif(${field.propertyType.equals("LocalDateTime")})
+                <input type="text" name="${field.propertyName}" id="${field.propertyName}" #if("NO"==${field.isNotNull}) lay-verType="tips"  lay-verify="date|required" required #else lay-verType="tips" lay-verify="date" #end placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                        #else
+                <input type="text" name="${field.propertyName}" #if("NO"==${field.isNotNull}) lay-verType="tips" lay-verify="required" required #end placeholder="请输入${field.comment}" autocomplete="off" class="layui-input">
+                        #end
+            </div>
+        </div>
+    #end
+    #if(${field.keyFlag})
+        <input type="hidden" name="id">
+    #end
+#end
+## ----------  END 字段循环遍历  ----------
+        <div class="layui-form-item text-right">
+            <span class="layui-btn" lay-filter="${entityNameLow}EditSubmit" lay-submit>保存</span>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="${entityNameLow}TplState">
+    <input type="checkbox" lay-filter="${entityNameLow}-tpl-state" data-id="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.enabled==true?'checked':''}}/>
+</script>
+
+<!-- js部分 -->
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin', 'FastTable','VC','DC','BC'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var admin = layui.admin;
+        var CTable = layui.CTable;
+        var VC = layui.VC;
+        var BC = layui.BC;
+        var DC = layui.DC;
+        var setter = layui.setter;
+        /* 渲染表格 */
+        var columns = [[
+            {type: 'checkbox',fixed: 'left'}
+            ,{type: 'numbers',fixed: 'left'}
+        ## 字段遍历开始
+#set($i = 1)
+#foreach($field in ${table.fields})
+    #if(${field.propertyName}=='enabled')
+        ,{field: 'enabled', title: '状态',templet: '#${entityNameLow}TplState',  minWidth: 100, align: 'center' }
+    #else
+            ,{field: '${field.propertyName}', title: '${field.comment}', sort: true, minWidth: 100, align: 'center' #if($i <= 2),fixed: 'left'#end}
+    #end
+#set($i = $i + 1)
+#end
+        ## 字段遍历结束
+        ]];
+        if (admin.hasPerm('edit${entityNameLow}Table') || admin.hasPerm('del${entityNameLow}Table')) {
+            columns[0].push({title: '操作', toolbar: '#${entityNameLow}TbBar', align: 'center',fixed: 'right'});
+        }
+        columns[0].push({title: '操作', toolbar: '#${entityNameLow}TbBar', align: 'center',fixed: 'right'});
+
+        CTable.render({
+            elem: '#${entityNameLow}Table'
+            , url: setter.baseServer + 'api-app/${entityNameLow}'
+            , deleteUrl: 'api-app/${entityNameLow}'
+            , upsert: {
+                url: 'api-app/${entityNameLow}/saveOrUpdate'
+                , content: '#${entityNameLow}TableEditDialog'
+                , form: '${entityNameLow}TableEditForm'
+                , submit: '${entityNameLow}TableEditSubmit'
+                , done: function () {
+                }
+            }
+            , title: '字段'
+            , uniqueKey: 'id'
+            , uniqueTitle: 'name'
+            , cols: columns
+            , toolbar: '#${entityNameLow}TableToolbar'
+            , customDone: function (res, curr, count,options) {
+                let searchField = $('#field_' + options.filter).find('option').length;
+                if (searchField === 1) {
+                    $('#field_${entityNameLow}Table').empty().append(new Option("请选择查询列", ""));
+                    $.each(columns[0], function (index, item) {
+                        if (typeof item.field != "undefined") {
+                            $('#field_${entityNameLow}Table').append(new Option(item.title, item.field));
+                        }
+                    });
+                    form.render("select");
+                }
+            }
+        });
+
+
+    });
+</script>

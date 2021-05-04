@@ -1,0 +1,57 @@
+package ${package.ServiceImpl};
+#set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
+
+import com.datalink.base.model.Result;
+import com.datalink.db.mybatis.annotation.Save;
+import com.datalink.db.mybatis.lock.DistributedLock;
+import com.datalink.db.mybatis.service.impl.SuperServiceImpl;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
+
+/**
+ * $!{table.comment} 服务实现类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+    private final static String LOCK_KEY_ROLECODE = "name:";
+
+    @Autowired
+    private DistributedLock lock;
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void save${entity}(@Validated({Save.class}) ${entity} ${entityNameLow}) throws Exception {
+        String code = ${entityNameLow}.getName();
+        super.saveIdempotency(${entityNameLow}, lock
+        , LOCK_KEY_ROLECODE+code, new QueryWrapper<${entity}>().eq("name", code), "已存在");
+    }
+
+    @Override
+    @Transactional
+    public Result saveOrUpdate${entity}(${entity} ${entityNameLow}) throws Exception {
+        if (${entityNameLow}.getId() == null) {
+            this.save${entity}(${entityNameLow});
+        } else {
+            baseMapper.updateById(${entityNameLow});
+        }
+        return Result.succeed("操作成功");
+    }
+
+}
+#end

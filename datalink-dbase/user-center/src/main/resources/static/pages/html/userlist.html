@@ -1,0 +1,160 @@
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 数据表格 -->
+            <table id="userTable" lay-filter="userTable"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="userTbBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edituserTable">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deluserTable">删除</a>
+</script>
+<!-- 表单弹窗 -->
+<script type="text/html" id="userEditDialog">
+    <form id="userEditForm" lay-filter="userEditForm" class="layui-form model-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">登录名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username"  lay-verType="tips" lay-verify="required" required  placeholder="请输入登录名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">密码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="password"  lay-verType="tips" lay-verify="required" required  placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="nickname"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">头像Url</label>
+            <div class="layui-input-inline">
+                <input type="text" name="headUrl"  placeholder="请输入头像Url" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">手机号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="mobile"  placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">性别</label>
+            <div class="layui-input-inline">
+                <input type="checkbox"  lay-filter="sex" name="sex" lay-skin="switch" lay-text="正常|禁用" value="true"  >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">是否启用</label>
+            <div class="layui-input-inline">
+                <input type="checkbox"  lay-verType="tips"  lay-verify="required" required  lay-filter="enabled" name="enabled" lay-skin="switch" lay-text="正常|禁用" value="true"  >
+            </div>
+        </div>
+        <div class="layui-form-item text-right">
+            <span class="layui-btn" lay-filter="userEditSubmit" lay-submit>保存</span>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="userTplState">
+    <input type="checkbox" lay-filter="user-tpl-state" data-id="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.enabled==true?'checked':''}}/>
+</script>
+
+<!-- js部分 -->
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin', 'zTree', 'FastTable', 'xmSelect'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var admin = layui.admin;
+        var xmSelect = layui.xmSelect;
+        var fastTable = layui.FastTable;
+        var setter = layui.setter;
+        /* 渲染表格 */
+        var columns = [[
+            {type: 'checkbox',fixed: 'left'}
+            ,{type: 'numbers',fixed: 'left'}
+                    ,{field: 'id', title: '自增ID', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'username', title: '登录名', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'password', title: '密码', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'nickname', title: '姓名', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'headUrl', title: '头像Url', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'mobile', title: '手机号', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'sex', title: '性别', sort: true, minWidth: 100, align: 'center' }
+        ,{field: 'enabled', title: '状态',templet: '#userTplState',  minWidth: 100, align: 'center' }
+            ,{field: 'createTime', title: '创建时间', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'updateTime', title: '更新时间', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'isDelete', title: '是否删除', sort: true, minWidth: 100, align: 'center' }
+                ]];
+        if (admin.hasPerm('edituserTable') || admin.hasPerm('deluserTable')) {
+            columns[0].push({title: '操作', toolbar: '#userTbBar', align: 'center',fixed: 'right'});
+        }
+        columns[0].push({title: '操作', toolbar: '#userTbBar', align: 'center',fixed: 'right'});
+        fastTable.init({
+            elem: '#userTable'
+            , url: {
+                query: setter.baseServer + 'api-user/users'
+                , delete: 'api-user/users'
+            }
+            , title: '管理'
+            , uniquekey: 'id'
+            , power: 2
+            , openPower: false
+            , cols: columns
+            , layTableTips: "Tips..."
+            , add: showEditModel
+            , update: showEditModel
+        });
+        /!* 表格搜索 *!/
+        form.on('submit(userTbSearch)', function (data) {
+            data.field.page = 1;
+            data.field.limit = 10;
+            fastTable.refresh('userTable', data.field);
+            return false;
+        });
+
+        /* 显示表单弹窗 */
+        function showEditModel(opts, tableFilter, mData) {
+            admin.open({
+                type: 1,
+                title: (mData ? '修改' : '添加') + '',
+                content: $('#userEditDialog').html(),
+                success: function (layero, dIndex) {
+                    // 回显表单数据
+                    form.val('userEditForm', mData);
+                    // 表单提交事件
+                    form.on('submit(userEditSubmit)', function (data) {
+                        let tenantId = $('#user_tanent_id').val();
+                        var loadIndex = layer.load(2);
+                        data.tenantId = tenantId;
+                        admin.req('api-user/users/saveOrUpdate', data.field, function (res) {
+                            layer.close(loadIndex);
+                            if (200 === res.code) {
+                                layer.close(dIndex);
+                                layer.msg(res.msg, {icon: 1});
+                                fastTable.autoRefresh(tableFilter);
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'POST');
+                        return false;
+                    });
+                }
+            });
+        }
+    });
+</script>

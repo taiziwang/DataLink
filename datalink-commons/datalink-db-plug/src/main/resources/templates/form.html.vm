@@ -1,0 +1,39 @@
+<div class="layui-form" lay-filter="${package.HtmlID}-${table.formName}-form" id="${package.HtmlID}-${table.formName}-form" style="padding: 20px 30px 0 0;">
+    #set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag}||$hidefield.indexOf(${field.propertyName})>-1)
+    #else
+    <div class="layui-form-item">
+        <label class="layui-form-label #if("NO"==${field.isNotNull}) layui-form-required #end">${field.comment}</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                #if(${field.type.equals("text")})
+                <textarea name="${field.propertyName}" style="width: 400px; height: 150px;" autocomplete="off" class="layui-textarea">
+                                {{ d.params.${field.propertyName} || '' }}
+                </textarea>
+                #elseif(${field.propertyType.equals("Boolean")})
+                <input type="checkbox" #if("NO"==${field.isNotNull}) lay-verify="required" #end lay-filter="${field.propertyName}" name="${field.propertyName}" lay-skin="switch" lay-text="正常|禁用" value="true" {{ d.params.${field.propertyName} ? 'checked' : '' }} >
+                #elseif(${field.propertyType.equals("LocalDateTime")})
+                <input type="text" name="date" id="${field.propertyName}" #if("NO"==${field.isNotNull}) lay-verify="date|required" #else lay-verify="date" #end placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                #else
+                <input type="text" name="${field.propertyName}" value="{{ d.params.${field.propertyName} || '' }}" #if("NO"==${field.isNotNull}) lay-verify="required" #end placeholder="请输入${field.comment}" autocomplete="off" class="layui-input">
+                #end
+            </script>
+        </div>
+    </div>
+    #end
+    #if(${field.keyFlag})
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.${field.propertyName} || '' }}">
+    </script>
+    #end
+#end
+## ----------  END 字段循环遍历  ----------
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="${package.HtmlID}-${table.formName}-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
