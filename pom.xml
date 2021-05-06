@@ -44,6 +44,7 @@
         <hutool.version>5.1.4</hutool.version>
         <guava.version>21.0</guava.version>
         <knife4j.version>2.0.5</knife4j.version>
+        <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>
@@ -166,6 +167,12 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-micro-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <!-- hibernate-validator -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
             </dependency>
             <!-- datalink -->
             <dependency>

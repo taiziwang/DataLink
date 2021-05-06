@@ -21,7 +21,7 @@ public class MysqlGenerator {
         String packageName = "user";
         String author = "wenmo";
         String tablePrefix = "dbase_";
-        String[] includes = new String[]{"dbase_user"};
+        String[] includes = new String[]{"dbase_role","dbase_role_user"};
         String projectPath = System.getProperty("user.dir");
         String modulePre = "com.datalink.";
 
