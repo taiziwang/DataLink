@@ -1,23 +1,14 @@
-package ${package.Controller};
-#set($serviceNameLow = ${table.serviceName.substring(0,1).toLowerCase()} + ${table.serviceName.substring(1)})
-#set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
+package com.datalink.user.controller;
 
 import com.datalink.base.model.PageResult;
 import com.datalink.base.model.Result;
-import ${package.PackageName}.entity.${entity};
-import ${package.PackageName}.service.${table.serviceName};
+import com.datalink.user.entity.RoleUser;
+import com.datalink.user.service.RoleUserService;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 
-#if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
-#else
-import org.springframework.stereotype.Controller;
-#end
-#if(${superControllerClassPackage})
-import ${superControllerClassPackage};
-#end
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,51 +20,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * $!{table.comment} Controller
+ * 用户角色关系 Controller
  *
- * @author ${author}
- * @since ${date}
+ * @author wenmo
+ * @since 2021-05-06
  */
 @Slf4j
-@Api(tags = "$!{table.comment}模块api")
-#if(${restControllerStyle})
+@Api(tags = "用户角色关系模块api")
 @RestController
-#else
-@Controller
-#end
-#set($controllerNameLow = ${table.className.substring(0,1).toLowerCase()} + ${table.className.substring(1)})
-##@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${controllerNameLow}#end")
-@RequestMapping("/${entityNameLow}")
-#if(${kotlin})
-class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
-
-#else
-#if(${superControllerClass})
-public class ${table.controllerName} extends ${superControllerClass} {
-#else
-public class ${table.controllerName} {
-#end
+@RequestMapping("/roleUser")
+public class RoleUserController {
     @Autowired
-    private ${table.serviceName} ${serviceNameLow};
+    private RoleUserService roleUserService;
 
     /**
      * 新增或者更新
      */
-#set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
 
     @ApiOperation(value = "动态新增修改")
     @ApiImplicitParams({
-#foreach($field in ${table.fields})
-    #if(${field.keyFlag}||$hidefield.indexOf(${field.propertyName})>-1)
-            @ApiImplicitParam(name = "${field.propertyName}", value = "${field.comment}", required = true, dataType = "${field.type}"),
-    #elseif($hidefield.indexOf(${field.propertyName})==-1)
-            @ApiImplicitParam(name = "${field.propertyName}", value = "${field.comment}", required = #if("NO"==${field.isNotNull})true #else false #end, dataType = "${field.type}"),
-    #end
-#end
+            @ApiImplicitParam(name = "id", value = "角色用户ID", required = true, dataType = "int(11)"),
+            @ApiImplicitParam(name = "userId", value = "用户ID", required = true , dataType = "int(11)"),
+            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true , dataType = "int(11)"),
     })
     @PostMapping("/saveOrUpdate")
-    public Result saveOrUpdate(@RequestBody ${entity} ${entityNameLow}) throws Exception {
-        return ${serviceNameLow}.saveOrUpdate${entity}(${entityNameLow});
+    public Result saveOrUpdate(@RequestBody RoleUser roleUser) throws Exception {
+        return roleUserService.saveOrUpdateRoleUser(roleUser);
     }
 
     /**
@@ -89,8 +61,8 @@ public class ${table.controllerName} {
             @ApiImplicitParam(name = "searchValue", value = "搜索值", required = false, dataType = "String")
     })
     @PostMapping("/list")
-    public PageResult<${entity}> list${entity}s(@RequestBody JsonNode para) {
-        return ${serviceNameLow}.selectForCTable(para);
+    public PageResult<RoleUser> listRoleUsers(@RequestBody JsonNode para) {
+        return roleUserService.selectForCTable(para);
     }
 
     /**
@@ -109,7 +81,7 @@ public class ${table.controllerName} {
         List<Integer> error = new ArrayList<>();
         for (int i = 0; i < idstrs.length; i++) {
             Integer id =Integer.valueOf(idstrs[i]);
-            if(!${serviceNameLow}.removeById(id)){
+            if(!roleUserService.removeById(id)){
                 error.add(id);
             }
         }
@@ -128,10 +100,9 @@ public class ${table.controllerName} {
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer")
     })
     @PostMapping("/getOneById")
-    public Result getOneById(@RequestBody ${entity} ${entityNameLow}) throws Exception {
-        ${entityNameLow} = ${serviceNameLow}.getById(${entityNameLow}.getId());
-        return Result.succeed(${entityNameLow},"获取成功");
+    public Result getOneById(@RequestBody RoleUser roleUser) throws Exception {
+        roleUser = roleUserService.getById(roleUser.getId());
+        return Result.succeed(roleUser,"获取成功");
     }
 }
 
-#end

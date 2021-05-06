@@ -1,0 +1,19 @@
+package ${package.DTO};
+
+import ${package.Entity}.${entity};
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Setter
+@Getter
+public class ${table.dtoName} extends ${entity} {
+
+}
