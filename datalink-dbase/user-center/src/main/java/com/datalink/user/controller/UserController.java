@@ -30,6 +30,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private static final String ADMIN_CHANGE_MSG = "超级管理员不给予修改";
+    private static final Integer ADMIN_CODE = 1;
+
     @Autowired
     private UserService userService;
 
@@ -50,6 +53,9 @@ public class UserController {
     })
     @PostMapping("/saveOrUpdate")
     public Result saveOrUpdate(@RequestBody User user) throws Exception {
+        if(user!=null&&user.getId()!=null&&user.getId().equals(1)){
+            return Result.failed(ADMIN_CHANGE_MSG);
+        }
         return userService.saveOrUpdateUser(user);
     }
 
@@ -84,16 +90,23 @@ public class UserController {
         }
         String[] idstrs = ids.split(",");
         List<Integer> error = new ArrayList<>();
+        boolean isAdmin = false;
         for (int i = 0; i < idstrs.length; i++) {
             Integer id = Integer.valueOf(idstrs[i]);
-//            if(userService.deleteUserById(id)){
+            if(checkAdmin(id)){
+                isAdmin = true;
+                error.add(id);
+                continue;
+            }
             if(!userService.removeById(id)){
                 error.add(id);
             }
         }
-        if(error.size()==0) {
+        if(error.size()==0&&!isAdmin) {
             return Result.succeed("删除成功");
-        }else{
+        }else if(isAdmin) {
+            return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败，其中"+ADMIN_CHANGE_MSG+"。");
+        }else {
             return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
         }
     }
@@ -109,6 +122,13 @@ public class UserController {
     public Result getOneById(Integer id) {
         User user = userService.getById(id);
         return Result.succeed(user, "获取成功");
+    }
+
+    /**
+     * 是否超级管理员
+     */
+    private boolean checkAdmin(Integer id) {
+        return ADMIN_CODE.equals(id);
     }
 }
 

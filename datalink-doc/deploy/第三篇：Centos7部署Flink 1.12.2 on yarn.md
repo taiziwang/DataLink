@@ -10,43 +10,16 @@
 
 详情见《第一篇：Centos7 Hadoop 2.7.7 集群部署》。
 
-## 2.	安装Scala
+## 2.	Flink部署
 
-### 2.1	上传、解压、分发
-
-```shell
-[root@node1 src]# tar -zxf scala-2.11.12.tgz
-[root@node1 src]# cd scala-2.11.12/
-[root@node1 scala-2.11.12]# cd ..
-[root@node1 src]# mv scala-2.11.12 /usr/local/
-[root@node1 src]# cd /usr/local/
-[root@node1 local]# mv scala-2.11.12 scala
-[root@node1 local]# scp -r /usr/local/scala root@node2:/usr/local 
-[root@node1 local]# scp -r /usr/local/scala root@node3:/usr/local 
-```
-
-### 2.2	配置环境变量
-
-```shell
-[root@node1 local]# vi /etc/profile 
-export SCALA_HOME=/usr/local/scala
-
-export PATH=${JAVA_HOME}/bin:$PATH:$ZOOKEEPER_HOME/bin:$HADOOP_HOME/bin:$HBASE_HOME/bin:$SCALA_HOME/bin
-[root@node1 local]# source /etc/profile 
-[root@node1 local]# scala -version
-Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
-```
-
-## 3.	Flink部署
-
-### 3.1	上传、解压
+### 2.1	上传、解压
 
 ```shell
 [root@node1 src]# tar -zxf flink-1.12.2-bin-scala_2.11.tgz 
 [root@node1 src]# mv flink-1.12.2 /data/app/hadoop
 ```
 
-### 3.2	设置环境变量
+### 2.2	设置环境变量
 
 ```shell
 [root@node1 local]# vi /etc/profile 
@@ -58,9 +31,9 @@ export PATH=${JAVA_HOME}/bin:$PATH:$ZOOKEEPER_HOME/bin:$HADOOP_HOME/bin:$HBASE_H
 [root@node1 local]# source /etc/profile 
 ```
 
-### 3.3	修改配置文件
+### 2.3	修改配置文件
 
-#### 3.3.1	flink-conf.yaml
+#### 2.3.1	flink-conf.yaml
 
 ```shell
 [root@node1 conf]# vi flink-conf.yaml
@@ -275,7 +248,7 @@ web.submit.enable: true
 # may be enabled in four steps:
 # 1. configure the local krb5.conf file
 # 2. provide Kerberos credentials (either a keytab or a ticket cache w/ kinit)
-# 3. make the credentials available to various JAAS login contexts
+# 2. make the credentials available to various JAAS login contexts
 # 4. configure the connector to use JAAS/SASL
 
 # The below configure how Kerberos credentials are provided. A keytab will be used instead of
@@ -330,7 +303,7 @@ historyserver.web.tmpdir:/tmp/flinkhistoryserver12/
 # env.java.opts.taskmanager: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 ```
 
-#### 3.3.2	masters
+#### 2.3.2	masters
 
 ```shell
 [root@node1 conf]# vi masters
@@ -338,7 +311,7 @@ node1:8081
 node2:8081
 ```
 
-#### 3.3.3	workers
+#### 2.3.3	workers
 
 ```shell
 [root@node1 conf]# vi workers
@@ -347,7 +320,7 @@ node2
 node3
 ```
 
-#### 3.3.4	zoo.cfg
+#### 2.3.4	zoo.cfg
 
 ```shell
 [root@node1 conf]# vi zoo.cfg
@@ -392,39 +365,39 @@ server.2=node2:2888:3888
 server.3=node3:2888:3888
 ```
 
-#### 3.3.5	core-site.xml
+#### 2.3.5	core-site.xml
 
 ```shell
 [root@node1 hadoop]# cp core-site.xml /data/app/hadoop/flink-1.12.2/conf/
 ```
 
-#### 3.3.6	hdfs-site.xml
+#### 2.3.6	hdfs-site.xml
 
 ```shell
 [root@node1 hadoop]# cp hdfs-site.xml /data/app/hadoop/flink-1.12.2/conf/
 ```
 
-#### 3.3.7	yarn-site.xml
+#### 2.3.7	yarn-site.xml
 
 ```shell
 [root@node1 hadoop]# cp yarn-site.xml /data/app/hadoop/flink-1.12.2/conf/
 ```
 
-#### 3.3.8	hbase-site.xml
+#### 2.3.8	hbase-site.xml
 
 ```shell
 [root@node1 hadoop]# cd /data/app/hadoop/hbase-1.4.3/conf/
 [root@node1 conf]# cp hbase-site.xml /data/app/hadoop/flink-1.12.2/conf/
 ```
 
-### 3.4	分发其他节点
+### 2.4	分发其他节点
 
 ```shell
 [root@node1 conf]# scp -r /data/app/hadoop/flink-1.12.2/ root@node2:/data/app/hadoop/
 [root@node1 conf]# scp -r /data/app/hadoop/flink-1.12.2/ root@node3:/data/app/hadoop/
 ```
 
-### 3.5	启动
+### 2.5	启动
 
 ```shell
 [root@node1 data]# nohup yarn-session.sh -n 3 &
@@ -475,26 +448,26 @@ server.3=node3:2888:3888
 30735 QuorumPeerMain
 ```
 
-### 3.6	测试
+### 2.6	测试
 
 ```shell
 [root@node1 flink-1.12.2]# flink run examples/batch/WordCount.jar 
 ```
 
-### 3.7	UI界面
+### 2.7	UI界面
 
 ​	http://192.168.123.156:8088/cluster/scheduler
 
 ​	http://192.168.123.156:8081/#/overview
 
-### 3.8	启动History Server
+### 2.8	启动History Server
 
 ```shell
 [root@node1 flink-1.12.2]# historyserver.sh start
 Starting historyserver daemon on host node1.
 ```
 
-### 3.9	停止
+### 2.9	停止
 
 ```shell
 yarn application -kill application_对应的ID
