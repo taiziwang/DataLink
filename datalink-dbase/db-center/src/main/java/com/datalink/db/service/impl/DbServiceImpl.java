@@ -25,15 +25,16 @@ import java.util.List;
 public class DbServiceImpl extends SuperServiceImpl<DbMapper, Db> implements DbService {
     private final static String LOCK_KEY_ROLECODE = "code:";
 
-    @Autowired
-    private DistributedLock lock;
+    /*@Autowired
+    private DistributedLock lock;*/
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveDb(@Validated({Save.class}) Db db) throws Exception {
-        String code = db.getCode();
+        baseMapper.insert(db);
+        /*String code = db.getCode();
         super.saveIdempotency(db, lock
-        , LOCK_KEY_ROLECODE+code, new QueryWrapper<Db>().eq("code", code), "已存在");
+        , LOCK_KEY_ROLECODE+code, new QueryWrapper<Db>().eq("code", code), "已存在");*/
     }
 
     @Override

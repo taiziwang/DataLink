@@ -25,15 +25,16 @@ import java.util.List;
 public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implements RoleService {
     private final static String LOCK_KEY_ROLECODE = "code:";
 
-    @Autowired
-    private DistributedLock lock;
+    /*@Autowired
+    private DistributedLock lock;*/
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveRole(@Validated({Save.class}) Role role) throws Exception {
-        String code = role.getCode();
+        baseMapper.insert(role);
+        /*String code = role.getCode();
         super.saveIdempotency(role, lock
-        , LOCK_KEY_ROLECODE+code, new QueryWrapper<Role>().eq("code", code), "已存在");
+        , LOCK_KEY_ROLECODE+code, new QueryWrapper<Role>().eq("code", code), "已存在");*/
     }
 
     @Override

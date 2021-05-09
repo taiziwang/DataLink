@@ -25,15 +25,16 @@ import java.util.List;
 public class DictServiceImpl extends SuperServiceImpl<DictMapper, Dict> implements DictService {
     private final static String LOCK_KEY_ROLECODE = "code:";
 
-    @Autowired
-    private DistributedLock lock;
+    /*@Autowired
+    private DistributedLock lock;*/
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveDict(@Validated({Save.class}) Dict dict) throws Exception {
-        String code = dict.getCode();
+        baseMapper.insert(dict);
+        /*String code = dict.getCode();
         super.saveIdempotency(dict, lock
-        , LOCK_KEY_ROLECODE+code, new QueryWrapper<Dict>().eq("code", code), "已存在");
+        , LOCK_KEY_ROLECODE+code, new QueryWrapper<Dict>().eq("code", code), "已存在");*/
     }
 
     @Override
