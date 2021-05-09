@@ -6,6 +6,7 @@ import com.datalink.base.model.User;
 import com.datalink.user.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
 import io.swagger.annotations.Api;
@@ -53,7 +54,7 @@ public class UserController {
     })
     @PostMapping("/saveOrUpdate")
     public Result saveOrUpdate(@RequestBody User user) throws Exception {
-        if(user!=null&&user.getId()!=null&&user.getId().equals(1)){
+        if(checkAdmin(Preconditions.checkNotNull(user.getId()))){
             return Result.failed(ADMIN_CHANGE_MSG);
         }
         return userService.saveOrUpdateUser(user);
@@ -85,7 +86,7 @@ public class UserController {
     })
     @DeleteMapping(value = "")
     public Result deleteMul(String ids) {
-        if (ids == null || ids.equals("")) {
+        if ("".equals(Preconditions.checkNotNull(ids))) {
             return Result.failed("请选择要删除的记录");
         }
         String[] idstrs = ids.split(",");

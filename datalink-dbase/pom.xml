@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>user-center</module>
+        <module>db-center</module>
     </modules>
 
 

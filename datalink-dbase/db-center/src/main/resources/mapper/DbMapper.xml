@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datalink.db.dao.DbMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.datalink.db.entity.Db">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="tag" property="tag" />
+        <result column="driver" property="driver" />
+        <result column="ip" property="ip" />
+        <result column="port" property="port" />
+        <result column="url" property="url" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="setting" property="setting" />
+        <result column="db_version" property="dbVersion" />
+        <result column="note" property="note" />
+        <result column="enabled" property="enabled" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="tenant_id" property="tenantId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, name, type, tag, driver, ip, port, url, username, password, setting, db_version, note, enabled, create_time, update_time, tenant_id
+    </sql>
+
+
+    <select id="selectForCTable" resultType="com.datalink.db.entity.Db">
+        select
+        a.*
+        from
+        dbase_db a
+        <where>
+            <if test='ew.sqlSegment!=null and ew.sqlSegment!=""'>
+                ${ew.sqlSegment}
+            </if>
+        </where>
+    </select>
+</mapper>
