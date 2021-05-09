@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.datalink.base.redis.RedisConfigure,\
+com.datalink.base.redis.template.RedisRepository

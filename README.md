@@ -49,17 +49,21 @@ java -jar -Dloader.path=lib user-center-0.1-SNAPSHOT.jar
 ## 结构
 
 ```java
-DataLink --父项目
-|-datalink-commons --通用中心
-| |-datalink-base --基础封装模块
-| |-datalink-db-plug --DB工具封装模块
-| |-datalink-mybatis-spring-boot-starter --MybatisPlus封装模块
-| |-datalink-swagger-spring-boot-starter --Swagger封装模块
-|-datalink-config --配置中心
-|-datalink-dbase --基础资源中心
-| |-db-center --DB中心[8001]
-| |-user-center --用户中心[8000]
-|-datalink-doc --文档中心
+DataLink -- 父项目
+|-datalink-commons -- 通用中心
+| |-datalink-auth-spring-boot-starter -- Spring Security 封装模块
+| |-datalink-base -- 基础封装模块
+| |-datalink-db-plug -- DB工具封装模块
+| |-datalink-log-spring-boot-starter -- Log 封装模块
+| |-datalink-mybatis-spring-boot-starter -- MybatisPlus 封装模块
+| |-datalink-redis-spring-boot-starter -- Redis 封装模块
+| |-datalink-swagger-spring-boot-starter -- Swagger 封装模块
+|-datalink-config -- 配置中心
+|-datalink-dbase -- 基础资源中心
+| |-db-center -- DB 中心[8001]
+| |-user-center -- 用户中心[8000]
+|-datalink-doc -- 文档中心
+|-datalink-web -- React Web
 ```
 
 正在维护中...
@@ -81,6 +85,8 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 [Mybatis Plus](https://github.com/baomidou/mybatis-plus)
 
 [microservices-platform](https://gitee.com/zlt2000/microservices-platform)
+
+[ant-design-pro](https://github.com/aiwenmo/ant-design-pro)
 
 ## 截图
 

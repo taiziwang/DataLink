@@ -45,6 +45,8 @@
         <guava.version>21.0</guava.version>
         <knife4j.version>2.0.5</knife4j.version>
         <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+        <redisson-starter.version>3.14.1</redisson-starter.version>
+        <commons-io.version>2.6</commons-io.version>
     </properties>
 
     <dependencies>
@@ -173,6 +175,18 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
+            </dependency>
+            <!-- Redis -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson-starter.version}</version>
+            </dependency>
+            <!-- commons -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             <!-- datalink -->
             <dependency>

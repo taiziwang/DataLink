@@ -18,6 +18,8 @@
         <module>datalink-db-plug</module>
         <module>datalink-swagger-spring-boot-starter</module>
         <module>datalink-log-spring-boot-starter</module>
+        <module>datalink-auth-spring-boot-starter</module>
+        <module>datalink-redis-spring-boot-starter</module>
     </modules>
 
 </project>
