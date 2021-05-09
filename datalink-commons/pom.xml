@@ -17,6 +17,7 @@
         <module>datalink-base</module>
         <module>datalink-db-plug</module>
         <module>datalink-swagger-spring-boot-starter</module>
+        <module>datalink-log-spring-boot-starter</module>
     </modules>
 
 </project>

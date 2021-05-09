@@ -1,0 +1,199 @@
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 数据表格 -->
+            <table id="dbTable" lay-filter="dbTable"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="dbTbBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="editdbTable">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deldbTable">删除</a>
+</script>
+<!-- 表单弹窗 -->
+<script type="text/html" id="dbEditDialog">
+    <form id="dbEditForm" lay-filter="dbEditForm" class="layui-form model-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">DB编码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="code"  lay-verType="tips" lay-verify="required" required  placeholder="请输入DB编码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name"  lay-verType="tips" lay-verify="required" required  placeholder="请输入名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">类型</label>
+            <div class="layui-input-inline">
+                <input type="text" name="type"  lay-verType="tips" lay-verify="required" required  placeholder="请输入类型" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">分组-dbTag</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tag"  lay-verType="tips" lay-verify="required" required  placeholder="请输入分组-dbTag" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">Driver</label>
+            <div class="layui-input-inline">
+                <input type="text" name="driver"  placeholder="请输入Driver" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">IP</label>
+            <div class="layui-input-inline">
+                <input type="text" name="ip"  placeholder="请输入IP" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">Port</label>
+            <div class="layui-input-inline">
+                <input type="text" name="port"  placeholder="请输入Port" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">Url</label>
+            <div class="layui-input-inline">
+                <input type="text" name="url"  placeholder="请输入Url" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">用户</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username"  placeholder="请输入用户" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">密码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="password"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">配置</label>
+            <div class="layui-input-inline">
+                <textarea name="setting" style="width: 400px; height: 150px;" autocomplete="off" class="layui-textarea">
+                </textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">版本</label>
+            <div class="layui-input-inline">
+                <input type="text" name="dbVersion"  placeholder="请输入版本" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">说明</label>
+            <div class="layui-input-inline">
+                <input type="text" name="note"  placeholder="请输入说明" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">启用</label>
+            <div class="layui-input-inline">
+                <input type="text" name="enabled"  lay-verType="tips" lay-verify="required" required  placeholder="请输入启用" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">租户</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tenantId"  lay-verType="tips" lay-verify="required" required  placeholder="请输入租户" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item text-right">
+            <span class="layui-btn" lay-filter="dbEditSubmit" lay-submit>保存</span>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="dbTplState">
+    <input type="checkbox" lay-filter="db-tpl-state" data-id="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.enabled==true?'checked':''}}/>
+</script>
+
+<!-- js部分 -->
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin', 'FastTable','VC','DC','BC'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var admin = layui.admin;
+        var CTable = layui.CTable;
+        var VC = layui.VC;
+        var BC = layui.BC;
+        var DC = layui.DC;
+        var setter = layui.setter;
+        /* 渲染表格 */
+        var columns = [[
+            {type: 'checkbox',fixed: 'left'}
+            ,{type: 'numbers',fixed: 'left'}
+                    ,{field: 'id', title: 'DBID', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'code', title: 'DB编码', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'name', title: '名称', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'type', title: '类型', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'tag', title: '分组-dbTag', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'driver', title: 'Driver', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'ip', title: 'IP', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'port', title: 'Port', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'url', title: 'Url', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'username', title: '用户', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'password', title: '密码', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'setting', title: '配置', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'dbVersion', title: '版本', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'note', title: '说明', sort: true, minWidth: 100, align: 'center' }
+        ,{field: 'enabled', title: '状态',templet: '#dbTplState',  minWidth: 100, align: 'center' }
+            ,{field: 'createTime', title: '创建时间', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'updateTime', title: '更新时间', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'tenantId', title: '租户', sort: true, minWidth: 100, align: 'center' }
+                ]];
+        if (admin.hasPerm('editdbTable') || admin.hasPerm('deldbTable')) {
+            columns[0].push({title: '操作', toolbar: '#dbTbBar', align: 'center',fixed: 'right'});
+        }
+        columns[0].push({title: '操作', toolbar: '#dbTbBar', align: 'center',fixed: 'right'});
+
+        CTable.render({
+            elem: '#dbTable'
+            , url: setter.baseServer + 'api-app/db'
+            , deleteUrl: 'api-app/db'
+            , upsert: {
+                url: 'api-app/db/saveOrUpdate'
+                , content: '#dbTableEditDialog'
+                , form: 'dbTableEditForm'
+                , submit: 'dbTableEditSubmit'
+                , done: function () {
+                }
+            }
+            , title: '字段'
+            , uniqueKey: 'id'
+            , uniqueTitle: 'name'
+            , cols: columns
+            , toolbar: '#dbTableToolbar'
+            , customDone: function (res, curr, count,options) {
+                let searchField = $('#field_' + options.filter).find('option').length;
+                if (searchField === 1) {
+                    $('#field_dbTable').empty().append(new Option("请选择查询列", ""));
+                    $.each(columns[0], function (index, item) {
+                        if (typeof item.field != "undefined") {
+                            $('#field_dbTable').append(new Option(item.title, item.field));
+                        }
+                    });
+                    form.render("select");
+                }
+            }
+        });
+
+
+    });
+</script>

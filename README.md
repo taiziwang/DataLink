@@ -16,6 +16,28 @@ DataLink 开源项目及社区正在建设，希望本项目可以帮助你更�
 
 ## 开始
 
+### 打包
+
+```java
+maven clean install 
+```
+
+```java
+config/ -- 配置文件
+bin/ --外部依赖
+user-center-0.1-SNAPSHOT.jar
+```
+
+正在维护中...
+
+### 执行
+
+```java
+java -jar -Dloader.path=lib user-center-0.1-SNAPSHOT.jar
+```
+
+正在维护中...
+
 ### 单机模式
 
 正在维护中...
@@ -35,6 +57,7 @@ DataLink --父项目
 | |-datalink-swagger-spring-boot-starter --Swagger封装模块
 |-datalink-config --配置中心
 |-datalink-dbase --基础资源中心
+| |-db-center --DB中心[8001]
 | |-user-center --用户中心[8000]
 |-datalink-doc --文档中心
 ```

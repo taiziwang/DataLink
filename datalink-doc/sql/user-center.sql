@@ -69,4 +69,22 @@ CREATE TABLE `dbase_role_user`  (
   UNIQUE INDEX `index_roleuser`(`user_id`, `role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关系' ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for dbase_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `dbase_dict`;
+CREATE TABLE `dbase_dict`  (
+  `id` int(11) NOT NULL COMMENT '字典ID',
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典编码',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名',
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
+  `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '说明',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1 COMMENT '启用',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `tenant_id` int(11) NOT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `index_codetypetenant`(`code`, `type`, `tenant_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '扩展字典' ROW_FORMAT = Dynamic;
+
 SET FOREIGN_KEY_CHECKS = 1;

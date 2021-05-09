@@ -15,6 +15,4 @@ public interface UserService extends ISuperService<User> {
     void saveUser(User user) throws Exception;
 
     Result saveOrUpdateUser(User user) throws Exception;
-
-    boolean deleteUserById(Integer id);
 }

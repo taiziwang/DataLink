@@ -46,12 +46,4 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         return Result.succeed("操作成功");
     }
 
-    @Override
-    public boolean deleteUserById(Integer id) {
-        User user = new User();
-        user.setId(id);
-        user.setIsDelete(true);
-        return this.updateById(user);
-    }
-
 }
