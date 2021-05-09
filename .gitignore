@@ -27,3 +27,4 @@ target/*
 *.lst
 */target/*
 */*/target/*
+datalink-web/node_modules/*
