@@ -82,6 +82,15 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 [microservices-platform](https://gitee.com/zlt2000/microservices-platform)
 
+## 截图
+
+以下截图为已实现的部分截图，是本开源项目最终效果。
+
+> 登录页
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTr7we6IJ7icjRic0Xex1NVgrfSCg1PzfSyIXsz7dezSnbBBIZHOBCbDq22u9mQhlFsM64moV1HAzHRw/0?wx_fmt=png)
+
+
 ## 预览
 
 以下预览图为已实现的部分截图，并非开源项目最终效果，仅供参考。
