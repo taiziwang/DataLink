@@ -9,12 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>datalink-dbase</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>datalink-user</module>
-        <module>datalink-db</module>
-    </modules>
+    <artifactId>datalink-uaa</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.datalink</groupId>
+            <artifactId>datalink-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datalink</groupId>
+            <artifactId>datalink-base</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

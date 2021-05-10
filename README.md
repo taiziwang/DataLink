@@ -25,7 +25,7 @@ maven clean install
 ```java
 config/ -- 配置文件
 bin/ --外部依赖
-user-center-0.1-SNAPSHOT.jar
+datalink-user-0.1-SNAPSHOT.jar
 ```
 
 正在维护中...
@@ -33,7 +33,7 @@ user-center-0.1-SNAPSHOT.jar
 ### 执行
 
 ```java
-java -jar -Dloader.path=lib user-center-0.1-SNAPSHOT.jar
+java -jar -Dloader.path=lib datalink-user-0.1-SNAPSHOT.jar
 ```
 
 正在维护中...
@@ -60,9 +60,10 @@ DataLink -- 父项目
 | |-datalink-swagger-spring-boot-starter -- Swagger 封装模块
 |-datalink-config -- 配置中心
 |-datalink-dbase -- 基础资源中心
-| |-db-center -- DB 中心[8001]
-| |-user-center -- 用户中心[8000]
+| |-datalink-db -- DB 中心[8001]
+| |-datalink-user -- 用户中心[8000]
 |-datalink-doc -- 文档中心
+|-datalink-uaa -- 权限中心[8002]
 |-datalink-web -- React Web
 ```
 

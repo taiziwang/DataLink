@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>db-center</artifactId>
-    <description>DB中心</description>
+    <artifactId>datalink-user</artifactId>
+    <description>用户中心</description>
 
     <dependencies>
         <dependency>
@@ -42,7 +42,6 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -70,7 +69,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.datalink.db.DBCenter</mainClass>
+                            <mainClass>com.datalink.user.UserCenter</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>

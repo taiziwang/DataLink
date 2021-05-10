@@ -11,6 +11,7 @@
         <module>datalink-config</module>
         <module>datalink-commons</module>
         <module>datalink-dbase</module>
+        <module>datalink-uaa</module>
     </modules>
 
     <name>DataLink :</name>

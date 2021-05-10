@@ -3,4 +3,4 @@ server:
 
 spring:
   application:
-    name: db-center
+    name: datalink-db
