@@ -1,0 +1,185 @@
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 数据表格 -->
+            <table id="tenantTable" lay-filter="tenantTable"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="tenantTbBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edittenantTable">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deltenantTable">删除</a>
+</script>
+<!-- 表单弹窗 -->
+<script type="text/html" id="tenantEditDialog">
+    <form id="tenantEditForm" lay-filter="tenantEditForm" class="layui-form model-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">应用标识</label>
+            <div class="layui-input-inline">
+                <input type="text" name="clientId"  lay-verType="tips" lay-verify="required" required  placeholder="请输入应用标识" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">资源限定串(逗号分割)</label>
+            <div class="layui-input-inline">
+                <input type="text" name="resourceIds"  placeholder="请输入资源限定串(逗号分割)" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">应用密钥(bcyt) 加密</label>
+            <div class="layui-input-inline">
+                <input type="text" name="clientSecret"  placeholder="请输入应用密钥(bcyt) 加密" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">应用密钥(明文)</label>
+            <div class="layui-input-inline">
+                <input type="text" name="clientSecretStr"  placeholder="请输入应用密钥(明文)" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">范围</label>
+            <div class="layui-input-inline">
+                <input type="text" name="scope"  placeholder="请输入范围" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">5种oauth授权方式(authorization_code,password,refresh_token,client_credentials)</label>
+            <div class="layui-input-inline">
+                <input type="text" name="authorizedGrantTypes"  placeholder="请输入5种oauth授权方式(authorization_code,password,refresh_token,client_credentials)" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">回调地址 </label>
+            <div class="layui-input-inline">
+                <input type="text" name="webServerRedirectUri"  placeholder="请输入回调地址 " autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">权限</label>
+            <div class="layui-input-inline">
+                <input type="text" name="authorities"  placeholder="请输入权限" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">access_token有效期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="accessTokenValidity"  placeholder="请输入access_token有效期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">refresh_token有效期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="refreshTokenValidity"  placeholder="请输入refresh_token有效期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">附加信息</label>
+            <div class="layui-input-inline">
+                <textarea name="additionalInformation" style="width: 400px; height: 150px;" autocomplete="off" class="layui-textarea">
+                </textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">是否自动授权 是-true</label>
+            <div class="layui-input-inline">
+                <input type="text" name="autoapprove"  lay-verType="tips" lay-verify="required" required  placeholder="请输入是否自动授权 是-true" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label ">应用名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="clientName"  placeholder="请输入应用名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item text-right">
+            <span class="layui-btn" lay-filter="tenantEditSubmit" lay-submit>保存</span>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="tenantTplState">
+    <input type="checkbox" lay-filter="tenant-tpl-state" data-id="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.enabled==true?'checked':''}}/>
+</script>
+
+<!-- js部分 -->
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin', 'FastTable','VC','DC','BC'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var admin = layui.admin;
+        var CTable = layui.CTable;
+        var VC = layui.VC;
+        var BC = layui.BC;
+        var DC = layui.DC;
+        var setter = layui.setter;
+        /* 渲染表格 */
+        var columns = [[
+            {type: 'checkbox',fixed: 'left'}
+            ,{type: 'numbers',fixed: 'left'}
+                    ,{field: 'id', title: '主键', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'clientId', title: '应用标识', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'resourceIds', title: '资源限定串(逗号分割)', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'clientSecret', title: '应用密钥(bcyt) 加密', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'clientSecretStr', title: '应用密钥(明文)', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'scope', title: '范围', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'authorizedGrantTypes', title: '5种oauth授权方式(authorization_code,password,refresh_token,client_credentials)', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'webServerRedirectUri', title: '回调地址 ', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'authorities', title: '权限', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'accessTokenValidity', title: 'access_token有效期', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'refreshTokenValidity', title: 'refresh_token有效期', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'additionalInformation', title: '附加信息', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'autoapprove', title: '是否自动授权 是-true', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'createTime', title: '创建时间', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'updateTime', title: '更新时间', sort: true, minWidth: 100, align: 'center' }
+            ,{field: 'clientName', title: '应用名称', sort: true, minWidth: 100, align: 'center' }
+                ]];
+        if (admin.hasPerm('edittenantTable') || admin.hasPerm('deltenantTable')) {
+            columns[0].push({title: '操作', toolbar: '#tenantTbBar', align: 'center',fixed: 'right'});
+        }
+        columns[0].push({title: '操作', toolbar: '#tenantTbBar', align: 'center',fixed: 'right'});
+
+        CTable.render({
+            elem: '#tenantTable'
+            , url: setter.baseServer + 'api-app/tenant'
+            , deleteUrl: 'api-app/tenant'
+            , upsert: {
+                url: 'api-app/tenant/saveOrUpdate'
+                , content: '#tenantTableEditDialog'
+                , form: 'tenantTableEditForm'
+                , submit: 'tenantTableEditSubmit'
+                , done: function () {
+                }
+            }
+            , title: '字段'
+            , uniqueKey: 'id'
+            , uniqueTitle: 'name'
+            , cols: columns
+            , toolbar: '#tenantTableToolbar'
+            , customDone: function (res, curr, count,options) {
+                let searchField = $('#field_' + options.filter).find('option').length;
+                if (searchField === 1) {
+                    $('#field_tenantTable').empty().append(new Option("请选择查询列", ""));
+                    $.each(columns[0], function (index, item) {
+                        if (typeof item.field != "undefined") {
+                            $('#field_tenantTable').append(new Option(item.title, item.field));
+                        }
+                    });
+                    form.render("select");
+                }
+            }
+        });
+
+
+    });
+</script>

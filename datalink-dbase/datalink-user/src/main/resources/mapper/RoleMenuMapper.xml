@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datalink.user.dao.RoleMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.datalink.user.entity.RoleMenu">
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="menu_id" property="menuId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, menu_id
+    </sql>
+
+
+    <select id="selectForCTable" resultType="com.datalink.user.entity.RoleMenu">
+        select
+        a.*
+        from
+        dbase_role_menu a
+        <where>
+            <if test='ew.sqlSegment!=null and ew.sqlSegment!=""'>
+                ${ew.sqlSegment}
+            </if>
+        </where>
+    </select>
+
+    <select id="findMenusByRoleIds" resultType="com.datalink.base.model.Menu">
+        select distinct t.* from sys_menu t
+        inner join dbase_role_menu r on r.menu_id = t.id
+        where
+        r.role_id in
+        <foreach collection="roleIds" index="index" item="roleId"
+                 open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        <if test="type != null">
+            and t.type = #{type}
+        </if>
+        ORDER BY sort ASC
+    </select>
+
+    <select id="findMenusByRoleCodes" resultType="com.datalink.base.model.Menu">
+        select distinct t.* from sys_menu t
+        inner join dbase_role_menu r on r.menu_id = t.id
+        inner join dbase_role rl on rl.id = r.role_id
+        where
+        rl.code in
+        <foreach collection="roleCodes" index="index" item="roleCode"
+                 open="(" separator="," close=")">
+            #{roleCode}
+        </foreach>
+        <if test="type != null">
+            and t.type = #{type}
+        </if>
+        and t.hidden = 0
+        ORDER BY sort ASC
+    </select>
+</mapper>

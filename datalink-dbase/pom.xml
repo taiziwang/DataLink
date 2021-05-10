@@ -12,8 +12,8 @@
     <artifactId>datalink-dbase</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>user-center</module>
-        <module>db-center</module>
+        <module>datalink-user</module>
+        <module>datalink-db</module>
     </modules>
 
 

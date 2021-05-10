@@ -17,11 +17,11 @@ import java.util.List;
 public class MysqlGenerator {
     public static void main(String[] args) {
 
-        String modulePath = "/datalink-dbase/db-center";
-        String packageName = "db";
+        String modulePath = "/datalink-dbase/datalink-user";
+        String packageName = "user";
         String author = "wenmo";
         String tablePrefix = "dbase_";
-        String[] includes = new String[]{"dbase_db"};
+        String[] includes = new String[]{"dbase_menu","dbase_role_menu"};
         String projectPath = System.getProperty("user.dir");
         String modulePre = "com.datalink.";
 

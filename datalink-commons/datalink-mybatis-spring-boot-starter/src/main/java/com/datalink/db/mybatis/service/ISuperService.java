@@ -3,7 +3,7 @@ package com.datalink.db.mybatis.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.datalink.base.model.PageResult;
-import com.datalink.db.mybatis.lock.DistributedLock;
+import com.datalink.base.lock.DistributedLock;
 import com.fasterxml.jackson.databind.JsonNode;
 
 

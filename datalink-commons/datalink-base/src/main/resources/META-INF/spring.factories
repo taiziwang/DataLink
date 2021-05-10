@@ -1,0 +1,6 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.datalink.base.config.BannerInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.datalink.base.feign.fallback.UserServiceFallbackFactory,\
+com.datalink.base.lock.LockAspect

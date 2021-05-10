@@ -1,0 +1,117 @@
+<div class="layui-form" lay-filter="html-tenantform-form" id="html-tenantform-form" style="padding: 20px 30px 0 0;">
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}">
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label  layui-form-required ">应用标识</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="clientId" value="{{ d.params.clientId || '' }}"  lay-verify="required"  placeholder="请输入应用标识" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">资源限定串(逗号分割)</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="resourceIds" value="{{ d.params.resourceIds || '' }}"  placeholder="请输入资源限定串(逗号分割)" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">应用密钥(bcyt) 加密</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="clientSecret" value="{{ d.params.clientSecret || '' }}"  placeholder="请输入应用密钥(bcyt) 加密" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">应用密钥(明文)</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="clientSecretStr" value="{{ d.params.clientSecretStr || '' }}"  placeholder="请输入应用密钥(明文)" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">范围</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="scope" value="{{ d.params.scope || '' }}"  placeholder="请输入范围" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">5种oauth授权方式(authorization_code,password,refresh_token,client_credentials)</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="authorizedGrantTypes" value="{{ d.params.authorizedGrantTypes || '' }}"  placeholder="请输入5种oauth授权方式(authorization_code,password,refresh_token,client_credentials)" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">回调地址 </label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="webServerRedirectUri" value="{{ d.params.webServerRedirectUri || '' }}"  placeholder="请输入回调地址 " autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">权限</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="authorities" value="{{ d.params.authorities || '' }}"  placeholder="请输入权限" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">access_token有效期</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="accessTokenValidity" value="{{ d.params.accessTokenValidity || '' }}"  placeholder="请输入access_token有效期" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">refresh_token有效期</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="refreshTokenValidity" value="{{ d.params.refreshTokenValidity || '' }}"  placeholder="请输入refresh_token有效期" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">附加信息</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <textarea name="additionalInformation" style="width: 400px; height: 150px;" autocomplete="off" class="layui-textarea">
+                                {{ d.params.additionalInformation || '' }}
+                </textarea>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label  layui-form-required ">是否自动授权 是-true</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="autoapprove" value="{{ d.params.autoapprove || '' }}"  lay-verify="required"  placeholder="请输入是否自动授权 是-true" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">应用名称</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="clientName" value="{{ d.params.clientName || '' }}"  placeholder="请输入应用名称" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="html-tenantform-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
