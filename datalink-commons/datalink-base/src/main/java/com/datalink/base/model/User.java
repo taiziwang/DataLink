@@ -1,13 +1,13 @@
 package com.datalink.base.model;
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * 用户
@@ -18,14 +18,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("dbase_user")
-@ApiModel(value="User对象", description="")
-public class User implements Serializable {
+@ApiModel(value="User对象", description="用户")
+public class User extends SuperEntity {
 
-    private static final long serialVersionUID=1L;
-
-    @ApiModelProperty(value = "自增ID")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private static final long serialVersionUID = 3472647372575082199L;
 
     @ApiModelProperty(value = "登录名")
     private String username;
@@ -45,21 +41,19 @@ public class User implements Serializable {
     @ApiModelProperty(value = "性别")
     private Boolean sex;
 
-    @ApiModelProperty(value = "是否启用")
-    private Boolean enabled;
-
-    @ApiModelProperty(value = "创建时间")
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
+    @ApiModelProperty(value = "OpenID")
+    private String openId;
     @ApiModelProperty(value = "是否删除")
     //@TableField(fill = FieldFill.INSERT)
     //@TableLogic
     private Boolean isDelete;
 
-
+    @TableField(exist = false)
+    private List<Role> roles;
+    @TableField(exist = false)
+    private String roleId;
+    @TableField(exist = false)
+    private String oldPassword;
+    @TableField(exist = false)
+    private String newPassword;
 }

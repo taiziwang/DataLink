@@ -2,7 +2,7 @@ package com.datalink.user.controller;
 
 import com.datalink.base.model.PageResult;
 import com.datalink.base.model.Result;
-import com.datalink.user.entity.Role;
+import com.datalink.base.model.Role;
 import com.datalink.user.service.RoleService;
 
 import com.fasterxml.jackson.databind.JsonNode;

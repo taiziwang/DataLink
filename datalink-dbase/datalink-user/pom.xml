@@ -27,6 +27,10 @@
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
+            <artifactId>datalink-redis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datalink</groupId>
             <artifactId>datalink-swagger-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
@@ -69,7 +73,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.datalink.user.UserCenter</mainClass>
+                            <mainClass>com.datalink.UserCenter</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>

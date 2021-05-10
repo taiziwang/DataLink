@@ -1,6 +1,6 @@
 package com.datalink.user.dao;
 
-import com.datalink.user.entity.Role;
+import com.datalink.base.model.Role;
 import com.datalink.db.mybatis.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 

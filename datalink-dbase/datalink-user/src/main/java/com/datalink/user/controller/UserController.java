@@ -6,7 +6,6 @@ import com.datalink.base.model.User;
 import com.datalink.user.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
 import io.swagger.annotations.Api;
@@ -15,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class UserController {
     })
     @PostMapping("/saveOrUpdate")
     public Result saveOrUpdate(@RequestBody User user) throws Exception {
-        if(checkAdmin(Preconditions.checkNotNull(user.getId()))){
+        if(user.getId()!=null&&checkAdmin(user.getId())){
             return Result.failed(ADMIN_CHANGE_MSG);
         }
         return userService.saveOrUpdateUser(user);
@@ -86,7 +86,7 @@ public class UserController {
     })
     @DeleteMapping(value = "")
     public Result deleteMul(String ids) {
-        if ("".equals(Preconditions.checkNotNull(ids))) {
+        if (ids==null||"".equals(ids)) {
             return Result.failed("请选择要删除的记录");
         }
         String[] idstrs = ids.split(",");
@@ -123,6 +123,16 @@ public class UserController {
     public Result getOneById(Integer id) {
         User user = userService.getById(id);
         return Result.succeed(user, "获取成功");
+    }
+
+    /**
+     * 查询用户实体对象SysUser
+     */
+    @GetMapping(value = "/users/name/{username}")
+    @ApiOperation(value = "根据用户名查询用户实体")
+    @Cacheable(value = "user", key = "#username")
+    public User selectByUsername(@PathVariable String username) {
+        return userService.selectByUsername(username);
     }
 
     /**

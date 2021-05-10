@@ -1,4 +1,4 @@
-package com.datalink.db.mybatis.lock;
+package com.datalink.base.lock;
 
 import java.util.concurrent.TimeUnit;
 

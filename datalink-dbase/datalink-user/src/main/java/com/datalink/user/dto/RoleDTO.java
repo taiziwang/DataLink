@@ -1,6 +1,6 @@
 package com.datalink.user.dto;
 
-import com.datalink.user.entity.Role;
+import com.datalink.base.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 

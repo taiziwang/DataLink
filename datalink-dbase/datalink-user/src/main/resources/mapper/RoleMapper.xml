@@ -3,10 +3,11 @@
 <mapper namespace="com.datalink.user.dao.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.datalink.user.entity.Role">
+    <resultMap id="BaseResultMap" type="com.datalink.base.model.Role">
         <id column="id" property="id" />
         <result column="code" property="code" />
         <result column="name" property="name" />
+        <result column="enabled" property="enabled" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="tenant_id" property="tenantId" />
@@ -14,11 +15,11 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, code, name, create_time, update_time, tenant_id
+        id, code, name,enabled, create_time, update_time, tenant_id
     </sql>
 
 
-    <select id="selectForCTable" resultType="com.datalink.user.entity.Role">
+    <select id="selectForCTable" resultType="com.datalink.base.model.Role">
         select
         a.*
         from

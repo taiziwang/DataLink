@@ -1,4 +1,4 @@
-package com.datalink.db.mybatis.lock;
+package com.datalink.base.lock;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

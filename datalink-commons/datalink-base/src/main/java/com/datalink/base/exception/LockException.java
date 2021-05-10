@@ -1,4 +1,4 @@
-package com.datalink.db.mybatis.exception;
+package com.datalink.base.exception;
 
 /**
  * 分布式锁异常

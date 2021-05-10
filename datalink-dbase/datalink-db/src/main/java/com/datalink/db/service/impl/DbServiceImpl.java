@@ -1,19 +1,14 @@
 package com.datalink.db.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.datalink.base.model.Result;
 import com.datalink.db.mybatis.annotation.Save;
-import com.datalink.db.mybatis.lock.DistributedLock;
 import com.datalink.db.entity.Db;
 import com.datalink.db.dao.DbMapper;
 import com.datalink.db.service.DbService;
 import com.datalink.db.mybatis.service.impl.SuperServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.List;
 
 /**
  * DB 服务实现类

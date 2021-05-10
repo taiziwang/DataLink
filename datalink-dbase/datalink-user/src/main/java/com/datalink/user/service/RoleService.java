@@ -1,7 +1,7 @@
 package com.datalink.user.service;
 
 import com.datalink.base.model.Result;
-import com.datalink.user.entity.Role;
+import com.datalink.base.model.Role;
 import com.datalink.db.mybatis.service.ISuperService;
 /**
  * 角色 服务类

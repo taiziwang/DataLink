@@ -26,4 +26,9 @@
             </if>
         </where>
     </select>
+
+    <select id="findRolesByUserId" resultType="com.datalink.base.model.Role">
+        select r.* from dbase_role r
+        inner join dbase_role_user ru on r.id = ru.role_id and ru.user_id = #{userId}
+    </select>
 </mapper>

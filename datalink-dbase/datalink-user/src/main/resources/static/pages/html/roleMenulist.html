@@ -1,0 +1,105 @@
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!-- 数据表格 -->
+            <table id="roleMenuTable" lay-filter="roleMenuTable"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="roleMenuTbBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="editroleMenuTable">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delroleMenuTable">删除</a>
+</script>
+<!-- 表单弹窗 -->
+<script type="text/html" id="roleMenuEditDialog">
+    <form id="roleMenuEditForm" lay-filter="roleMenuEditForm" class="layui-form model-form layui-form-pane">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">角色ID</label>
+            <div class="layui-input-inline">
+                <input type="text" name="roleId"  lay-verType="tips" lay-verify="required" required  placeholder="请输入角色ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label layui-form-required ">菜单ID</label>
+            <div class="layui-input-inline">
+                <input type="text" name="menuId"  lay-verType="tips" lay-verify="required" required  placeholder="请输入菜单ID" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item text-right">
+            <span class="layui-btn" lay-filter="roleMenuEditSubmit" lay-submit>保存</span>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="roleMenuTplState">
+    <input type="checkbox" lay-filter="roleMenu-tpl-state" data-id="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.enabled==true?'checked':''}}/>
+</script>
+
+<!-- js部分 -->
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin', 'FastTable','VC','DC','BC'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var admin = layui.admin;
+        var CTable = layui.CTable;
+        var VC = layui.VC;
+        var BC = layui.BC;
+        var DC = layui.DC;
+        var setter = layui.setter;
+        /* 渲染表格 */
+        var columns = [[
+            {type: 'checkbox',fixed: 'left'}
+            ,{type: 'numbers',fixed: 'left'}
+                    ,{field: 'id', title: '菜单角色ID', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'roleId', title: '角色ID', sort: true, minWidth: 100, align: 'center' ,fixed: 'left'}
+            ,{field: 'menuId', title: '菜单ID', sort: true, minWidth: 100, align: 'center' }
+                ]];
+        if (admin.hasPerm('editroleMenuTable') || admin.hasPerm('delroleMenuTable')) {
+            columns[0].push({title: '操作', toolbar: '#roleMenuTbBar', align: 'center',fixed: 'right'});
+        }
+        columns[0].push({title: '操作', toolbar: '#roleMenuTbBar', align: 'center',fixed: 'right'});
+
+        CTable.render({
+            elem: '#roleMenuTable'
+            , url: setter.baseServer + 'api-app/roleMenu'
+            , deleteUrl: 'api-app/roleMenu'
+            , upsert: {
+                url: 'api-app/roleMenu/saveOrUpdate'
+                , content: '#roleMenuTableEditDialog'
+                , form: 'roleMenuTableEditForm'
+                , submit: 'roleMenuTableEditSubmit'
+                , done: function () {
+                }
+            }
+            , title: '字段'
+            , uniqueKey: 'id'
+            , uniqueTitle: 'name'
+            , cols: columns
+            , toolbar: '#roleMenuTableToolbar'
+            , customDone: function (res, curr, count,options) {
+                let searchField = $('#field_' + options.filter).find('option').length;
+                if (searchField === 1) {
+                    $('#field_roleMenuTable').empty().append(new Option("请选择查询列", ""));
+                    $.each(columns[0], function (index, item) {
+                        if (typeof item.field != "undefined") {
+                            $('#field_roleMenuTable').append(new Option(item.title, item.field));
+                        }
+                    });
+                    form.render("select");
+                }
+            }
+        });
+
+
+    });
+</script>

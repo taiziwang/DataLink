@@ -1,4 +1,4 @@
-package com.datalink.db.mybatis.exception;
+package com.datalink.base.exception;
 
 /**
  * 幂等性异常
