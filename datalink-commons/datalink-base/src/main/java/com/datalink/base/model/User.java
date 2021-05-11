@@ -48,6 +48,9 @@ public class User extends SuperEntity {
     //@TableLogic
     private Boolean isDelete;
 
+    @ApiModelProperty(value = "是否启用")
+    private Boolean enabled;
+
     @TableField(exist = false)
     private List<Role> roles;
     @TableField(exist = false)

@@ -22,11 +22,23 @@
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
+            <artifactId>datalink-auth-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datalink</groupId>
+            <artifactId>datalink-redis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datalink</groupId>
             <artifactId>datalink-mybatis-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
             <artifactId>datalink-swagger-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datalink</groupId>
+            <artifactId>datalink-ribbon-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,9 +49,47 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-security</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <!-- 验证码生成工具 -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

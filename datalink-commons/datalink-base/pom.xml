@@ -19,6 +19,10 @@
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
+            <artifactId>datalink-log-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datalink</groupId>
             <artifactId>datalink-swagger-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
