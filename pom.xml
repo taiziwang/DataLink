@@ -267,6 +267,16 @@
                 <artifactId>datalink-auth-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.datalink</groupId>
+                <artifactId>datalink-ribbon-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datalink</groupId>
+                <artifactId>datalink-sentinel-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * 测试工具类
+ * JwtUtilTest
  *
- * @author zlt
- * @date 2019/7/16
+ * @author wenmo
+ * @since 2021/5/11
  */
 @RunWith(SpringRunner.class)
 public class JwtUtilTest {

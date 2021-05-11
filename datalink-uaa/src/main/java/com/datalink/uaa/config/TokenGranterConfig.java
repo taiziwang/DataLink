@@ -69,7 +69,7 @@ public class TokenGranterConfig {
     /**
      * 是否登录同应用同账号互踢
      */
-    @Value("${zlt.uaa.isSingleLogin:false}")
+    @Value("${datalink.uaa.isSingleLogin:false}")
     private boolean isSingleLogin;
 
     /**

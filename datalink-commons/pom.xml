@@ -20,6 +20,8 @@
         <module>datalink-log-spring-boot-starter</module>
         <module>datalink-auth-spring-boot-starter</module>
         <module>datalink-redis-spring-boot-starter</module>
+        <module>datalink-ribbon-spring-boot-starter</module>
+        <module>datalink-sentinel-spring-boot-starter</module>
     </modules>
 
 </project>
