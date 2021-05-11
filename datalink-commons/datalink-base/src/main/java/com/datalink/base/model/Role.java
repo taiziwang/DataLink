@@ -27,6 +27,9 @@ public class Role extends SuperEntity {
     @ApiModelProperty(value = "角色名")
     private String name;
 
+    @ApiModelProperty(value = "是否启用")
+    private Boolean enabled;
+
     @ApiModelProperty(value = "租户")
     private String tenantId;
 

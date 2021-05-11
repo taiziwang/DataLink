@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.datalink.base.auth.config.SecurityPropertiesConfig,\
+com.datalink.base.auth.store.AuthDbTokenStore,\
+com.datalink.base.auth.store.AuthRedisTokenStore,\
+com.datalink.base.auth.store.AuthJwtTokenStore,\
+com.datalink.base.auth.store.ResJwtTokenStore

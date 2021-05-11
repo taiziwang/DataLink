@@ -44,6 +44,9 @@ public class Menu extends SuperEntity {
     @ApiModelProperty(value = "类型")
     private Boolean type;
 
+    @ApiModelProperty(value = "是否启用")
+    private Boolean enabled;
+
     @ApiModelProperty(value = "租户字段")
     private String tenantId;
 

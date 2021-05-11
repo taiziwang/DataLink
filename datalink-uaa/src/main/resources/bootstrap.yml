@@ -1,0 +1,16 @@
+server:
+  port: 8002
+  servlet:
+    session:
+      cookie:
+        name: OAUTH2SESSION
+
+spring:
+  application:
+    name: datalink-uaa
+
+encrypt:
+  key-store:
+    location: classpath:datalink.jks
+    secret: datalink!@#$
+    alias: datalink

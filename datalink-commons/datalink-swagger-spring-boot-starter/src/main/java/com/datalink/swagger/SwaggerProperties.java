@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 2021/5/3 21:08
  */
 @Data
-@ConfigurationProperties("zlt.swagger")
+@ConfigurationProperties("datalink.swagger")
 public class SwaggerProperties {
     /**是否开启swagger**/
     private Boolean enabled;

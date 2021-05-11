@@ -27,8 +27,6 @@ public class SuperEntity<T extends Model<?>> extends Model<T> {
     @ApiModelProperty(value = "ID")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    @ApiModelProperty(value = "是否启用")
-    private Boolean enabled;
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

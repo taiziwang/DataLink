@@ -112,9 +112,9 @@ public interface SecurityConstant {
      */
     String DEFAULT_IMAGE_FONT_SIZE = "30";
     /**
-     * zlt公共前缀
+     * datalink公共前缀
      */
-    String ZLT_PREFIX = "datalink:";
+    String DATALINK_PREFIX = "datalink:";
     /**
      * 缓存client的redis key，这里是hash结构存储
      */
