@@ -54,9 +54,12 @@ DataLink -- 父项目
 | |-datalink-auth-spring-boot-starter -- Spring Security 封装模块
 | |-datalink-base -- 基础封装模块
 | |-datalink-db-plug -- DB工具封装模块
+| |-datalink-elasticsearch-spring-boot-starter -- Elasticsearch 封装模块
 | |-datalink-log-spring-boot-starter -- Log 封装模块
 | |-datalink-mybatis-spring-boot-starter -- MybatisPlus 封装模块
 | |-datalink-redis-spring-boot-starter -- Redis 封装模块
+| |-datalink-ribbon-spring-boot-starter -- Ribbon和Feign 封装模块
+| |-datalink-sentinel-spring-boot-starter -- Sentinel 封装模块
 | |-datalink-swagger-spring-boot-starter -- Swagger 封装模块
 |-datalink-config -- 配置中心
 |-datalink-dbase -- 基础资源中心

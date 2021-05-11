@@ -124,10 +124,10 @@ CREATE TABLE `dbase_role_menu`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单角色关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for dbase_client
+-- Table structure for oauth_client_details
 -- ----------------------------
-DROP TABLE IF EXISTS `dbase_client`;
-CREATE TABLE `dbase_client`  (
+DROP TABLE IF EXISTS `oauth_client_details`;
+CREATE TABLE `oauth_client_details`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `client_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用标识',
   `client_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '应用名称',

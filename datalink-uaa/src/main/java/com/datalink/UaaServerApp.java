@@ -1,5 +1,6 @@
-package com.datalink.uaa;
+package com.datalink;
 
+import com.datalink.base.ribbon.annotation.EnableFeignInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -13,7 +14,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @since 2021/5/10 19:19
  */
 @EnableFeignClients
-//@EnableFeignInterceptor
+@EnableFeignInterceptor
 @EnableDiscoveryClient
 @EnableRedisHttpSession
 @SpringBootApplication

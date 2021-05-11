@@ -1,0 +1,10 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.datalink.log.config.TtlMDCAdapterInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.datalink.log.config.LogAutoConfigure,\
+com.datalink.log.service.impl.LoggerAuditServiceImpl,\
+com.datalink.log.service.impl.DbAuditServiceImpl,\
+com.datalink.log.aspect.AuditLogAspect,\
+com.datalink.log.trace.WebTraceFilter,\
+com.datalink.log.trace.FeignTraceInterceptor

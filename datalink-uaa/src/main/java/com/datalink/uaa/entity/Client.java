@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("dbase_client")
+@TableName("oauth_client_details")
 public class Client extends SuperEntity {
    private static final long serialVersionUID = 4635390475875680554L;
    @ApiModelProperty(value = "应用标识")
