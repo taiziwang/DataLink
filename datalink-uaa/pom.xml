@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
-            <artifactId>datalink-base</artifactId>
+            <artifactId>datalink-common-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>

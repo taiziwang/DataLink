@@ -16,7 +16,11 @@ DataLink 开源项目及社区正在建设，希望本项目可以帮助你更�
 
 ## 开始
 
-### 打包
+### 下载安装包
+
+正在维护中...
+
+### 从源码编译安装包
 
 ```java
 maven clean install 
@@ -53,6 +57,7 @@ DataLink -- 父项目
 |-datalink-commons -- 通用中心
 | |-datalink-auth-spring-boot-starter -- Spring Security 封装模块
 | |-datalink-base -- 基础封装模块
+| |-datalink-common-spring-boot-starter -- 通用封装模块
 | |-datalink-db-plug -- DB工具封装模块
 | |-datalink-elasticsearch-spring-boot-starter -- Elasticsearch 封装模块
 | |-datalink-log-spring-boot-starter -- Log 封装模块
@@ -66,6 +71,7 @@ DataLink -- 父项目
 | |-datalink-db -- DB 中心[8001]
 | |-datalink-user -- 用户中心[8000]
 |-datalink-doc -- 文档中心
+|-datalink-gateway -- 网关中心[9900]
 |-datalink-uaa -- 权限中心[8002]
 |-datalink-web -- React Web
 ```

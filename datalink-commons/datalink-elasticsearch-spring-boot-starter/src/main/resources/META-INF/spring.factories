@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.datalink.es.config.RestAutoConfigure
+com.datalink.es.RestAutoConfigure

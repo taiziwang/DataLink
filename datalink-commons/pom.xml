@@ -23,6 +23,7 @@
         <module>datalink-ribbon-spring-boot-starter</module>
         <module>datalink-sentinel-spring-boot-starter</module>
         <module>datalink-elasticsearch-spring-boot-starter</module>
+        <module>datalink-common-spring-boot-starter</module>
     </modules>
 
 </project>
