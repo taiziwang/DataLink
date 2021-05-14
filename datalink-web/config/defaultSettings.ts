@@ -12,10 +12,15 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: 'DataLink 数据中台',
   pwa: false,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: '',
+  menu: {
+    locale: true
+  },
+  headerHeight: 48,
+  splitMenus: true
 };
 
 export default Settings;
