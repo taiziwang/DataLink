@@ -28,4 +28,6 @@ datalink:
     enable: true
     ignoreTables:
       - dbase_user
+      - dbase_role_user
+      - dbase_role_menu
     ignoreSqls:

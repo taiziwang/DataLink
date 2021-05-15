@@ -69,6 +69,18 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
     @Override
+    public LoginAppUser findByMobile(String username) {
+        User sysUser = this.selectByMobile(username);
+        return getLoginAppUser(sysUser);
+    }
+
+    @Override
+    public LoginAppUser findByOpenId(String username) {
+        User sysUser = this.selectByOpenId(username);
+        return getLoginAppUser(sysUser);
+    }
+
+    @Override
     public User selectByUsername(String username) {
         List<User> users = baseMapper.selectList(
                 new QueryWrapper<User>().eq("username", username)
@@ -76,6 +88,22 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         return getUser(users);
     }
 
+    @Override
+    public User selectByMobile(String mobile) {
+        List<User> users = baseMapper.selectList(
+                new QueryWrapper<User>().eq("mobile", mobile)
+        );
+        return getUser(users);
+    }
+
+    @Override
+    public User selectByOpenId(String openId) {
+        List<User> users = baseMapper.selectList(
+                new QueryWrapper<User>().eq("open_id", openId)
+        );
+        return getUser(users);
+    }
+    
     @Override
     public LoginAppUser getLoginAppUser(User sysUser) {
         if (sysUser != null) {

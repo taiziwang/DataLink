@@ -42,7 +42,7 @@ const goto = () => {
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
+  const [type, setType] = useState<string>('password');
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const intl = useIntl();
@@ -62,7 +62,7 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      if (msg.code === 0) {
         const defaultloginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -84,7 +84,7 @@ const Login: React.FC = () => {
     }
     setSubmitting(false);
   };
-  const { status, type: loginType } = userLoginState;
+  const {code } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -124,6 +124,7 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
+              values.grant_type = 'password';
               handleSubmit(values as API.LoginParams);
             }}
           >
@@ -144,7 +145,7 @@ const Login: React.FC = () => {
               />
             </Tabs>
 
-            {status === 'error' && loginType === 'account' && (
+            {code != 0 && type === 'account' && (
               <LoginMessage
                 content={intl.formatMessage({
                   id: 'pages.login.accountLogin.errorMessage',
@@ -152,7 +153,7 @@ const Login: React.FC = () => {
                 })}
               />
             )}
-            {type === 'account' && (
+            {type === 'password' && (
               <>
                 <ProFormText
                   name="username"
@@ -201,7 +202,7 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
+            {code != 0 && type === 'mobile' && <LoginMessage content="验证码错误" />}
             {type === 'mobile' && (
               <>
                 <ProFormText

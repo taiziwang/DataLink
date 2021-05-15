@@ -1,5 +1,6 @@
 package com.datalink.user.controller;
 
+import com.datalink.base.model.LoginAppUser;
 import com.datalink.base.model.PageResult;
 import com.datalink.base.model.Result;
 import com.datalink.base.model.User;
@@ -29,7 +30,6 @@ import java.util.List;
 @Slf4j
 @Api(tags = "用户模块api")
 @RestController
-@RequestMapping("/user")
 public class UserController {
     private static final String ADMIN_CHANGE_MSG = "超级管理员不给予修改";
     private static final Integer ADMIN_CODE = 1;
@@ -133,6 +133,37 @@ public class UserController {
     @Cacheable(value = "user", key = "#username")
     public User selectByUsername(@PathVariable String username) {
         return userService.selectByUsername(username);
+    }
+
+    /**
+     * 查询用户登录对象LoginAppUser
+     */
+    @GetMapping(value = "/users-anon/login", params = "username")
+    @ApiOperation(value = "根据用户名查询用户")
+    public LoginAppUser findByUsername(String username) {
+        return userService.findByUsername(username);
+    }
+
+    /**
+     * 通过手机号查询用户、角色信息
+     *
+     * @param mobile 手机号
+     */
+    @GetMapping(value = "/users-anon/mobile", params = "mobile")
+    @ApiOperation(value = "根据手机号查询用户")
+    public User findByMobile(String mobile) {
+        return userService.findByMobile(mobile);
+    }
+
+    /**
+     * 根据OpenId查询用户信息
+     *
+     * @param openId openId
+     */
+    @GetMapping(value = "/users-anon/openId", params = "openId")
+    @ApiOperation(value = "根据OpenId查询用户")
+    public User findByOpenId(String openId) {
+        return userService.findByOpenId(openId);
     }
 
     /**

@@ -8,9 +8,18 @@ import Footer from '@/components/Footer';
 import type { ResponseError } from 'umi-request';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import {RequestOptionsInit} from "umi-request";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+
+const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
+  const authHeader = { Authorization: 'Basic d2ViQXBwOndlYkFwcA==' };
+  return {
+    url: `${url}`,
+    options: { ...options, interceptors: true, headers: authHeader },
+  };
+};
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -95,6 +104,8 @@ export const request: RequestConfig = {
     }
     throw error;
   },
+  // 新增自动添加AccessToken的请求前拦截器
+  requestInterceptors: [authHeaderInterceptor],
 };
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
