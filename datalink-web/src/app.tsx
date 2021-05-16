@@ -14,11 +14,20 @@ const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
-  const authHeader = { Authorization: 'Basic d2ViQXBwOndlYkFwcA==' };
-  return {
-    url: `${url}`,
-    options: { ...options, interceptors: true, headers: authHeader },
-  };
+  if(url === '/api-uaa/oauth/token'){
+    const authorization = Buffer.from('webApp:webApp').toString('base64');
+    const authHeader = { Authorization: `Basic ${authorization}` };
+    return {
+      url: `${url}`,
+      options: {...options, interceptors: true, headers: authHeader},
+    };
+  }else {
+    const authHeader = {Authorization: `Bearer ${localStorage.getItem('token')}`};
+    return {
+      url: `${url}`,
+      options: {...options, interceptors: true, headers: authHeader},
+    };
+  }
 };
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
@@ -36,7 +45,8 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const currentUser = await queryCurrentUser();
+      const result = await queryCurrentUser();
+      const currentUser = result.datas;
       return currentUser;
     } catch (error) {
       history.push(loginPath);

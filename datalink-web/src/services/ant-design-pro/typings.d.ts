@@ -2,6 +2,12 @@
 /* eslint-disable */
 
 declare namespace API {
+  type Result = {
+    code?: number;
+    datas?: any;
+    msg?: string;
+  };
+
   type CurrentUser = {
     name?: string;
     avatar?: string;
@@ -23,16 +29,24 @@ declare namespace API {
     phone?: string;
   };
 
-  type LoginResult = {
+  /*type LoginResult = {
     code?: number;
-    data?: {
-      access_token:string,
-      expires_in:number,
-      refresh_token:string,
-      scope:string,
-      token_type:string
+    datas?: {
+      access_token?: string;
+      expires_in?: number;
+      refresh_token?: string;
+      scope?: string;
+      token_type?: string;
     };
     msg?: string;
+  };*/
+
+  type LoginResult = {
+    access_token?: string;
+    expires_in?: number;
+    refresh_token?: string;
+    scope?: string;
+    token_type?: string;
   };
 
   type PageParams = {

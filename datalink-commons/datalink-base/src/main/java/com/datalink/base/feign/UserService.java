@@ -24,8 +24,11 @@ public interface UserService {
      * @param username
      * @return
      */
-    @GetMapping(value = "/users/name/{username}")
-    User selectByUsername(@PathVariable("username") String username);
+
+    @GetMapping(value = "/users/name", params = "username")
+    User selectByUsername(@RequestParam("username") String username);
+//    @GetMapping(value = "/users/name/{username}")
+//    User selectByUsername(@PathVariable("username") String username);
     /**
      * feign rpc访问远程/users-anon/login接口
      *

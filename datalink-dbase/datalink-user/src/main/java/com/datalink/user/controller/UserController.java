@@ -1,5 +1,6 @@
 package com.datalink.user.controller;
 
+import com.datalink.base.annotation.LoginUser;
 import com.datalink.base.model.LoginAppUser;
 import com.datalink.base.model.PageResult;
 import com.datalink.base.model.Result;
@@ -126,14 +127,32 @@ public class UserController {
     }
 
     /**
+     * 当前登录用户 LoginAppUser
+     *
+     * @return
+     */
+    @ApiOperation(value = "根据access_token当前登录用户")
+    @GetMapping("/users/current")
+    public Result<LoginAppUser> getLoginAppUser(@LoginUser User user) {
+        return Result.succeed(userService.findByUsername(user.getUsername()));
+    }
+
+    /**
      * 查询用户实体对象SysUser
      */
-    @GetMapping(value = "/users/name/{username}")
+    /*@GetMapping(value = "/users/name/{username}")
     @ApiOperation(value = "根据用户名查询用户实体")
     @Cacheable(value = "user", key = "#username")
     public User selectByUsername(@PathVariable String username) {
         return userService.selectByUsername(username);
+    }*/
+    @GetMapping(value = "/users/name", params = "username")
+    @ApiOperation(value = "根据用户名查询用户实体")
+    @Cacheable(value = "user", key = "#username")
+    public User selectByUsername(String username) {
+        return userService.selectByUsername(username);
     }
+
 
     /**
      * 查询用户登录对象LoginAppUser

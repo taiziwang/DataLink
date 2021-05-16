@@ -7,12 +7,14 @@ import com.datalink.base.feign.UserService;
 import com.datalink.base.model.Role;
 import com.datalink.base.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import java.util.List;
  */
 @Slf4j
 public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
+    @Autowired
     private UserService userService;
 
     public TokenArgumentResolver(UserService userService) {

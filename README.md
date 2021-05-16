@@ -68,12 +68,12 @@ DataLink -- 父项目
 | |-datalink-swagger-spring-boot-starter -- Swagger 封装模块
 |-datalink-config -- 配置中心
 |-datalink-dbase -- 基础资源中心
-| |-datalink-db -- DB 中心[8001]
-| |-datalink-user -- 用户中心[8000]
+| |-datalink-db -- DB 中心[8003]
+| |-datalink-user -- 用户中心[8001]
 |-datalink-doc -- 文档中心
 |-datalink-gateway -- 网关中心[9900]
 |-datalink-uaa -- 权限中心[8002]
-|-datalink-web -- React Web
+|-datalink-web -- React Web [8000]
 ```
 
 正在维护中...
@@ -97,6 +97,8 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 [microservices-platform](https://gitee.com/zlt2000/microservices-platform)
 
 [ant-design-pro](https://github.com/aiwenmo/ant-design-pro)
+
+本项目的设计思路与代码实现受以上开源项目源码指导，站在巨人的肩膀，才能看得更远。
 
 ## 截图
 
