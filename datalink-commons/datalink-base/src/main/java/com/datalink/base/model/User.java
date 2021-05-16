@@ -33,7 +33,7 @@ public class User extends SuperEntity {
     private String nickname;
 
 //    @ApiModelProperty(value = "头像Url")
-    private String headUrl;
+    private String avatar;
 
 //    @ApiModelProperty(value = "手机号")
     private String mobile;
