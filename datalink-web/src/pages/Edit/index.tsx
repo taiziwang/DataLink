@@ -1,19 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 
-/**
- *  2021年2月26日 13:20:14
- *  MonacoEditor 组件
- *  props详情 请看下方 const { style = .....}
- * */
-function App(props) {
+function FlinkEditor(props:any) {
   const {
     style = { // dom节点样式
       height: '300px',
       width: '95%',
       border: '1px solid #eee',
     },
-    value = '', // 代码文本
+    value = 'select * from ', // 代码文本
     onChange = () => { // 改变的事件
     },
     fontSize = 14, // 代码字体大小
@@ -29,7 +24,7 @@ function App(props) {
       theme: "vs",
       fontSize: fontSize + 'px',
       minimap: { // 关闭代码缩略图
-        enabled: false,
+        enabled: true,
       },
       ...monacoOptions,
     });
@@ -61,4 +56,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default FlinkEditor;

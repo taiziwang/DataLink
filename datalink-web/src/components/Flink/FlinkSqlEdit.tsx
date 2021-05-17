@@ -1,0 +1,152 @@
+import React, {useEffect, useImperativeHandle, useRef} from 'react';
+import * as _monaco from "monaco-editor";
+import MonacoEditor from "react-monaco-editor/lib/editor";
+
+let provider = {
+  dispose: () => {},
+};
+
+const FlinkSqlEditor = (props:any) => {
+  const {
+      height = '300px',
+      width = '95%',
+      value = '',
+      language = 'sql',
+      options = {
+        selectOnLineNumbers: true,
+        renderSideBySide: false,
+      },
+    } = props
+  ;
+
+  const ThisEditor:any = useRef();
+
+  const monacoInstance: any = useRef();
+
+  const code: any = useRef(value);
+
+  const cache: any = useRef(code.current);
+
+  const [refresh, setRefresh] = React.useState<boolean>(false);
+
+  useEffect(
+    () => () => {
+      provider.dispose();
+    },
+    []
+  );
+
+  useImperativeHandle(ThisEditor, () => ({
+    handleSetEditorVal,
+    getEditorData: () => cache.current,
+  }));
+
+  const handleSetEditorVal = (value: string): void => {
+    if (!value) return;
+    // 为所选取的值赋值到编辑器中
+    if (ThisEditor.current && value) {
+      const selection = ThisEditor?.current?.getSelection?.();
+      const range = new _monaco.Range(
+        selection.startLineNumber,
+        selection.startColumn,
+        selection.endLineNumber,
+        selection.endColumn
+      );
+      const id = { major: 1, minor: 1 };
+      const op = { identifier: id, range, text: value, forceMoveMarkers: true };
+      ThisEditor.current.executeEdits('', [op]);
+      ThisEditor.current.focus();
+    }
+  };
+
+  const onChangeHandle = (val: string, event: { changes: { text: any }[] }) => {
+    // const curWord = event.changes[0].text;
+    // if (curWord === ';') {
+    //   cache.current = val +'\r\n';
+    //   setRefresh(!refresh); // 刷新页面
+    //   return;
+    // }
+    // cache.current = val;
+  };
+
+  interface ISuggestions {
+    label: string;
+    kind: string;
+    insertText: string;
+    detail?: string;
+  }
+  const editorDidMountHandle = (editor: any, monaco: any) => {
+    monacoInstance.current = monaco;
+    ThisEditor.current = editor;
+
+    // 提示项设值
+    provider = monaco.languages.registerCompletionItemProvider('sql', {
+      provideCompletionItems() {
+        const suggestions: ISuggestions[] = [];
+        if (code && code.current) {
+          code.current.forEach((record:any) => {
+            suggestions.push({
+              // label未写错 中间加空格为了隐藏大写字段名称 大写字段名称用于规避自定义提示不匹配小写的bug
+              label:
+              record.label ||
+              `${record.displayName} (${
+                record.aliasName
+                })                        ${''}(${record.aliasName.toUpperCase()})`, // 显示名称
+              kind: record.kind || monaco.languages.CompletionItemKind.Field, // 这里Function也可以是别的值，主要用来显示不同的图标
+              insertText: record.insertText || record.aliasName, // 实际粘贴上的值
+              detail: record.detail || `(property) ${record.aliasName}: String`,
+            });
+          });
+        }
+        [
+          'CASEWHEN(expression1, value1, expression2, value2, ..., else_value)',
+          'CONCAT(str1, str2, ...)',
+          'ISNULL (expression, defaultValue)',
+          'DATEDIFF_YEAR(startdate,enddate)',
+          'DATEDIFF_MONTH(startdate,enddate)',
+          'DATEDIFF_DAY(startdate,enddate)',
+          'SUM(expression)',
+          'AVG(expression)',
+          'MAX(expression)',
+          'MIN(expression)',
+          'COUNT(expression)',
+          'DISTINCTCOUNT(expression)',
+          'DISTINCTAVG(expression)',
+          'DISTINCTSUM(expression)',
+          'NOW()',
+        ].forEach((item) => {
+          suggestions.push(
+            // 添加contact()函数
+            {
+              label: item, // 显示名称
+              kind: monaco.languages.CompletionItemKind.Function, // 这里Function也可以是别的值，主要用来显示不同的图标
+              insertText: item, // 实际粘贴上的值
+            }
+          );
+        });
+        return {
+          suggestions, // 必须使用深拷贝
+        };
+      },
+      quickSuggestions: false, // 默认提示关闭
+      triggerCharacters: ['$', '.', '='], // 触发提示的字符，可以写多个
+    });
+    editor.focus();
+  };
+
+return (
+  <React.Fragment>
+    <MonacoEditor
+      width={width}
+      height={height}
+      language={language}
+      value={cache.current}
+      options={options}
+      onChange={onChangeHandle}
+      editorDidMount={editorDidMountHandle}
+    />
+  </React.Fragment>
+);
+}
+
+export default FlinkSqlEditor;
