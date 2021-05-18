@@ -25,8 +25,13 @@ export default [
     path: '/dbase',
     name: 'Dbase 资源管理',
     access: 'canAdmin',
-    component: './Welcome',
     routes: [
+      {
+        path: '/dbase/user',
+        name: '用户中心',
+        icon: 'user',
+        component: './Dbase/User',
+      },
       {
         path: '/dbase/db',
         name: '数据源中心',

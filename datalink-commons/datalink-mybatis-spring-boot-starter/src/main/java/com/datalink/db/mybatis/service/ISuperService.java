@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.datalink.base.model.PageResult;
 import com.datalink.base.lock.DistributedLock;
+import com.datalink.base.model.ProTableResult;
 import com.fasterxml.jackson.databind.JsonNode;
 
 
@@ -53,6 +54,8 @@ public interface ISuperService<T> extends IService<T> {
     boolean saveOrUpdateIdempotency(T entity, DistributedLock locker, String lockKey, Wrapper<T> countWrapper) throws Exception;
 
     PageResult<T> selectForCTable(JsonNode para);
+
+    ProTableResult<T> selectForProTable(JsonNode para);
 
     PageResult<T> listAllForCTable(JsonNode para);
 }

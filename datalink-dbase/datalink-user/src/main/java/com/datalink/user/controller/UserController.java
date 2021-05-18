@@ -1,10 +1,7 @@
 package com.datalink.user.controller;
 
 import com.datalink.base.annotation.LoginUser;
-import com.datalink.base.model.LoginAppUser;
-import com.datalink.base.model.PageResult;
-import com.datalink.base.model.Result;
-import com.datalink.base.model.User;
+import com.datalink.base.model.*;
 import com.datalink.user.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -66,16 +63,14 @@ public class UserController {
      */
     @ApiOperation(value = "动态查询用户列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "页记录数", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "sortField", value = "排序字段", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "sortValue", value = "排序值", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "searchField", value = "搜索字段", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "searchValue", value = "搜索值", required = false, dataType = "String")
+            @ApiImplicitParam(name = "current", value = "当前页", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", value = "页记录数", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "sort", value = "排序字段", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "filter", value = "排序值", required = false, dataType = "String"),
     })
-    @PostMapping("/list")
-    public PageResult<User> listUsers(@RequestBody JsonNode para) {
-        return userService.selectForCTable(para);
+    @PostMapping("/users/list")
+    public ProTableResult<User> listUsers(@RequestBody JsonNode para) {
+        return userService.selectForProTable(para);
     }
 
     /**

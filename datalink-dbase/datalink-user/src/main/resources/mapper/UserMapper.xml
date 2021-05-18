@@ -29,11 +29,8 @@
         a.*
         from
         dbase_user a
-        <where>
-            is_delete = 0
-            <if test='ew.sqlSegment!=null and ew.sqlSegment!=""'>
-                ${ew.sqlSegment}
-            </if>
-        </where>
+        <if test='ew.customSqlSegment!=null and ew.customSqlSegment!=""'>
+            ${ew.customSqlSegment}
+        </if>
     </select>
 </mapper>

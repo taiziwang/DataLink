@@ -42,10 +42,8 @@
         a.*
         from
         ${table.name} a
-        <where>
-            <if test='ew.sqlSegment!=null and ew.sqlSegment!=""'>
-                ${ew.sqlSegment}
-            </if>
-        </where>
+        <if test='ew.customSqlSegment!=null and ew.customSqlSegment!=""'>
+            ${ew.customSqlSegment}
+        </if>
     </select>
 </mapper>
