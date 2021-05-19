@@ -74,7 +74,7 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
     </dependencies>
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -109,12 +109,10 @@
                     <outputDirectory>
                         ${project.build.directory}
                     </outputDirectory>
-                    <excludes>
+                    <!--<excludes>
                         <exclude>**/*.properties</exclude>
                         <exclude>**/*.yml</exclude>
-                        <exclude>static/**</exclude>
-                        <exclude>templates/**</exclude>
-                    </excludes>
+                    </excludes>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -148,7 +146,7 @@
                         <configuration>
                             <encoding>UTF-8</encoding>
                             <outputDirectory>
-                                ${project.build.directory}/bin
+                                ${project.build.directory}/lib
                             </outputDirectory>
                             <resources>
                                 <resource>
@@ -160,5 +158,5 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 </project>

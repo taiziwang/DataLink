@@ -27,17 +27,33 @@ maven clean install
 ```
 
 ```java
+bin/ -- 启动脚本
+|- auto.sh 脚本
 config/ -- 配置文件
+|- application.properties
+|- application-dev.properties
+|- bootstrap.properties
 bin/ --外部依赖
-datalink-user-0.1-SNAPSHOT.jar
+|- *.jar
+logs/ -- 日志
+module/ -- 微服务模块
+|- datalink-gateway/ -- 网关模块
+|-|- datalink-gateway-0.1-SNAPSHOT.jar
+|- datalink-uaa/ -- 授权模块
+|-|- datalink-uaa-0.1-SNAPSHOT.jar
+|- datalink-user/ -- 用户模块
+|-|- datalink-user-0.1-SNAPSHOT.jar
 ```
 
 正在维护中...
 
-### 执行
+### 启动
 
-```java
-java -jar -Dloader.path=lib datalink-user-0.1-SNAPSHOT.jar
+```shell
+ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-gateway/
+ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-uaa/
+ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-user/
+sh auto.sh start base
 ```
 
 正在维护中...

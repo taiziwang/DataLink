@@ -126,7 +126,7 @@
         </dependency>
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -141,5 +141,90 @@
             </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
-    </build>
+    </build>-->
+    <build>
+       <plugins>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-dependency-plugin</artifactId>
+               <executions>
+                   <execution>
+                       <id>copy-dependencies</id>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>copy-dependencies</goal>
+                       </goals>
+                       <configuration>
+                           <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                           <excludeTransitive>false</excludeTransitive>
+                           <stripVersion>false</stripVersion>
+                           <includeScope>runtime</includeScope>
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-jar-plugin</artifactId>
+               <configuration>
+                   <archive>
+                       <manifest>
+                           <mainClass>com.datalink.SCGatewayApp</mainClass>
+                           <addClasspath>true</addClasspath>
+                           <classpathPrefix>lib/</classpathPrefix>
+                       </manifest>
+                   </archive>
+                   <outputDirectory>
+                       ${project.build.directory}
+                   </outputDirectory>
+                   <!--<excludes>
+                       <exclude>**/*.properties</exclude>
+                       <exclude>**/*.yml</exclude>
+                   </excludes>-->
+               </configuration>
+           </plugin>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-resources-plugin</artifactId>
+               <executions>
+                   <execution>
+                       <id>copy-resources</id>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>copy-resources</goal>
+                       </goals>
+                       <configuration>
+                           <encoding>UTF-8</encoding>
+                           <outputDirectory>
+                               ${project.build.directory}/config
+                           </outputDirectory>
+                           <resources>
+                               <resource>
+                                   <directory>src/main/resources/</directory>
+                               </resource>
+                           </resources>
+                       </configuration>
+                   </execution>
+                   <execution>
+                       <id>copy-bulid</id>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>copy-resources</goal>
+                       </goals>
+                       <configuration>
+                           <encoding>UTF-8</encoding>
+                           <outputDirectory>
+                               ${project.build.directory}/lib
+                           </outputDirectory>
+                           <resources>
+                               <resource>
+                                   <directory>build/</directory>
+                               </resource>
+                           </resources>
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
+       </plugins>
+   </build>
 </project>
