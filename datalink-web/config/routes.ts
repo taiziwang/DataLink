@@ -1,4 +1,4 @@
-﻿export default [
+export default [
   {
     path: '/user',
     layout: false,
@@ -22,6 +22,70 @@
     component: './Welcome',
   },
   {
+    path: '/dbase',
+    name: 'Dbase 资源管理',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/dbase/user',
+        name: '用户中心',
+        icon: 'user',
+        component: './Dbase/User',
+      },
+      {
+        path: '/dbase/db',
+        name: '数据源中心',
+        icon: 'database',
+        component: './Welcome',
+      },
+    ],
+  },
+  {
+    path: '/dlink',
+    name: 'Dlink 数据治理',
+    access: 'canAdmin',
+    //component: './Welcome',
+    routes: [
+      {
+        path: '/dlink/flink',
+        name: 'Flink中心',
+        icon: 'smile',
+        routes: [
+          {
+            path: '/dlink/flink/flinksqldev',
+            name: 'Flink Sql 开发',
+            icon: 'smile',
+            component: './Welcome',
+          },
+          {
+            name: '高级表单',
+            icon: 'smile',
+            path: '/dlink/flink/formadvancedform',
+            component: './FormAdvancedForm',
+          },
+          {
+            name: '空白页面',
+            icon: 'smile',
+            path: '/dlink/flink/emptypage',
+            component: './EmptyPage',
+          },
+          {
+            name: '编辑器',
+            icon: 'smile',
+            path: '/dlink/flink/edit',
+            component: './Edit',
+          },
+          {
+            name: '编辑器',
+            icon: 'smile',
+            path: '/dlink/flink/edit2',
+            component: './Edit2',
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -39,8 +103,8 @@
   {
     name: 'list.table-list',
     icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: '/listtablelist',
+    component: './ListTableList',
   },
   {
     path: '/',

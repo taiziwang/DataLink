@@ -26,7 +26,7 @@ CREATE TABLE `dbase_user`  (
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录名',
   `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
   `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '姓名',
-  `head_url` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像Url',
+  `avatar` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像Url',
   `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `sex` tinyint(1) NULL DEFAULT NULL COMMENT '性别',
   `enabled` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
@@ -41,7 +41,7 @@ CREATE TABLE `dbase_user`  (
 -- ----------------------------
 -- Records of dbase_user
 -- ----------------------------
-INSERT INTO `dbase_user` VALUES (1, 'admin', 'admin', 'admin', NULL, NULL, NULL, 1, '2021-05-04 14:47:09', '2021-05-04 14:47:09', 0);
+INSERT INTO `dbase_user` VALUES (1, 'admin', '$2a$10$TJkwVdlpbHKnV45.nBxbgeFHmQRmyWlshg94lFu2rKxVtT2OMniDO', '超级管理员', 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png', NULL, NULL, 1, '2021-05-04 14:47:09', '2021-05-04 14:47:09', 0);
 
 -- ----------------------------
 -- Table structure for dbase_role
@@ -147,5 +147,8 @@ CREATE TABLE `oauth_client_details`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_clientid`(`client_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '租户信息' ROW_FORMAT = Dynamic;
+
+INSERT INTO `datalink`.`oauth_client_details`(`id`, `client_id`, `resource_ids`, `client_secret`, `client_secret_str`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `client_name`) VALUES (1, 'webApp', NULL, '$2a$10$06msMGYRH8nrm4iVnKFNKOoddB8wOwymVhbUzw/d3ZixD7Nq8ot72', 'webApp', 'app', 'authorization_code,password,refresh_token,client_credentials,implicit,password_code,openId,mobile_password', NULL, NULL, 3600, NULL, '{}', 'true', NULL, NULL, 'pc端');
+
 
 SET FOREIGN_KEY_CHECKS = 1;

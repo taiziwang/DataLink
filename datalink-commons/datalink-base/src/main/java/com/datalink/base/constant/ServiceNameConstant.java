@@ -10,5 +10,5 @@ public interface ServiceNameConstant {
     /**
      * 用户权限服务
      */
-    String USER_SERVICE = "datalink-user-center";
+    String USER_SERVICE = "datalink-user";
 }

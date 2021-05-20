@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
-            <artifactId>datalink-base</artifactId>
+            <artifactId>datalink-common-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
@@ -109,12 +109,10 @@
                     <outputDirectory>
                         ${project.build.directory}
                     </outputDirectory>
-                    <excludes>
+                    <!--<excludes>
                         <exclude>**/*.properties</exclude>
                         <exclude>**/*.yml</exclude>
-                        <exclude>static/**</exclude>
-                        <exclude>templates/**</exclude>
-                    </excludes>
+                    </excludes>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -148,7 +146,7 @@
                         <configuration>
                             <encoding>UTF-8</encoding>
                             <outputDirectory>
-                                ${project.build.directory}/bin
+                                ${project.build.directory}/lib
                             </outputDirectory>
                             <resources>
                                 <resource>

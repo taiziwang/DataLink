@@ -16,24 +16,44 @@ DataLink 开源项目及社区正在建设，希望本项目可以帮助你更�
 
 ## 开始
 
-### 打包
+### 下载安装包
+
+正在维护中...
+
+### 从源码编译安装包
 
 ```java
 maven clean install 
 ```
 
 ```java
+bin/ -- 启动脚本
+|- auto.sh 
 config/ -- 配置文件
-bin/ --外部依赖
-datalink-user-0.1-SNAPSHOT.jar
+|- application.properties
+|- application-dev.properties
+|- bootstrap.properties
+lib/ --外部依赖
+|- *.jar
+logs/ -- 日志
+module/ -- 微服务模块
+|- datalink-gateway/ -- 网关模块
+|-|- datalink-gateway-0.1-SNAPSHOT.jar
+|- datalink-uaa/ -- 授权模块
+|-|- datalink-uaa-0.1-SNAPSHOT.jar
+|- datalink-user/ -- 用户模块
+|-|- datalink-user-0.1-SNAPSHOT.jar
 ```
 
 正在维护中...
 
-### 执行
+### 启动
 
-```java
-java -jar -Dloader.path=lib datalink-user-0.1-SNAPSHOT.jar
+```shell
+ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-gateway/
+ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-uaa/
+ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-user/
+sh auto.sh start base
 ```
 
 正在维护中...
@@ -53,6 +73,7 @@ DataLink -- 父项目
 |-datalink-commons -- 通用中心
 | |-datalink-auth-spring-boot-starter -- Spring Security 封装模块
 | |-datalink-base -- 基础封装模块
+| |-datalink-common-spring-boot-starter -- 通用封装模块
 | |-datalink-db-plug -- DB工具封装模块
 | |-datalink-elasticsearch-spring-boot-starter -- Elasticsearch 封装模块
 | |-datalink-log-spring-boot-starter -- Log 封装模块
@@ -63,11 +84,12 @@ DataLink -- 父项目
 | |-datalink-swagger-spring-boot-starter -- Swagger 封装模块
 |-datalink-config -- 配置中心
 |-datalink-dbase -- 基础资源中心
-| |-datalink-db -- DB 中心[8001]
-| |-datalink-user -- 用户中心[8000]
+| |-datalink-db -- DB 中心[8003]
+| |-datalink-user -- 用户中心[8001]
 |-datalink-doc -- 文档中心
+|-datalink-gateway -- 网关中心[9900]
 |-datalink-uaa -- 权限中心[8002]
-|-datalink-web -- React Web
+|-datalink-web -- React Web [8000]
 ```
 
 正在维护中...
@@ -91,6 +113,8 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 [microservices-platform](https://gitee.com/zlt2000/microservices-platform)
 
 [ant-design-pro](https://github.com/aiwenmo/ant-design-pro)
+
+本项目的设计思路与代码实现受以上开源项目源码指导与启发，站在巨人的肩膀，才能看得更远。
 
 ## 截图
 
@@ -123,7 +147,19 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 > FlinkSql
 
-![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpp82PZfrRR5tUaTWyHasItP5K1phbU1rJ7QAfk3cQC1lGZCuMyibwpUsYictPaWCIsuZKTHalPg2Og/0?wx_fmt=png)
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kic2vHIgibsjhfg6yiaI3B4N5HORjUQRibjZZYZNRGOP9VERcTeBHVKQCRVw/0?wx_fmt=png)
+
+> FlinkSql在线开发器
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicuRRo8Y1FmtkT1BYDQkp5cI5r6pbz0XDxqicgKUWlWuxMdMicSl1xZUSA/0?wx_fmt=png)
+
+> FlinkSql语法校验与执行解释
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicmeuPDSsS2jNU79Rulial2aU7QiaOibzYxPrZyLILbW5KQa10roOWXxo2A/0?wx_fmt=png)
+
+> FlinkSql函数文档
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicdwSp76kaL2Q1DsKjJRZLSpdjnF1A6U378gzombaZgunFv0gbadgHMQ/0?wx_fmt=png)
 
 > Flink任务历史
 
@@ -131,11 +167,27 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 > Sql翻译
 
-![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpp82PZfrRR5tUaTWyHasItxoVfRD0XQKIibFCbBicsxH6iahS5LEj3OF00ibaIDjc5P7U7nb1wDsf8ag/0?wx_fmt=png)
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kicc7UCs5iaNUWJoLdey1h0ibfSYBdqdSdaibhunsnJn6ZTp71ichaLKMB4Zg/0?wx_fmt=png)
+
+> FlinkSql与元数据的血缘分析
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicTbVRsT6GvhTVP6CQsUqoSBZ40Yratv6sFW8AFg5dj17BjHP1XD8RGQ/0?wx_fmt=png)
+
+> NLP字典映射与运维
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicsmWEhCTQeYsNT1TiazL68rWJTZfRXUSibUyr695O6OYwuJUjHUQUicdag/0?wx_fmt=png)
 
 > DB控制台
 
 ![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpp82PZfrRR5tUaTWyHasIt1GH5etlMEh8GwcxA3xALayEibr8IZzSK5icsMkUEEIRJibdGPY0SXYoAg/0?wx_fmt=png)
+
+> 查询服务注册
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kic7xoITGgpe5ibAia4uOF6ymxZbjwkxl1pVHUX25WshsprGCFlFEiaXUewg/0?wx_fmt=png)
+
+> 共享文件中心
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kic5IuF4Uyf2D9a0icZv5kVhsTEufeibOAA79Ofp3veR8xzZHGicoJ2TAEicA/0?wx_fmt=png)
 
 > 微服务监控
 

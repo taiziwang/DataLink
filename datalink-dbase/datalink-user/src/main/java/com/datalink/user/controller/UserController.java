@@ -1,8 +1,7 @@
 package com.datalink.user.controller;
 
-import com.datalink.base.model.PageResult;
-import com.datalink.base.model.Result;
-import com.datalink.base.model.User;
+import com.datalink.base.annotation.LoginUser;
+import com.datalink.base.model.*;
 import com.datalink.user.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -29,7 +28,6 @@ import java.util.List;
 @Slf4j
 @Api(tags = "用户模块api")
 @RestController
-@RequestMapping("/user")
 public class UserController {
     private static final String ADMIN_CHANGE_MSG = "超级管理员不给予修改";
     private static final Integer ADMIN_CODE = 1;
@@ -65,16 +63,14 @@ public class UserController {
      */
     @ApiOperation(value = "动态查询用户列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "当前页", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "页记录数", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "sortField", value = "排序字段", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "sortValue", value = "排序值", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "searchField", value = "搜索字段", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "searchValue", value = "搜索值", required = false, dataType = "String")
+            @ApiImplicitParam(name = "current", value = "当前页", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", value = "页记录数", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "sort", value = "排序字段", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "filter", value = "排序值", required = false, dataType = "String"),
     })
-    @PostMapping("/list")
-    public PageResult<User> listUsers(@RequestBody JsonNode para) {
-        return userService.selectForCTable(para);
+    @PostMapping("/users/list")
+    public ProTableResult<User> listUsers(@RequestBody JsonNode para) {
+        return userService.selectForProTable(para);
     }
 
     /**
@@ -126,13 +122,62 @@ public class UserController {
     }
 
     /**
+     * 当前登录用户 LoginAppUser
+     *
+     * @return
+     */
+    @ApiOperation(value = "根据access_token当前登录用户")
+    @GetMapping("/users/current")
+    public Result<LoginAppUser> getLoginAppUser(@LoginUser User user) {
+        return Result.succeed(userService.findByUsername(user.getUsername()));
+    }
+
+    /**
      * 查询用户实体对象SysUser
      */
-    @GetMapping(value = "/users/name/{username}")
+    /*@GetMapping(value = "/users/name/{username}")
     @ApiOperation(value = "根据用户名查询用户实体")
     @Cacheable(value = "user", key = "#username")
     public User selectByUsername(@PathVariable String username) {
         return userService.selectByUsername(username);
+    }*/
+    @GetMapping(value = "/users/name", params = "username")
+    @ApiOperation(value = "根据用户名查询用户实体")
+    @Cacheable(value = "user", key = "#username")
+    public User selectByUsername(String username) {
+        return userService.selectByUsername(username);
+    }
+
+
+    /**
+     * 查询用户登录对象LoginAppUser
+     */
+    @GetMapping(value = "/users-anon/login", params = "username")
+    @ApiOperation(value = "根据用户名查询用户")
+    public LoginAppUser findByUsername(String username) {
+        return userService.findByUsername(username);
+    }
+
+    /**
+     * 通过手机号查询用户、角色信息
+     *
+     * @param mobile 手机号
+     */
+    @GetMapping(value = "/users-anon/mobile", params = "mobile")
+    @ApiOperation(value = "根据手机号查询用户")
+    public User findByMobile(String mobile) {
+        return userService.findByMobile(mobile);
+    }
+
+    /**
+     * 根据OpenId查询用户信息
+     *
+     * @param openId openId
+     */
+    @GetMapping(value = "/users-anon/openId", params = "openId")
+    @ApiOperation(value = "根据OpenId查询用户")
+    public User findByOpenId(String openId) {
+        return userService.findByOpenId(openId);
     }
 
     /**

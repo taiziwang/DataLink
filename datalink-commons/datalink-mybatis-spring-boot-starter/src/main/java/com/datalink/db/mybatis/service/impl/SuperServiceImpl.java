@@ -15,9 +15,11 @@ import com.datalink.base.exception.IdempotencyException;
 import com.datalink.base.exception.LockException;
 import com.datalink.base.lock.DistributedLock;
 import com.datalink.base.lock.ZLock;
+import com.datalink.base.model.ProTableResult;
 import com.datalink.db.mybatis.mapper.SuperMapper;
 import com.datalink.db.mybatis.service.ISuperService;
 import com.datalink.db.mybatis.util.CTableUtil;
+import com.datalink.db.mybatis.util.ProTableUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.Serializable;
@@ -100,6 +102,17 @@ public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M
         Page<T> page = new Page<>(pagesize, limit);
         List<T> list = baseMapper.selectForCTable(page, queryWrapper);
         return PageResult.<T>builder().data(list).code(0).count(page.getTotal()).build();
+    }
+
+    @Override
+    public ProTableResult<T> selectForProTable(JsonNode para) {
+        Integer current = para.has("current") ? para.get("current").asInt() : 1;
+        Integer pageSize = para.has("pageSize") ? para.get("pageSize").asInt() : 10;
+        QueryWrapper<T> queryWrapper = new QueryWrapper<>();
+        ProTableUtil.autoQueryAndSetFormParaCustom(para, queryWrapper);
+        Page<T> page = new Page<>(current, pageSize);
+        List<T> list = baseMapper.selectForCTable(page, queryWrapper);
+        return ProTableResult.<T>builder().success(true).data(list).total(page.getTotal()).current(current).pageSize(pageSize).build();
     }
 
     @Override

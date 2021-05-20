@@ -1,8 +1,8 @@
 package com.datalink.base.resolver;
 
+import cn.hutool.core.util.StrUtil;
 import com.datalink.base.annotation.LoginClient;
 import com.datalink.base.constant.SecurityConstant;
-import com.github.xiaoymin.knife4j.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
