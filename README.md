@@ -28,12 +28,12 @@ maven clean install
 
 ```java
 bin/ -- 启动脚本
-|- auto.sh 脚本
+|- auto.sh 
 config/ -- 配置文件
 |- application.properties
 |- application-dev.properties
 |- bootstrap.properties
-bin/ --外部依赖
+lib/ --外部依赖
 |- *.jar
 logs/ -- 日志
 module/ -- 微服务模块
@@ -147,7 +147,19 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 > FlinkSql
 
-![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpp82PZfrRR5tUaTWyHasItP5K1phbU1rJ7QAfk3cQC1lGZCuMyibwpUsYictPaWCIsuZKTHalPg2Og/0?wx_fmt=png)
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kic2vHIgibsjhfg6yiaI3B4N5HORjUQRibjZZYZNRGOP9VERcTeBHVKQCRVw/0?wx_fmt=png)
+
+> FlinkSql在线开发器
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicuRRo8Y1FmtkT1BYDQkp5cI5r6pbz0XDxqicgKUWlWuxMdMicSl1xZUSA/0?wx_fmt=png)
+
+> FlinkSql语法校验与执行解释
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicmeuPDSsS2jNU79Rulial2aU7QiaOibzYxPrZyLILbW5KQa10roOWXxo2A/0?wx_fmt=png)
+
+> FlinkSql函数文档
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicdwSp76kaL2Q1DsKjJRZLSpdjnF1A6U378gzombaZgunFv0gbadgHMQ/0?wx_fmt=png)
 
 > Flink任务历史
 
@@ -155,11 +167,27 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 > Sql翻译
 
-![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpp82PZfrRR5tUaTWyHasItxoVfRD0XQKIibFCbBicsxH6iahS5LEj3OF00ibaIDjc5P7U7nb1wDsf8ag/0?wx_fmt=png)
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kicc7UCs5iaNUWJoLdey1h0ibfSYBdqdSdaibhunsnJn6ZTp71ichaLKMB4Zg/0?wx_fmt=png)
+
+> FlinkSql与元数据的血缘分析
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicTbVRsT6GvhTVP6CQsUqoSBZ40Yratv6sFW8AFg5dj17BjHP1XD8RGQ/0?wx_fmt=png)
+
+> NLP字典映射与运维
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5KicsmWEhCTQeYsNT1TiazL68rWJTZfRXUSibUyr695O6OYwuJUjHUQUicdag/0?wx_fmt=png)
 
 > DB控制台
 
 ![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpp82PZfrRR5tUaTWyHasIt1GH5etlMEh8GwcxA3xALayEibr8IZzSK5icsMkUEEIRJibdGPY0SXYoAg/0?wx_fmt=png)
+
+> 查询服务注册
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kic7xoITGgpe5ibAia4uOF6ymxZbjwkxl1pVHUX25WshsprGCFlFEiaXUewg/0?wx_fmt=png)
+
+> 共享文件中心
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTpeODtahZc77tWyTMPxR5Kic5IuF4Uyf2D9a0icZv5kVhsTEufeibOAA79Ofp3veR8xzZHGicoJ2TAEicA/0?wx_fmt=png)
 
 > 微服务监控
 
