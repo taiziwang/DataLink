@@ -12,10 +12,10 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 退出登录接口 POST /api/login/outLogin */
+/** 退出登录接口 POST /api-uaa/oauth/remove/token?token= */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
-    method: 'POST',
+  return request<Record<string, any>>(`/api-uaa/oauth/remove/token?token=?token=${localStorage.getItem('token')}`, {
+    method: 'DELETE',
     ...(options || {}),
   });
 }

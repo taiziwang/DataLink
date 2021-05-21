@@ -37,12 +37,9 @@ lib/ --外部依赖
 |- *.jar
 logs/ -- 日志
 module/ -- 微服务模块
-|- datalink-gateway/ -- 网关模块
-|-|- datalink-gateway-0.1-SNAPSHOT.jar
-|- datalink-uaa/ -- 授权模块
-|-|- datalink-uaa-0.1-SNAPSHOT.jar
-|- datalink-user/ -- 用户模块
-|-|- datalink-user-0.1-SNAPSHOT.jar
+|- datalink-gateway.jar -- 网关模块
+|- datalink-uaa.jar -- 授权模块
+|- datalink-user.jar -- 用户模块
 ```
 
 正在维护中...
@@ -50,9 +47,6 @@ module/ -- 微服务模块
 ### 启动
 
 ```shell
-ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-gateway/
-ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-uaa/
-ln -s /usr/local/datalink/config/ /usr/local/datalink/module/datalink-user/
 sh auto.sh start base
 ```
 
