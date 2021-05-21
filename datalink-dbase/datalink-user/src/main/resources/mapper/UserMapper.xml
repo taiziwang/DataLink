@@ -29,8 +29,19 @@
         a.*
         from
         dbase_user a
-        <if test='ew.customSqlSegment!=null and ew.customSqlSegment!=""'>
-            ${ew.customSqlSegment}
-        </if>
+        <where>
+            <if test='param.username!=null and param.username!=""'>
+                a.username like "%${param.username}%"
+            </if>
+            <if test='param.nickname!=null and param.nickname!=""'>
+                and a.nickname like "%${param.nickname}%"
+            </if>
+            <if test='ew.sqlSegment!=null and ew.sqlSegment!="" and !ew.sqlSegment.startsWith(" ORDER BY")'>
+                and
+            </if>
+            <if test='ew.sqlSegment!=null and ew.sqlSegment!=""'>
+                ${ew.sqlSegment}
+            </if>
+        </where>
     </select>
 </mapper>

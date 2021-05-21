@@ -85,26 +85,28 @@ public class ProTableUtil {
                     searchValues.add(objNode.asText());
                 }
             }
-            if("Number".equals(type)) {
-                wrapper.and(qw -> {
-                    for (int i = 0; i < searchValues.size(); i++) {
-                        Double itemField = Double.parseDouble(searchValues.get(i));
-                        if (i > 0) {
-                            qw.or();
+            if(searchValues.size()>0) {
+                if ("Number".equals(type)) {
+                    wrapper.and(qw -> {
+                        for (int i = 0; i < searchValues.size(); i++) {
+                            Double itemField = Double.parseDouble(searchValues.get(i));
+                            if (i > 0) {
+                                qw.or();
+                            }
+                            qw.eq("a." + field, itemField);
                         }
-                        qw.eq("a." + field, itemField);
-                    }
-                });
-            }else{
-                wrapper.and(qw -> {
-                    for (int i = 0; i < searchValues.size(); i++) {
-                        String itemField = searchValues.get(i);
-                        if (i > 0) {
-                            qw.or();
+                    });
+                } else {
+                    wrapper.and(qw -> {
+                        for (int i = 0; i < searchValues.size(); i++) {
+                            String itemField = searchValues.get(i);
+                            if (i > 0) {
+                                qw.or();
+                            }
+                            qw.eq("a." + field, itemField);
                         }
-                        qw.eq("a." + field, itemField);
-                    }
-                });
+                    });
+                }
             }
         }
     }
@@ -171,7 +173,7 @@ public class ProTableUtil {
      * @Param [para, wrapper]
      **/
     public static void autoQueryDefalut(JsonNode para, QueryWrapper<?> wrapper) {
-        autoQuery(para, wrapper, true, true);
+        autoQuery(para, wrapper, true, false);
     }
 
     /**
