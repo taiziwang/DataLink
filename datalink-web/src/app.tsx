@@ -144,7 +144,8 @@ export const request: RequestConfig = {
   errorHandler: (error: ResponseError) => {
     const { messages } = getIntl(getLocale());
     const { request,response } = error;
-  if(request.originUrl == '/api-uaa/oauth/token'){
+    const writeUrl = ['/api-user/users/current','/api-uaa/oauth/token'];
+  if(writeUrl.indexOf(request.originUrl)>-1){
     return;
   }else {
     if (response && response.status) {

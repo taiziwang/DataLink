@@ -101,10 +101,23 @@ export default [
     ],
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/listtablelist',
-    component: './ListTableList',
+    path: '/demo',
+    name: 'Demo 模板',
+    access: 'canAdmin',
+    routes: [
+      {
+        name: 'list.table-list',
+        icon: 'table',
+        path: '/demo/listtablelist',
+        component: './Demo/ListTableList',
+      },
+      {
+        name: '标准列表',
+        icon: 'smile',
+        path: '/demo/listbasiclist',
+        component: './Demo/ListBasicList',
+      },
+    ],
   },
   {
     path: '/',

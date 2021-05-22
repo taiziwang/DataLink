@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://${datalink.datasource.ip}:3306/datalink?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://${datalink.datasource.ip}:3306/datalink?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: ${datalink.datasource.username}
     password: ${datalink.datasource.password}
     driver-class-name: com.mysql.cj.jdbc.Driver

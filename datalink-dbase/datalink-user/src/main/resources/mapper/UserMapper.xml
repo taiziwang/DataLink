@@ -30,8 +30,9 @@
         from
         dbase_user a
         <where>
+            a.is_delete = 0
             <if test='param.username!=null and param.username!=""'>
-                a.username like "%${param.username}%"
+                and a.username like "%${param.username}%"
             </if>
             <if test='param.nickname!=null and param.nickname!=""'>
                 and a.nickname like "%${param.nickname}%"

@@ -2,9 +2,11 @@ package com.datalink.user.controller;
 
 import com.datalink.base.annotation.LoginUser;
 import com.datalink.base.model.*;
+import com.datalink.log.AuditLog;
 import com.datalink.user.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import lombok.extern.slf4j.Slf4j;
 
 import io.swagger.annotations.Api;
@@ -13,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +53,9 @@ public class UserController {
             @ApiImplicitParam(name = "createTime", value = "创建时间", required = false, dataType = "Date"),
             @ApiImplicitParam(name = "updateTime", value = "更新时间", required = false, dataType = "Date")
     })
-    @PostMapping("/saveOrUpdate")
+    @CacheEvict(value = "user", key = "#user.username")
+    @AuditLog(operation = "'新增或更新用户:' + #sysUser.username")
+    @PostMapping("/users/saveOrUpdate")
     public Result saveOrUpdate(@RequestBody User user) throws Exception {
         if(user.getId()!=null&&checkAdmin(user.getId())){
             return Result.failed(ADMIN_CHANGE_MSG);
@@ -77,34 +82,31 @@ public class UserController {
      * 批量删除用户
      */
     @ApiOperation(value = "批量删除用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ids", value = "ID数组字符串", required = true, dataType = "String")
-    })
-    @DeleteMapping(value = "")
-    public Result deleteMul(String ids) {
-        if (ids==null||"".equals(ids)) {
+    @DeleteMapping(value = "/users")
+    public Result deleteMul(@RequestBody JsonNode para) {
+        if (para.size()>0){
+            boolean isAdmin = false;
+            List<Integer> error = new ArrayList<>();
+            for (final JsonNode item : para){
+                Integer id = item.asInt();
+                if(checkAdmin(id)){
+                    isAdmin = true;
+                    error.add(id);
+                    continue;
+                }
+                if(!userService.removeById(id)){
+                    error.add(id);
+                }
+            }
+            if(error.size()==0&&!isAdmin) {
+                return Result.succeed("删除成功");
+            }else if(isAdmin) {
+                return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败，其中"+ADMIN_CHANGE_MSG+"。");
+            }else {
+                return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
+            }
+        }else{
             return Result.failed("请选择要删除的记录");
-        }
-        String[] idstrs = ids.split(",");
-        List<Integer> error = new ArrayList<>();
-        boolean isAdmin = false;
-        for (int i = 0; i < idstrs.length; i++) {
-            Integer id = Integer.valueOf(idstrs[i]);
-            if(checkAdmin(id)){
-                isAdmin = true;
-                error.add(id);
-                continue;
-            }
-            if(!userService.removeById(id)){
-                error.add(id);
-            }
-        }
-        if(error.size()==0&&!isAdmin) {
-            return Result.succeed("删除成功");
-        }else if(isAdmin) {
-            return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败，其中"+ADMIN_CHANGE_MSG+"。");
-        }else {
-            return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
         }
     }
 
@@ -135,12 +137,6 @@ public class UserController {
     /**
      * 查询用户实体对象SysUser
      */
-    /*@GetMapping(value = "/users/name/{username}")
-    @ApiOperation(value = "根据用户名查询用户实体")
-    @Cacheable(value = "user", key = "#username")
-    public User selectByUsername(@PathVariable String username) {
-        return userService.selectByUsername(username);
-    }*/
     @GetMapping(value = "/users/name", params = "username")
     @ApiOperation(value = "根据用户名查询用户实体")
     @Cacheable(value = "user", key = "#username")
