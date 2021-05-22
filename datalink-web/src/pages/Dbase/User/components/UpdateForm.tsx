@@ -61,8 +61,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           name="enabled"
           label="状态"
         >
-          <Switch checkedChildren="启用" unCheckedChildren="禁用" defaultChecked
-          checked={formVals.enabled}/>
+          <Switch checkedChildren="启用" unCheckedChildren="禁用"
+                  defaultChecked={formVals.enabled}/>
         </FormItem>
       </>
     );

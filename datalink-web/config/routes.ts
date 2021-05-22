@@ -17,66 +17,89 @@ export default [
   },
   {
     path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
+    name: 'home',
+    icon: 'home',
     component: './Welcome',
   },
   {
     path: '/dbase',
-    name: 'Dbase 资源管理',
+    name: 'dbase',
     access: 'canAdmin',
     routes: [
       {
-        path: '/dbase/user',
-        name: '用户中心',
+        path: '/dbase/usercenter',
+        name: 'usercenter',
         icon: 'user',
-        component: './Dbase/User',
+        routes: [
+          {
+            path: '/dbase/usercenter/user',
+            name: 'user',
+            icon: 'user',
+            component: './Dbase/User',
+          },
+          {
+            path: '/dbase/usercenter/role',
+            name: 'role',
+            icon: 'smile',
+            component: './Common/Build',
+          },
+          {
+            path: '/dbase/usercenter/menu',
+            name: 'menu',
+            icon: 'smile',
+            component: './Common/Build',
+          },
+          {
+            path: '/dbase/usercenter/client',
+            name: 'client',
+            icon: 'smile',
+            component: './Common/Build',
+          },
+          {
+            path: '/dbase/usercenter/token',
+            name: 'token',
+            icon: 'smile',
+            component: './Common/Build',
+          },
+        ],
       },
       {
-        path: '/dbase/db',
-        name: '数据源中心',
+        path: '/dbase/database',
+        name: 'database',
         icon: 'database',
         component: './Welcome',
       },
     ],
   },
   {
+    path: '/dbus',
+    name: 'dbus',
+    component: './Common/Build',
+  },
+  {
     path: '/dlink',
-    name: 'Dlink 数据治理',
+    name: 'dlink',
     access: 'canAdmin',
-    //component: './Welcome',
     routes: [
       {
         path: '/dlink/flink',
-        name: 'Flink中心',
+        name: 'flink',
         icon: 'smile',
         routes: [
           {
-            path: '/dlink/flink/flinksqldev',
-            name: 'Flink Sql 开发',
+            path: '/dlink/flink/sqldev',
+            name: 'sqldev',
             icon: 'smile',
-            component: './Welcome',
-          },
-          {
-            name: '高级表单',
-            icon: 'smile',
-            path: '/dlink/flink/formadvancedform',
-            component: './FormAdvancedForm',
-          },
-          {
-            name: '空白页面',
-            icon: 'smile',
-            path: '/dlink/flink/emptypage',
             component: './EmptyPage',
           },
           {
-            name: '编辑器',
+            name: 'sqldev',
             icon: 'smile',
             path: '/dlink/flink/edit',
             component: './Edit',
           },
           {
-            name: '编辑器',
+            name: 'sqldev',
             icon: 'smile',
             path: '/dlink/flink/edit2',
             component: './Edit2',
@@ -84,6 +107,26 @@ export default [
         ],
       },
     ],
+  },
+  {
+    path: '/dsink',
+    name: 'dsink',
+    component: './Common/Build',
+  },
+  {
+    path: '/dview',
+    name: 'dview',
+    component: './Common/Build',
+  },
+  {
+    path: '/dai',
+    name: 'dai',
+    component: './Common/Build',
+  },
+  {
+    path: '/dev',
+    name: 'dev',
+    component: './Common/Build',
   },
   {
     path: '/admin',
@@ -98,27 +141,49 @@ export default [
         icon: 'smile',
         component: './Welcome',
       },
+
     ],
   },
   {
     path: '/demo',
-    name: 'Demo 模板',
-    access: 'canAdmin',
+    name: 'demo',
+    //access: 'canAdmin',
     routes: [
       {
-        name: 'list.table-list',
+        name: 'list',
         icon: 'table',
-        path: '/demo/listtablelist',
-        component: './Demo/ListTableList',
+        path: '/demo/list',
+        routes: [
+          {
+            name: 'table-list',
+            icon: 'table',
+            path: '/demo/list/listtablelist',
+            component: './Demo/ListTableList',
+          },
+          {
+            name: 'basic-list',
+            icon: 'smile',
+            path: '/demo/list/listbasiclist',
+            component: './Demo/ListBasicList',
+          },
+        ],
       },
       {
-        name: '标准列表',
+        name: 'form',
         icon: 'smile',
-        path: '/demo/listbasiclist',
-        component: './Demo/ListBasicList',
+        path: '/demo/form',
+        routes: [
+          {
+            name: 'advanced-form',
+            icon: 'smile',
+            path: '/demo/form/formadvancedform',
+            component: './FormAdvancedForm',
+          },
+        ],
       },
     ],
   },
+
   {
     path: '/',
     redirect: '/welcome',
