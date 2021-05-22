@@ -33,6 +33,10 @@ public class TemplateConfig {
 
     private String list = ConstVal.TEMPLATE_LIST;
 
+    private String datad = ConstVal.TEMPLATE_DATAD;
+
+    private String serviceTs = ConstVal.TEMPLATE_SERVICE_TS;
+
     public String getEntity(boolean kotlin) {
         return kotlin ? entityKt : entity;
     }

@@ -21,8 +21,10 @@ public interface ConstVal {
     String MAPPER = "Mapper";
     String XML = "Xml";
     String CONTROLLER = "Controller";
-    String FORM = "form";
-    String LIST = "list";
+    String UPDATEFORM = "updateForm";
+    String INDEX = "index";
+    String DATAD = "data.d";
+    String SERVICE_TS = "service";
     String HTML_PATH = "HtmlPath";
     String HTML_ID = "HtmlID";
 
@@ -35,6 +37,8 @@ public interface ConstVal {
     String CONTROLLER_PATH = "controller_path";
     String FORM_PATH = "form_path";
     String LIST_PATH = "list_path";
+    String DATAD_PATH = "datad_path";
+    String SERVICE_TS_PATH = "service_ts_path";
 
     String JAVA_TMPDIR = "java.io.tmpdir";
     String UTF8 = StandardCharsets.UTF_8.name();
@@ -43,7 +47,8 @@ public interface ConstVal {
     String JAVA_SUFFIX = StringPool.DOT_JAVA;
     String KT_SUFFIX = ".kt";
     String XML_SUFFIX = ".xml";
-    String HTML_SUFFIX = ".html";
+    String HTML_SUFFIX = ".tsx";
+    String TS_SUFFIX = ".ts";
 
     String TEMPLATE_ENTITY_JAVA = "/templates/entity.java";
     String TEMPLATE_ENTITY_KT = "/templates/entity.kt";
@@ -53,8 +58,10 @@ public interface ConstVal {
     String TEMPLATE_SERVICE = "/templates/service.java";
     String TEMPLATE_SERVICE_IMPL = "/templates/serviceImpl.java";
     String TEMPLATE_CONTROLLER = "/templates/controller.java";
-    String TEMPLATE_FORM = "/templates/form.html";
-    String TEMPLATE_LIST = "/templates/list.html";
+    String TEMPLATE_FORM = "/templates/updateForm.tsx";
+    String TEMPLATE_LIST = "/templates/index.tsx";
+    String TEMPLATE_DATAD = "/templates/data.d.ts";
+    String TEMPLATE_SERVICE_TS = "/templates/service.ts";
 
     String VM_LOAD_PATH_KEY = "file.resource.loader.class";
     String VM_LOAD_PATH_VALUE = "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader";

@@ -43,11 +43,14 @@
         from
         ${table.name} a
         <where>
-            <if test='param.username!=null and param.username!=""'>
-                a.username like "%${param.username}%"
+            <if test='param.name!=null and param.name!=""'>
+                a.name like "%#{param.name}%"
             </if>
-            <if test='param.nickname!=null and param.nickname!=""'>
-                and a.nickname like "%${param.nickname}%"
+            <if test='param.createTime!=null and param.createTime!=""'>
+                and a.create_time <![CDATA[>=]]> str_to_date( #{param.createTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test='param.updateTime!=null and param.updateTime!=""'>
+                and a.update_time <![CDATA[>=]]> str_to_date( #{param.updateTime},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test='ew.sqlSegment!=null and ew.sqlSegment!="" and !ew.sqlSegment.startsWith(" ORDER BY")'>
                 and

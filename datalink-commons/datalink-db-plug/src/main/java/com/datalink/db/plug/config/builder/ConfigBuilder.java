@@ -245,8 +245,10 @@ public class ConfigBuilder {
         packageInfo.put(ConstVal.SERVICE, joinPackage(config.getParent(), config.getService()));
         packageInfo.put(ConstVal.SERVICE_IMPL, joinPackage(config.getParent(), config.getServiceImpl()));
         packageInfo.put(ConstVal.CONTROLLER, joinPackage(config.getParent(), config.getController()));
-        packageInfo.put(ConstVal.FORM, joinHtmlPath(config.getResourceParent(), config.getForm()));
-        packageInfo.put(ConstVal.LIST, joinHtmlPath(config.getResourceParent(), config.getList()));
+        packageInfo.put(ConstVal.UPDATEFORM, joinHtmlPath(config.getResourceParent(), config.getUpdateForm()));
+        packageInfo.put(ConstVal.INDEX, joinHtmlPath(config.getResourceParent(), config.getIndex()));
+        packageInfo.put(ConstVal.DATAD, joinHtmlPath(config.getResourceParent(), config.getDatad()));
+        packageInfo.put(ConstVal.SERVICE_TS, joinHtmlPath(config.getResourceParent(), config.getServiceTs()));
         packageInfo.put(ConstVal.HTML_PATH, config.getResourceModuleName());
         packageInfo.put(ConstVal.HTML_ID, config.getResourceModuleName().replaceAll(StringPool.SLASH, StringPool.DASH));
 
@@ -264,8 +266,10 @@ public class ConfigBuilder {
             setPathInfo(pathInfo, template.getService(), outputDir + ConstVal.JAVA_BUILD_PATH, ConstVal.SERVICE_PATH, ConstVal.SERVICE);
             setPathInfo(pathInfo, template.getServiceImpl(), outputDir + ConstVal.JAVA_BUILD_PATH, ConstVal.SERVICE_IMPL_PATH, ConstVal.SERVICE_IMPL);
             setPathInfo(pathInfo, template.getController(), outputDir + ConstVal.JAVA_BUILD_PATH, ConstVal.CONTROLLER_PATH, ConstVal.CONTROLLER);
-            setPathInfo(pathInfo, template.getForm(), outputDir + ConstVal.RESOURCES_BUILD_PATH, ConstVal.FORM_PATH, ConstVal.FORM);
-            setPathInfo(pathInfo, template.getList(), outputDir + ConstVal.RESOURCES_BUILD_PATH, ConstVal.LIST_PATH, ConstVal.LIST);
+            setPathInfo(pathInfo, template.getForm(), outputDir + ConstVal.RESOURCES_BUILD_PATH, ConstVal.FORM_PATH, ConstVal.UPDATEFORM);
+            setPathInfo(pathInfo, template.getList(), outputDir + ConstVal.RESOURCES_BUILD_PATH, ConstVal.LIST_PATH, ConstVal.INDEX);
+            setPathInfo(pathInfo, template.getDatad(), outputDir + ConstVal.RESOURCES_BUILD_PATH, ConstVal.DATAD_PATH, ConstVal.DATAD);
+            setPathInfo(pathInfo, template.getServiceTs(), outputDir + ConstVal.RESOURCES_BUILD_PATH, ConstVal.SERVICE_TS_PATH, ConstVal.SERVICE_TS);
         }
     }
 
@@ -393,12 +397,22 @@ public class ConfigBuilder {
             if (StringUtils.isNotBlank(globalConfig.getFormName())) {
                 tableInfo.setFormName(String.format(globalConfig.getFormName(), entityName.substring(0,1).toLowerCase()+entityName.substring(1)));
             } else {
-                tableInfo.setFormName(entityName.substring(0,1).toLowerCase()+entityName.substring(1) + ConstVal.FORM);
+                tableInfo.setFormName(entityName.substring(0,1).toLowerCase()+entityName.substring(1) + ConstVal.UPDATEFORM);
             }
             if (StringUtils.isNotBlank(globalConfig.getListName())) {
-                tableInfo.setControllerName(String.format(globalConfig.getListName(), entityName.substring(0,1).toLowerCase()+entityName.substring(1)));
+                tableInfo.setListName(String.format(globalConfig.getListName(), entityName.substring(0,1).toLowerCase()+entityName.substring(1)));
             } else {
-                tableInfo.setListName(entityName.substring(0,1).toLowerCase()+entityName.substring(1) + ConstVal.LIST);
+                tableInfo.setListName(entityName.substring(0,1).toLowerCase()+entityName.substring(1) + ConstVal.INDEX);
+            }
+            if (StringUtils.isNotBlank(globalConfig.getDatadName())) {
+                tableInfo.setDatadName(String.format(globalConfig.getDatadName(), entityName.substring(0,1).toLowerCase()+entityName.substring(1)));
+            } else {
+                tableInfo.setDatadName(entityName.substring(0,1).toLowerCase()+entityName.substring(1) + ConstVal.DATAD);
+            }
+            if (StringUtils.isNotBlank(globalConfig.getServiceTsName())) {
+                tableInfo.setServiceTsName(String.format(globalConfig.getServiceTsName(), entityName.substring(0,1).toLowerCase()+entityName.substring(1)));
+            } else {
+                tableInfo.setServiceTsName(entityName.substring(0,1).toLowerCase()+entityName.substring(1) + ConstVal.SERVICE_TS);
             }
             if (StringUtils.isNotBlank(globalConfig.getClassName())) {
                 tableInfo.setClassName(String.format(globalConfig.getClassName(), entityName));

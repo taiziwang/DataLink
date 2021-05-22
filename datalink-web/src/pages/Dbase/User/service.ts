@@ -2,7 +2,7 @@ import request from 'umi-request';
 import type { TableListParams } from './data.d';
 import {UserTableListItem} from "@/pages/Dbase/User/data";
 
-export async function queryRule(params?: TableListParams) {
+export async function queryUser(params?: TableListParams) {
   return request('/api-user/users/list', {
     method: 'POST',
     data: {

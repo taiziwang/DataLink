@@ -8,7 +8,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import type { UserTableListItem } from './data.d';
-import {queryRule, addOrUpdateUser, removeUser} from './service';
+import { addOrUpdateUser, removeUser, queryUser} from './service';
 
 import styles from './index.less';
 import Avatar from "antd/es/avatar";
@@ -134,7 +134,7 @@ const TableList: React.FC<{}> = () => {
       title: '状态',
       dataIndex: 'enabled',
       hideInForm: true,
-      hideInSearch:true,
+      //hideInSearch:true,
       filters: [
         {
           text: '正常',
@@ -158,7 +158,7 @@ const TableList: React.FC<{}> = () => {
       sorter: true,
       valueType: 'dateTime',
       hideInForm: true,
-      hideInSearch:true,
+      //hideInSearch:true,
       hideInTable:true,
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         const status = form.getFieldValue('status');
@@ -221,7 +221,7 @@ const TableList: React.FC<{}> = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
+        request={(params, sorter, filter) => queryUser({ ...params, sorter, filter })}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
