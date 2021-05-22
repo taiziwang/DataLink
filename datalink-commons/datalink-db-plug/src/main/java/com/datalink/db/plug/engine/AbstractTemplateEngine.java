@@ -115,18 +115,32 @@ public abstract class AbstractTemplateEngine {
                         writer(objectMap, templateFilePath(template.getController()), controllerFile);
                     }
                 }
-                // form.html
+                // updateForm.tsx
                 if (null != tableInfo.getFormName() && null != pathInfo.get(ConstVal.FORM_PATH)) {
                     String formFile = String.format((pathInfo.get(ConstVal.FORM_PATH) + File.separator + tableInfo.getFormName().substring(0,1).toLowerCase()+tableInfo.getFormName().substring(1) + ConstVal.HTML_SUFFIX), entityName);
                     if (isCreate(FileType.FORM, formFile)) {
                         writer(objectMap, templateFilePath(template.getForm()), formFile);
                     }
                 }
-                // list.html
+                // index.tsx
                 if (null != tableInfo.getListName() && null != pathInfo.get(ConstVal.LIST_PATH)) {
                     String listFile = String.format((pathInfo.get(ConstVal.LIST_PATH) + File.separator + tableInfo.getListName().substring(0,1).toLowerCase()+tableInfo.getListName().substring(1) + ConstVal.HTML_SUFFIX), entityName);
                     if (isCreate(FileType.LIST, listFile)) {
                         writer(objectMap, templateFilePath(template.getList()), listFile);
+                    }
+                }
+                // data.d.tsx
+                if (null != tableInfo.getDatadName() && null != pathInfo.get(ConstVal.DATAD_PATH)) {
+                    String listFile = String.format((pathInfo.get(ConstVal.DATAD_PATH) + File.separator + tableInfo.getDatadName().substring(0,1).toLowerCase()+tableInfo.getDatadName().substring(1) + ConstVal.TS_SUFFIX), entityName);
+                    if (isCreate(FileType.DATAD, listFile)) {
+                        writer(objectMap, templateFilePath(template.getDatad()), listFile);
+                    }
+                }
+                // service.ts
+                if (null != tableInfo.getServiceTsName() && null != pathInfo.get(ConstVal.SERVICE_TS_PATH)) {
+                    String listFile = String.format((pathInfo.get(ConstVal.SERVICE_TS_PATH) + File.separator + tableInfo.getServiceTsName().substring(0,1).toLowerCase()+tableInfo.getServiceTsName().substring(1) + ConstVal.TS_SUFFIX), entityName);
+                    if (isCreate(FileType.SERVICE_TS, listFile)) {
+                        writer(objectMap, templateFilePath(template.getServiceTs()), listFile);
                     }
                 }
             }

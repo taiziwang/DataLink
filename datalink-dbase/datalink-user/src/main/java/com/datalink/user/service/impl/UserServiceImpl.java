@@ -1,5 +1,6 @@
 package com.datalink.user.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.datalink.base.constant.CommonConstant;
 import com.datalink.base.lock.DistributedLock;
@@ -11,14 +12,18 @@ import com.datalink.user.dao.UserMapper;
 import com.datalink.base.model.Menu;
 import com.datalink.user.service.RoleUserService;
 import com.datalink.user.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,7 +36,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implements UserService {
-    private final static String LOCK_KEY_ROLECODE = "username:";
+    private final static String LOCK_KEY_USERNAME = "username:";
 
     @Autowired
     private DistributedLock lock;
@@ -42,42 +47,49 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     @Resource
     private RoleMenuMapper roleMenuMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveUser(@Validated({Save.class}) User user) throws Exception {
+    public boolean saveUser(@Validated({Save.class}) User user) throws Exception {
         user.setIsDelete(false);
         String code = user.getUsername();
-        super.saveIdempotency(user, lock
-        , LOCK_KEY_ROLECODE+code, new QueryWrapper<User>().eq("username", code), "已存在");
+        return super.saveIdempotency(user, lock
+        , LOCK_KEY_USERNAME+code, new QueryWrapper<User>().eq("username", code), "已存在");
     }
 
     @Override
     @Transactional
     public Result saveOrUpdateUser(User user) throws Exception {
+        boolean result;
         if (user.getId() == null) {
-            this.saveUser(user);
-        } else {
-            baseMapper.updateById(user);
+            user.setPassword(passwordEncoder.encode(CommonConstant.DEF_USER_PASSWORD));
+            user.setEnabled(Boolean.TRUE);
+            result = this.saveUser(user);
+            return result ? Result.succeed("新增成功") : Result.failed("新增失败");
+        }else{
+            result = this.updateById(user);
+            return result ? Result.succeed("修改成功") : Result.failed("修改失败");
         }
-        return Result.succeed("操作成功");
     }
 
     @Override
     public LoginAppUser findByUsername(String username) {
-        User sysUser = this.selectByUsername(username);
-        return getLoginAppUser(sysUser);
+        User user = this.selectByUsername(username);
+        return getLoginAppUser(user);
     }
 
     @Override
     public LoginAppUser findByMobile(String username) {
-        User sysUser = this.selectByMobile(username);
-        return getLoginAppUser(sysUser);
+        User user = this.selectByMobile(username);
+        return getLoginAppUser(user);
     }
 
     @Override
     public LoginAppUser findByOpenId(String username) {
-        User sysUser = this.selectByOpenId(username);
-        return getLoginAppUser(sysUser);
+        User user = this.selectByOpenId(username);
+        return getLoginAppUser(user);
     }
 
     @Override
@@ -105,12 +117,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
     
     @Override
-    public LoginAppUser getLoginAppUser(User sysUser) {
-        if (sysUser != null) {
+    public LoginAppUser getLoginAppUser(User user) {
+        if (user != null) {
             LoginAppUser loginAppUser = new LoginAppUser();
-            BeanUtils.copyProperties(sysUser, loginAppUser);
+            BeanUtils.copyProperties(user, loginAppUser);
 
-            List<Role> sysRoles = roleUserService.findRolesByUserId(sysUser.getId());
+            List<Role> sysRoles = roleUserService.findRolesByUserId(user.getId());
             // 设置角色
             loginAppUser.setRoles(sysRoles);
 

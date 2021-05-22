@@ -79,6 +79,8 @@ public class GlobalConfig {
     private String controllerName;
     private String formName;
     private String listName;
+    private String datadName;
+    private String serviceTsName;
     private String className;
     /**
      * 指定生成的主键的ID类型

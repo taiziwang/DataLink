@@ -69,13 +69,21 @@ public class PackageConfig {
      */
     private String controller = "controller";
     /**
-     * form包名
+     * updateForm包名
      */
-    private String form = "form";
+    private String updateForm = "components";
     /**
-     * list包名
+     * index包名
      */
-    private String list = "list";
+    private String index = "index";
+    /**
+     * datad包名
+     */
+    private String datad = "datad";
+    /**
+     * serviceTs包名
+     */
+    private String serviceTs = "servicets";
     /**
      * 路径配置信息
      */

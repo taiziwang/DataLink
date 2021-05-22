@@ -1,0 +1,110 @@
+import React, {useEffect, useState} from 'react';
+import { Form, Button, Input, Modal } from 'antd';
+
+import type { TableListItem } from '../data.d';
+import Switch from "antd/es/switch";
+#set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
+export type UpdateFormProps = {
+    onCancel: (flag?: boolean, formVals?: Partial<TableListItem>) => void;
+    onSubmit: (values: Partial<TableListItem>) => void;
+    updateModalVisible: boolean;
+    values: Partial<TableListItem>;
+};
+const FormItem = Form.Item;
+
+const formLayout = {
+    labelCol: { span: 7 },
+    wrapperCol: { span: 13 },
+};
+
+const UpdateForm: React.FC<UpdateFormProps> = (props) => {
+    const [formVals, setFormVals] = useState<Partial<TableListItem>>({
+#foreach($field in ${table.fields})
+    #if($hidefield.indexOf(${field.propertyName})>-1)
+    #else
+        ${field.propertyName}: props.values.${field.propertyName},
+    #end
+#end
+    });
+
+    const [form] = Form.useForm();
+
+    const {
+        onSubmit: handleUpdate,
+        onCancel: handleUpdateModalVisible,
+        updateModalVisible,
+        values,
+    } = props;
+
+    const submitForm = async () => {
+        const fieldsValue = await form.validateFields();
+        setFormVals({ ...formVals, ...fieldsValue });
+        handleUpdate({ ...formVals, ...fieldsValue });
+    };
+
+    const renderContent = (formVals) => {
+        return (
+            <>
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag}||$hidefield.indexOf(${field.propertyName})>-1)
+    #else
+                    <FormItem
+                        name="${field.propertyName}"
+                        label="${field.comment}"
+                        #if("NO"==${field.isNotNull}) rules={[{ required: true, message: '请输入${field.comment}！' }]} #end
+                    >
+        #if(${field.type.equals("text")})
+        #elseif(${field.propertyType.equals("Boolean")})
+                        <Switch checkedChildren="启用" unCheckedChildren="禁用" defaultChecked
+                                checked={formVals.${field.propertyName}}/>
+        #elseif(${field.propertyType.equals("LocalDateTime")})
+        #else
+                        <Input placeholder="请输入" />
+        #end
+                    </FormItem>
+    #end
+#end
+            </>
+        );
+    };
+
+    const renderFooter = () => {
+        return (
+            <>
+                <Button onClick={() => handleUpdateModalVisible(false, values)}>取消</Button>
+                <Button type="primary" onClick={() => submitForm()}>
+                    完成
+                </Button>
+            </>
+        );
+    };
+
+    return (
+        <Modal
+            width={640}
+            bodyStyle={{ padding: '32px 40px 48px' }}
+            destroyOnClose
+            title="编辑$!{table.comment}"
+            visible={updateModalVisible}
+            footer={renderFooter()}
+            onCancel={() => handleUpdateModalVisible()}
+        >
+            <Form
+                {...formLayout}
+                form={form}
+                initialValues={{
+#foreach($field in ${table.fields})
+    #if($hidefield.indexOf(${field.propertyName})>-1)
+    #else
+        ${field.propertyName}: formVals.${field.propertyName},
+    #end
+#end
+                }}
+            >
+                {renderContent(formVals)}
+            </Form>
+        </Modal>
+    );
+};
+
+export default UpdateForm;

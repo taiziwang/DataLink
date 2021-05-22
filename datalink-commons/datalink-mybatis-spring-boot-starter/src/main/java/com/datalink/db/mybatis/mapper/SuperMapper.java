@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description MybatisPlus Mapper 的父类
@@ -15,6 +17,6 @@ import java.util.List;
  */
 public interface SuperMapper<T> extends BaseMapper<T> {
 
-    List<T> selectForCTable(Page<T> page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+    List<T> selectForCTable(Page<T> page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper, @Param("param") Map<String, Object> param);
 
 }

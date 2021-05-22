@@ -1,14 +1,14 @@
 export type UserTableListItem = {
-  id: number;
+  id?: number;
   enabled?: boolean;
-  isDelete: string;
-  createTime: Date;
-  updateTime: Date;
-  username: string;
-  nickname: string;
-  password: string;
-  avatar: string;
-  sex: boolean;
+  isDelete?: string;
+  createTime?: Date;
+  updateTime?: Date;
+  username?: string;
+  nickname?: string;
+  password?: string;
+  avatar?: string;
+  sex?: boolean;
 };
 
 export type TableListPagination = {

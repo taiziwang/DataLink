@@ -114,47 +114,52 @@ export default {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'POST /api/login/account': async (req: Request, res: Response) => {
+  'POST /api-uaas/oauth/token': async (req: Request, res: Response) => {
     const { password, username, type } = req.body;
     await waitTime(2000);
-    if (password === 'ant.design' && username === 'admin') {
-      res.send({
+    const record = {
+      "datas": {
+        "access_token": "22b36086-acde-4a23-bc53-bb51dc2be369",
+        "token_type": "bearer",
+        "refresh_token": "f51b89c2-a3ab-406d-beac-5d52fd5bcb98",
+        "expires_in": 3599,
+        "scope": "app"
+      },
+      "code": 0,
+      "msg": ""
+    };
+    if (password === 'admin' && username === 'admin') {
+      /*res.send({
         status: 'ok',
         type,
         currentAuthority: 'admin',
-      });
+      });*/
+      res.send(record);
       access = 'admin';
       return;
     }
-    if (password === 'ant.design' && username === 'user') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'user',
-      });
+    if (password === 'password' && username === 'user') {
+      res.send(record);
       access = 'user';
       return;
     }
     if (type === 'mobile') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
+      res.send(record);
       access = 'admin';
       return;
     }
 
     res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
+      "error": "invalid_grant",
+      "error_description": "用户名或密码错误",
+      "code": "400",
+      "msg": "用户名或密码错误"
     });
     access = 'guest';
   },
-  'POST /api/login/outLogin': (req: Request, res: Response) => {
+  'DELETE /api-uaas/oauth/remove/token': (req: Request, res: Response) => {
     access = '';
-    res.send({ data: {}, success: true });
+    res.send({ msg: '登出成功', code: 0 });
   },
   'POST /api/register': (req: Request, res: Response) => {
     res.send({ status: 'ok', currentAuthority: 'user', success: true });

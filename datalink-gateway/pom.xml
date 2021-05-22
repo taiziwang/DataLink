@@ -20,22 +20,10 @@
         <dependency>
             <groupId>com.datalink</groupId>
             <artifactId>datalink-ribbon-spring-boot-starter</artifactId>
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>com.datalink</groupId>
-                    <artifactId>datalink-swagger-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>com.datalink</groupId>
             <artifactId>datalink-sentinel-spring-boot-starter</artifactId>
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>com.datalink</groupId>
-                    <artifactId>datalink-swagger-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>-->
         </dependency>
         <!--<dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -44,12 +32,6 @@
         <dependency>
             <groupId>com.datalink</groupId>
             <artifactId>datalink-auth-spring-boot-starter</artifactId>
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>com.datalink</groupId>
-                    <artifactId>datalink-swagger-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>-->
         </dependency>
 
         <dependency>
@@ -60,10 +42,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
-               <!-- <exclusion>
-                    <groupId>com.datalink</groupId>
-                    <artifactId>datalink-swagger-spring-boot-starter</artifactId>
-                </exclusion>-->
             </exclusions>
         </dependency>
 
@@ -126,7 +104,7 @@
         </dependency>
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -141,8 +119,8 @@
             </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
-    </build>-->
-    <build>
+    </build>
+    <!--<build>
        <plugins>
            <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -177,10 +155,10 @@
                    <outputDirectory>
                        ${project.build.directory}
                    </outputDirectory>
-                   <!--<excludes>
+                   &lt;!&ndash;<excludes>
                        <exclude>**/*.properties</exclude>
                        <exclude>**/*.yml</exclude>
-                   </excludes>-->
+                   </excludes>&ndash;&gt;
                </configuration>
            </plugin>
            <plugin>
@@ -226,5 +204,5 @@
                </executions>
            </plugin>
        </plugins>
-   </build>
+   </build>-->
 </project>

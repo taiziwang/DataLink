@@ -21,7 +21,7 @@ public class MysqlGenerator {
         String packageName = "user";
         String author = "wenmo";
         String tablePrefix = "dbase_";
-        String[] includes = new String[]{"dbase_menu","dbase_role_menu"};
+        String[] includes = new String[]{"dbase_menu"};
         String projectPath = System.getProperty("user.dir");
         String modulePre = "com.datalink.";
 
@@ -64,8 +64,10 @@ public class MysqlGenerator {
         pc.setDto("dto");
         pc.setMapper("dao");
         pc.setXml("mapper");
-        pc.setForm("");
-        pc.setList("");
+        pc.setUpdateForm("");
+        pc.setIndex("");
+        pc.setDatad("");
+        pc.setServiceTs("");
         pc.setResourceParent("static/pages");
         pc.setResourceModuleName("html");
 

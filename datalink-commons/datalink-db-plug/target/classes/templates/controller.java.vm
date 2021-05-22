@@ -2,7 +2,7 @@ package ${package.Controller};
 #set($serviceNameLow = ${table.serviceName.substring(0,1).toLowerCase()} + ${table.serviceName.substring(1)})
 #set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
 
-import com.datalink.base.model.PageResult;
+import com.datalink.base.model.ProTableResult;
 import com.datalink.base.model.Result;
 import ${package.PackageName}.entity.${entity};
 import ${package.PackageName}.service.${table.serviceName};
@@ -89,34 +89,32 @@ public class ${table.controllerName} {
             @ApiImplicitParam(name = "searchValue", value = "搜索值", required = false, dataType = "String")
     })
     @PostMapping("/list")
-    public PageResult<${entity}> list${entity}s(@RequestBody JsonNode para) {
-        return ${serviceNameLow}.selectForCTable(para);
+    public ProTableResult<${entity}> list${entity}s(@RequestBody JsonNode para) {
+        return ${serviceNameLow}.selectForProTable(para);
     }
 
     /**
      * 批量删除
      */
     @ApiOperation(value = "批量删除")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ids", value = "ID数组字符串", required = true, dataType = "String")
-    })
     @DeleteMapping(value = "")
-    public Result deleteMul(String ids) {
-        if(ids==null||ids.equals("")){
-            return Result.failed("请选择要删除的记录");
-        }
-        String[] idstrs = ids.split(",");
-        List<Integer> error = new ArrayList<>();
-        for (int i = 0; i < idstrs.length; i++) {
-            Integer id =Integer.valueOf(idstrs[i]);
-            if(!${serviceNameLow}.removeById(id)){
-                error.add(id);
+    public Result deleteMul(@RequestBody JsonNode para) {
+        if (para.size()>0){
+            boolean isAdmin = false;
+            List<Integer> error = new ArrayList<>();
+            for (final JsonNode item : para){
+                Integer id = item.asInt();
+                if(!${serviceNameLow}.removeById(id)){
+                    error.add(id);
+                }
             }
-        }
-        if(error.size()==0) {
-        return Result.succeed("删除成功");
+            if(error.size()==0&&!isAdmin) {
+                return Result.succeed("删除成功");
+            }else {
+                return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
+            }
         }else{
-        return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
+            return Result.failed("请选择要删除的记录");
         }
     }
 

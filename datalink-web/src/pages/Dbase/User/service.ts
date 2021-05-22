@@ -1,7 +1,8 @@
 import request from 'umi-request';
 import type { TableListParams } from './data.d';
+import {UserTableListItem} from "@/pages/Dbase/User/data";
 
-export async function queryRule(params?: TableListParams) {
+export async function queryUser(params?: TableListParams) {
   return request('/api-user/users/list', {
     method: 'POST',
     data: {
@@ -10,32 +11,21 @@ export async function queryRule(params?: TableListParams) {
   });
 }
 
-export async function removeRule(params: { key: number[] }) {
-  return request('/api/rule', {
-    method: 'POST',
+export async function removeUser(params: number[]) {
+  return request('/api-user/users', {
+    method: 'DELETE',
     data: {
       ...params,
-      method: 'delete',
     },
   });
 }
 
-export async function addRule(params: TableListParams) {
-  return request('/api/rule', {
+export async function addOrUpdateUser(params: UserTableListItem) {
+  return request('/api-user/users/saveOrUpdate', {
     method: 'POST',
     data: {
       ...params,
-      method: 'post',
     },
   });
 }
 
-export async function updateRule(params: TableListParams) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: {
-      ...params,
-      method: 'update',
-    },
-  });
-}

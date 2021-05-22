@@ -143,10 +143,13 @@ export async function getInitialState(): Promise<{
 export const request: RequestConfig = {
   errorHandler: (error: ResponseError) => {
     const { messages } = getIntl(getLocale());
-    const { response } = error;
-
+    const { request,response } = error;
+    const writeUrl = ['/api-user/users/current','/api-uaa/oauth/token'];
+  if(writeUrl.indexOf(request.originUrl)>-1){
+    return;
+  }else {
     if (response && response.status) {
-      const { status, statusText, url } = response;
+      const {status, statusText, url} = response;
       const requestErrorMessage = messages['app.request.error'];
       const errorMessage = `${requestErrorMessage} ${status}: ${url}`;
       const errorDescription = messages[`app.request.${status}`] || statusText;
@@ -163,6 +166,7 @@ export const request: RequestConfig = {
       });
     }
     throw error;
+  }
   },
   // 新增自动添加AccessToken的请求前拦截器
   requestInterceptors: [authHeaderInterceptor],

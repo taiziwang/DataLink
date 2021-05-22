@@ -29,7 +29,7 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 }
 #else
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
-    private final static String LOCK_KEY_ROLECODE = "code:";
+    private final static String LOCK_KEY_CODE = "code:";
 
     @Autowired
     private DistributedLock lock;
@@ -39,18 +39,20 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public void save${entity}(@Validated({Save.class}) ${entity} ${entityNameLow}) throws Exception {
         String code = ${entityNameLow}.getCode();
         super.saveIdempotency(${entityNameLow}, lock
-        , LOCK_KEY_ROLECODE+code, new QueryWrapper<${entity}>().eq("code", code), "已存在");
+        , LOCK_KEY_CODE+code, new QueryWrapper<${entity}>().eq("code", code), "已存在");
     }
 
     @Override
     @Transactional
     public Result saveOrUpdate${entity}(${entity} ${entityNameLow}) throws Exception {
+        boolean result;
         if (${entityNameLow}.getId() == null) {
-            this.save${entity}(${entityNameLow});
+            result = this.save${entity}(${entityNameLow});
+            return result ? Result.succeed("新增成功") : Result.failed("新增失败");
         } else {
-            baseMapper.updateById(${entityNameLow});
+            result = this.updateById(${entityNameLow});
+            return result ? Result.succeed("修改成功") : Result.failed("修改失败");
         }
-        return Result.succeed("操作成功");
     }
 
 }

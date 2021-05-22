@@ -21,9 +21,11 @@ import com.datalink.db.mybatis.service.ISuperService;
 import com.datalink.db.mybatis.util.CTableUtil;
 import com.datalink.db.mybatis.util.ProTableUtil;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -99,8 +101,10 @@ public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M
         Integer limit = para.has("limit") ? para.get("limit").asInt() : 10;
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         CTableUtil.autoQueryAndSetFormParaCustom(para, queryWrapper);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> param = mapper.convertValue(para, Map.class);
         Page<T> page = new Page<>(pagesize, limit);
-        List<T> list = baseMapper.selectForCTable(page, queryWrapper);
+        List<T> list = baseMapper.selectForCTable(page, queryWrapper,param);
         return PageResult.<T>builder().data(list).code(0).count(page.getTotal()).build();
     }
 
@@ -109,17 +113,21 @@ public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M
         Integer current = para.has("current") ? para.get("current").asInt() : 1;
         Integer pageSize = para.has("pageSize") ? para.get("pageSize").asInt() : 10;
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-        ProTableUtil.autoQueryAndSetFormParaCustom(para, queryWrapper);
+        ProTableUtil.autoQueryDefalut(para, queryWrapper);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> param = mapper.convertValue(para, Map.class);
         Page<T> page = new Page<>(current, pageSize);
-        List<T> list = baseMapper.selectForCTable(page, queryWrapper);
+        List<T> list = baseMapper.selectForCTable(page, queryWrapper, param);
         return ProTableResult.<T>builder().success(true).data(list).total(page.getTotal()).current(current).pageSize(pageSize).build();
     }
 
     @Override
     public PageResult<T> listAllForCTable(JsonNode para) {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-        CTableUtil.autoQueryAndSetFormParaCustom(para, queryWrapper);
-        List<T> list = baseMapper.selectForCTable(null, queryWrapper);
+        ProTableUtil.autoQueryDefalut(para, queryWrapper);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> param = mapper.convertValue(para, Map.class);
+        List<T> list = baseMapper.selectForCTable(null, queryWrapper,param);
         return PageResult.<T>builder().data(list).code(200).build();
     }
 }

@@ -13,5 +13,7 @@ public enum FileType {
     OTHER,
     FORM,
     LIST,
+    DATAD,
+    SERVICE_TS,
     DTO
 }
