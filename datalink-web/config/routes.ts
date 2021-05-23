@@ -202,7 +202,8 @@ export default [
             name: 'docs',
           },
           {
-            path: 'https://preview.pro.ant.design/dashboard/analysis?primaryColor=%231890ff&fixSiderbar=true&colorWeak=false&pwa=false',
+            path:
+              'https://preview.pro.ant.design/dashboard/analysis?primaryColor=%231890ff&fixSiderbar=true&colorWeak=false&pwa=false',
             name: 'preview',
           },
         ],
@@ -210,21 +211,20 @@ export default [
     ],
   },
   /*{
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
-    routes: [
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-
-    ],
-  },*/
+  path: '/admin',
+  name: 'admin',
+  icon: 'crown',
+  access: 'canAdmin',
+  component: './Admin',
+  routes: [
+    {
+      path: '/admin/sub-page',
+      name: 'sub-page',
+      icon: 'smile',
+      component: './Welcome',
+    },
+   ],
+},*/
   {
     path: '/demo',
     name: 'demo',
@@ -259,6 +259,12 @@ export default [
             icon: 'smile',
             path: '/demo/form/formadvancedform',
             component: './FormAdvancedForm',
+          },
+          {
+            name: '分步表单',
+            icon: 'smile',
+            path: '/demo/form/formstepform',
+            component: './Demo/FormStepForm',
           },
         ],
       },

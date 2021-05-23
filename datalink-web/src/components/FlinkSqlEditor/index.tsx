@@ -3,13 +3,15 @@ import * as _monaco from "monaco-editor";
 import MonacoEditor from "react-monaco-editor/lib/editor";
 import {BaseDataSourceField, BaseDataSourceHeader, CompletionItem} from "@/components/FlinkSqlEditor/data";
 import Completion from "@/components/FlinkSqlEditor/completion";
+import {connect} from "umi";
+import {StateType} from "@/components/FlinkSqlEditor/model";
 
 let provider = {
   dispose: () => {},
 };
 
 interface IRightContent {
-  currentRecord: any; // fixme
+  value: any;
   handleCheck: () => Promise<boolean>;
   secondRightData: (BaseDataSourceField|BaseDataSourceHeader)[];
 }
@@ -17,8 +19,9 @@ interface IRightContent {
 const FlinkSqlEditor = (props:any) => {
   const {
       height = '300px',
-      width = '95%',
+      width = '100%',
       language = 'sql',
+      onChange=(val: string, event: { changes: { text: any }[] })=>{},
       options = {
         selectOnLineNumbers: true,
         renderSideBySide: false,
@@ -68,6 +71,7 @@ const FlinkSqlEditor = (props:any) => {
   };
 
   const onChangeHandle = (val: string, event: { changes: { text: any }[] }) => {
+    onChange(val,event);
     /*const curWord = event.changes[0].text;
     if (curWord === ';') {
       cache.current = val +'\r\n';

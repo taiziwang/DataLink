@@ -5,8 +5,10 @@ import styles from './index.less';
 import FlinkSqlEditor from '@/components/FlinkSqlEditor';
 import * as monaco from 'monaco-editor';
 import Card from 'antd/es/card';
-import DropdownPlacement from './DropdownPlacement';
 import DropdownSubMenu from './DropdownSubMenu';
+import EditorTabs from "@/components/FlinkSqlEditor/components/EditorTabs";
+
+
 export default () => {
   const code: string = 'select count(1) from ';
   const value: any = {
@@ -27,19 +29,26 @@ export default () => {
       ],
     },
   ];
+
+
+  const callbackTab = () => {};
+
   return (
     <PageContainer
       content="这是一个 FlinkSql 在线编辑器（测试版），请从这里进行开发！"
       className={styles.main}
     >
+      <Card bordered={false} className={styles.card}>
       <DropdownSubMenu />
       <div
         style={{
-          height: 600,
+          height: 300,
         }}
       >
         <FlinkSqlEditor value={value} secondRightData={secondRightData} />
       </div>
+
+      </Card>
     </PageContainer>
   );
 };

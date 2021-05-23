@@ -53,17 +53,12 @@ export default () => (
       </div>
     </Col>
     <Divider className={styles["ant-divider-horizontal-0"]}/>
-    <Col span={12}>
+    <Col span={24}>
       <Breadcrumb className={styles["dw-path"]}>
         <Breadcrumb.Item>数据仓库</Breadcrumb.Item>
         <Breadcrumb.Item>维度</Breadcrumb.Item>
         <Breadcrumb.Item>用户</Breadcrumb.Item>
       </Breadcrumb>
-    </Col>
-    <Col span={12}>
-      <Space align="center">
-        <Button shape="circle" size="small" icon={<CaretRightOutlined />} />
-      </Space>
     </Col>
   </Row>
 );
