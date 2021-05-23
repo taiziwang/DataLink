@@ -94,6 +94,8 @@ DataLink -- 父项目
 
 QQ社区群：965889874，申请备注 “ 数据中台 ”
 
+微信社区群：添加微信号 wenmo_ai 邀请进群，申请备注 “ 数据中台 ”
+
 公众号：[DataLink数据中台](https://mmbiz.qpic.cn/mmbiz_jpg/dyicwnSlTFTp6w4PuJruFaLV6uShCJDkzqwtnbQJrQ90yKDuuIC8tyMU5DK69XZibibx7EPPBRQ3ic81se5UQYs21g/0?wx_fmt=jpeg)
 
 邮箱：aiwenmo@163.com
@@ -116,7 +118,12 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 > 登录页
 
-![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTr7we6IJ7icjRic0Xex1NVgrfSCg1PzfSyIXsz7dezSnbBBIZHOBCbDq22u9mQhlFsM64moV1HAzHRw/0?wx_fmt=png)
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTq98f7TCHmw3WqfMkBHVzZIab30ZQLr0WAtFqhSVQ9WticvIsa0AR40UuHHvXNHXzPY7jibibWZxh7pA/0?wx_fmt=png)
+
+
+> 用户管理
+
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTq98f7TCHmw3WqfMkBHVzZIYc8bjY47OdibJmkRBFc6S8Hy0zFicCKw9ckBoJp3PvBOjKrP7kbHqPaw/0?wx_fmt=png)
 
 
 ## 预览

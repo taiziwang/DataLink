@@ -27,38 +27,50 @@ export default [
     access: 'canAdmin',
     routes: [
       {
-        path: '/dbase/usercenter',
-        name: 'usercenter',
+        path: '/dbase/user-center',
+        name: 'user-center',
         icon: 'user',
         routes: [
           {
-            path: '/dbase/usercenter/user',
+            path: '/dbase/user-center/user',
             name: 'user',
             icon: 'user',
             component: './Dbase/User',
           },
           {
-            path: '/dbase/usercenter/role',
+            path: '/dbase/user-center/role',
             name: 'role',
             icon: 'smile',
             component: './Common/Build',
           },
           {
-            path: '/dbase/usercenter/menu',
+            path: '/dbase/user-center/menu',
             name: 'menu',
             icon: 'smile',
             component: './Common/Build',
           },
           {
-            path: '/dbase/usercenter/client',
+            path: '/dbase/user-center/client',
             name: 'client',
             icon: 'smile',
             component: './Common/Build',
           },
           {
-            path: '/dbase/usercenter/token',
+            path: '/dbase/user-center/token',
             name: 'token',
             icon: 'smile',
+            component: './Common/Build',
+          },
+        ],
+      },
+      {
+        path: '/dbase/springcloud',
+        name: 'springcloud',
+        icon: 'cloud',
+        routes: [
+          {
+            path: '/dbase/springcloud/nacos',
+            name: 'nacos',
             component: './Common/Build',
           },
         ],
@@ -67,7 +79,37 @@ export default [
         path: '/dbase/database',
         name: 'database',
         icon: 'database',
-        component: './Welcome',
+        routes: [
+          {
+            path: '/dbase/database/manager',
+            name: 'manager',
+            component: './Common/Build',
+          },
+        ],
+      },
+      {
+        path: '/dbase/moitor',
+        name: 'moitor',
+        icon: 'desktop',
+        routes: [
+          {
+            path: '/dbase/moitor/log',
+            name: 'log',
+            component: './Common/Build',
+          },
+        ],
+      },
+      {
+        path: '/dbase/cluster',
+        name: 'cluster',
+        icon: 'cloudServer',
+        routes: [
+          {
+            path: '/dbase/cluster/node',
+            name: 'node',
+            component: './Common/Build',
+          },
+        ],
       },
     ],
   },
@@ -126,9 +168,36 @@ export default [
   {
     path: '/dev',
     name: 'dev',
-    component: './Common/Build',
+    routes: [
+      {
+        path: '/dev/flink',
+        name: 'flink',
+        icon: 'github',
+        routes: [
+          {
+            path: 'https://ci.apache.org/projects/flink/flink-docs-release-1.13/',
+            name: 'docs',
+          },
+        ],
+      },
+      {
+        path: '/dev/ant',
+        name: 'ant-design',
+        icon: 'antDesign',
+        routes: [
+          {
+            path: 'https://ant.design/components/icon-cn/',
+            name: 'docs',
+          },
+          {
+            path: 'https://preview.pro.ant.design/dashboard/analysis?primaryColor=%231890ff&fixSiderbar=true&colorWeak=false&pwa=false',
+            name: 'preview',
+          },
+        ],
+      },
+    ],
   },
-  {
+  /*{
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -143,7 +212,7 @@ export default [
       },
 
     ],
-  },
+  },*/
   {
     path: '/demo',
     name: 'demo',
@@ -183,7 +252,6 @@ export default [
       },
     ],
   },
-
   {
     path: '/',
     redirect: '/welcome',
