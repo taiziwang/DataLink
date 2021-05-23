@@ -102,11 +102,23 @@ export default [
       {
         path: '/dbase/cluster',
         name: 'cluster',
-        icon: 'cloudServer',
+        icon: 'cluster',
         routes: [
           {
             path: '/dbase/cluster/node',
             name: 'node',
+            component: './Common/Build',
+          },
+        ],
+      },
+      {
+        path: '/dbase/schedule',
+        name: 'schedule',
+        icon: 'fieldTime',
+        routes: [
+          {
+            path: '/dbase/schedule/job',
+            name: 'job',
             component: './Common/Build',
           },
         ],
@@ -126,7 +138,7 @@ export default [
       {
         path: '/dlink/flink',
         name: 'flink',
-        icon: 'smile',
+        icon: 'crown',
         routes: [
           {
             path: '/dlink/flink/sqldev',
@@ -134,17 +146,17 @@ export default [
             icon: 'smile',
             component: './EmptyPage',
           },
+        ],
+      },
+      {
+        path: '/dlink/warehouse',
+        name: 'warehouse',
+        icon: 'deploymentUnit',
+        routes: [
           {
-            name: 'sqldev',
-            icon: 'smile',
-            path: '/dlink/flink/edit',
-            component: './Edit',
-          },
-          {
-            name: 'sqldev',
-            icon: 'smile',
-            path: '/dlink/flink/edit2',
-            component: './Edit2',
+            path: '/dlink/warehouse/metadata',
+            name: 'metadata',
+            component: './Common/Build',
           },
         ],
       },

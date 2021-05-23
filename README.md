@@ -118,7 +118,7 @@ QQ社区群：965889874，申请备注 “ 数据中台 ”
 
 > 登录页
 
-![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTq98f7TCHmw3WqfMkBHVzZIab30ZQLr0WAtFqhSVQ9WticvIsa0AR40UuHHvXNHXzPY7jibibWZxh7pA/0?wx_fmt=png)
+![](https://mmbiz.qpic.cn/mmbiz_png/dyicwnSlTFTq98f7TCHmw3WqfMkBHVzZIEcQ9pEeiciavaYyMrvTj3e6GgevmVDN2Ky8Q1mR7kjxNUleTd1XhRkOg/0?wx_fmt=png)
 
 
 > 用户管理

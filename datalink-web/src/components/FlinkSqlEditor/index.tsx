@@ -1,16 +1,23 @@
 import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import * as _monaco from "monaco-editor";
 import MonacoEditor from "react-monaco-editor/lib/editor";
+import {BaseDataSourceField, BaseDataSourceHeader, CompletionItem} from "@/components/FlinkSqlEditor/data";
+import Completion from "@/components/FlinkSqlEditor/completion";
 
 let provider = {
   dispose: () => {},
 };
 
+interface IRightContent {
+  currentRecord: any; // fixme
+  handleCheck: () => Promise<boolean>;
+  secondRightData: (BaseDataSourceField|BaseDataSourceHeader)[];
+}
+
 const FlinkSqlEditor = (props:any) => {
   const {
       height = '300px',
       width = '95%',
-      value = '',
       language = 'sql',
       options = {
         selectOnLineNumbers: true,
@@ -18,12 +25,13 @@ const FlinkSqlEditor = (props:any) => {
       },
     } = props
   ;
+  const { value, handleCheck, secondRightData = [] }: IRightContent = props;
 
-  const ThisEditor:any = useRef();
+  const editorInstance:any = useRef<any>();
 
   const monacoInstance: any = useRef();
 
-  const code: any = useRef(value);
+  const code: any = useRef(value ? value.formulaContent : '');
 
   const cache: any = useRef(code.current);
 
@@ -36,7 +44,7 @@ const FlinkSqlEditor = (props:any) => {
     []
   );
 
-  useImperativeHandle(ThisEditor, () => ({
+  useImperativeHandle(editorInstance, () => ({
     handleSetEditorVal,
     getEditorData: () => cache.current,
   }));
@@ -44,8 +52,8 @@ const FlinkSqlEditor = (props:any) => {
   const handleSetEditorVal = (value: string): void => {
     if (!value) return;
     // 为所选取的值赋值到编辑器中
-    if (ThisEditor.current && value) {
-      const selection = ThisEditor?.current?.getSelection?.();
+    if (editorInstance.current && value) {
+      const selection = editorInstance?.current?.getSelection?.();
       const range = new _monaco.Range(
         selection.startLineNumber,
         selection.startColumn,
@@ -54,19 +62,19 @@ const FlinkSqlEditor = (props:any) => {
       );
       const id = { major: 1, minor: 1 };
       const op = { identifier: id, range, text: value, forceMoveMarkers: true };
-      ThisEditor.current.executeEdits('', [op]);
-      ThisEditor.current.focus();
+      editorInstance.current.executeEdits('', [op]);
+      editorInstance.current.focus();
     }
   };
 
   const onChangeHandle = (val: string, event: { changes: { text: any }[] }) => {
-    // const curWord = event.changes[0].text;
-    // if (curWord === ';') {
-    //   cache.current = val +'\r\n';
-    //   setRefresh(!refresh); // 刷新页面
-    //   return;
-    // }
-    // cache.current = val;
+    /*const curWord = event.changes[0].text;
+    if (curWord === ';') {
+      cache.current = val +'\r\n';
+      setRefresh(!refresh); // 刷新页面
+      return;
+    }
+    cache.current = val;*/
   };
 
   interface ISuggestions {
@@ -75,9 +83,19 @@ const FlinkSqlEditor = (props:any) => {
     insertText: string;
     detail?: string;
   }
+
   const editorDidMountHandle = (editor: any, monaco: any) => {
     monacoInstance.current = monaco;
-    ThisEditor.current = editor;
+    editorInstance.current = editor;
+    const newSecondRightFields: BaseDataSourceHeader[] = [];
+    (secondRightData as BaseDataSourceHeader[]).forEach((record) => {
+      if (record.fields && Array.isArray(record.fields)) {
+        record.fields.forEach((item: any) => {
+          newSecondRightFields.push(item);
+        });
+      }
+    });
+    code.current = newSecondRightFields; // 数组长度永远为1
 
     // 提示项设值
     provider = monaco.languages.registerCompletionItemProvider('sql', {
@@ -98,38 +116,15 @@ const FlinkSqlEditor = (props:any) => {
             });
           });
         }
-        [
-          'CASEWHEN(expression1, value1, expression2, value2, ..., else_value)',
-          'CONCAT(str1, str2, ...)',
-          'ISNULL (expression, defaultValue)',
-          'DATEDIFF_YEAR(startdate,enddate)',
-          'DATEDIFF_MONTH(startdate,enddate)',
-          'DATEDIFF_DAY(startdate,enddate)',
-          'SUM(expression)',
-          'AVG(expression)',
-          'MAX(expression)',
-          'MIN(expression)',
-          'COUNT(expression)',
-          'DISTINCTCOUNT(expression)',
-          'DISTINCTAVG(expression)',
-          'DISTINCTSUM(expression)',
-          'NOW()',
-        ].forEach((item) => {
-          suggestions.push(
-            // 添加contact()函数
-            {
-              label: item, // 显示名称
-              kind: monaco.languages.CompletionItemKind.Function, // 这里Function也可以是别的值，主要用来显示不同的图标
-              insertText: item, // 实际粘贴上的值
-            }
-          );
+        Completion.forEach((item:CompletionItem) => {
+          suggestions.push(item);
         });
         return {
-          suggestions, // 必须使用深拷贝
+          suggestions,
         };
       },
-      quickSuggestions: false, // 默认提示关闭
-      triggerCharacters: ['$', '.', '='], // 触发提示的字符，可以写多个
+      quickSuggestions: true,
+      triggerCharacters: ['$', '.', '='],
     });
     editor.focus();
   };
@@ -147,6 +142,6 @@ return (
     />
   </React.Fragment>
 );
-}
+};
 
 export default FlinkSqlEditor;
