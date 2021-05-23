@@ -63,6 +63,7 @@
     "moment": "^2.25.3",
     "monaco-editor": "^0.24.0",
     "monaco-editor-webpack-plugin": "^3.1.0",
+    "nzh": "^1.0.3",
     "omit.js": "^2.0.2",
     "react": "^17.0.0",
     "react-dev-inspector": "^1.1.1",
