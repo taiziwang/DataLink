@@ -13,6 +13,7 @@
         <module>datalink-dbase</module>
         <module>datalink-uaa</module>
         <module>datalink-gateway</module>
+        <module>datalink-dlink</module>
     </modules>
 
     <name>DataLink :</name>

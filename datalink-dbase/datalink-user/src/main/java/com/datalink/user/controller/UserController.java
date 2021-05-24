@@ -55,7 +55,7 @@ public class UserController {
     })
     @CacheEvict(value = "user", key = "#user.username")
     @AuditLog(operation = "'新增或更新用户:' + #sysUser.username")
-    @PostMapping("/users/saveOrUpdate")
+    @PutMapping("/users")
     public Result saveOrUpdate(@RequestBody User user) throws Exception {
         if(user.getId()!=null&&checkAdmin(user.getId())){
             return Result.failed(ADMIN_CHANGE_MSG);
@@ -73,7 +73,7 @@ public class UserController {
             @ApiImplicitParam(name = "sort", value = "排序字段", required = false, dataType = "String"),
             @ApiImplicitParam(name = "filter", value = "排序值", required = false, dataType = "String"),
     })
-    @PostMapping("/users/list")
+    @PostMapping("/users")
     public ProTableResult<User> listUsers(@RequestBody JsonNode para) {
         return userService.selectForProTable(para);
     }

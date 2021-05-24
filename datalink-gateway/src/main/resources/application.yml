@@ -43,6 +43,12 @@ spring:
             - Path=/api-user/**
           filters:
             - StripPrefix=1
+        - id: task
+          uri: lb://datalink-task
+          predicates:
+            - Path=/api-dlink/**
+          filters:
+            - StripPrefix=1
 
 #    sentinel:
 #      datasource.ds1.nacos:

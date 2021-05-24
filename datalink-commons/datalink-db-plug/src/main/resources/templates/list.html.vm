@@ -15,7 +15,7 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit${entityNameLow}Table">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del${entityNameLow}Table">删除</a>
 </script>
-#set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
+#set($hidefield = ["isDelete","createTime","updateTime","tenantId"])
 <!-- 表单弹窗 -->
 <script type="text/html" id="${entityNameLow}EditDialog">
     <form id="${entityNameLow}EditForm" lay-filter="${entityNameLow}EditForm" class="layui-form model-form layui-form-pane">

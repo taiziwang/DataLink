@@ -3,8 +3,8 @@ package com.datalink.db.mybatis.config;
 import com.baomidou.mybatisplus.core.parser.ISqlParserFilter;
 import com.baomidou.mybatisplus.core.parser.SqlParserHelper;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
-import com.datalink.db.mybatis.context.TenantContext;
-import com.datalink.db.mybatis.properties.TenantProperties;
+import com.datalink.base.context.TenantContextHolder;
+import com.datalink.base.properties.TenantProperties;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.NullValue;
 import net.sf.jsqlparser.expression.StringValue;
@@ -29,9 +29,9 @@ public class TenantConfigure {
 
             @Override
             public Expression getTenantId(boolean where) {
-                String tenant = TenantContext.getTenant();
+                String tenant = TenantContextHolder.getTenant();
                 if (tenant != null) {
-                    return new StringValue(TenantContext.getTenant());
+                    return new StringValue(TenantContextHolder.getTenant());
                 }
                 return new NullValue();
             }

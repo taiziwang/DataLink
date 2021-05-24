@@ -3,7 +3,7 @@ import { Form, Button, Input, Modal } from 'antd';
 
 import type { TableListItem } from '../data.d';
 import Switch from "antd/es/switch";
-#set($hidefield = ["isDelete","createTime","updateTime","tanentId"])
+#set($hidefield = ["isDelete","createTime","updateTime","createUser","updateUser","tenantId"])
 export type UpdateFormProps = {
     onCancel: (flag?: boolean, formVals?: Partial<TableListItem>) => void;
     onSubmit: (values: Partial<TableListItem>) => void;
@@ -55,8 +55,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                     >
         #if(${field.type.equals("text")})
         #elseif(${field.propertyType.equals("Boolean")})
-                        <Switch checkedChildren="启用" unCheckedChildren="禁用" defaultChecked
-                                checked={formVals.${field.propertyName}}/>
+                        <Switch checkedChildren="启用" unCheckedChildren="禁用"
+                                defaultChecked={formVals.${field.propertyName}}/>
         #elseif(${field.propertyType.equals("LocalDateTime")})
         #else
                         <Input placeholder="请输入" />

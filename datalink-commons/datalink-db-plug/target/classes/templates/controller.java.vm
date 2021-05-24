@@ -71,7 +71,7 @@ public class ${table.controllerName} {
     #end
 #end
     })
-    @PostMapping("/saveOrUpdate")
+    @PutMapping
     public Result saveOrUpdate(@RequestBody ${entity} ${entityNameLow}) throws Exception {
         return ${serviceNameLow}.saveOrUpdate${entity}(${entityNameLow});
     }
@@ -81,14 +81,12 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "动态查询列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "分页起始位置", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "sortField", value = "排序字段", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "sortValue", value = "排序值", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "searchField", value = "搜索字段", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "searchValue", value = "搜索值", required = false, dataType = "String")
+            @ApiImplicitParam(name = "current", value = "当前页", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", value = "页记录数", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "sort", value = "排序字段", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "filter", value = "排序值", required = false, dataType = "String"),
     })
-    @PostMapping("/list")
+    @PostMapping
     public ProTableResult<${entity}> list${entity}s(@RequestBody JsonNode para) {
         return ${serviceNameLow}.selectForProTable(para);
     }
@@ -97,7 +95,7 @@ public class ${table.controllerName} {
      * 批量删除
      */
     @ApiOperation(value = "批量删除")
-    @DeleteMapping(value = "")
+    @DeleteMapping
     public Result deleteMul(@RequestBody JsonNode para) {
         if (para.size()>0){
             boolean isAdmin = false;

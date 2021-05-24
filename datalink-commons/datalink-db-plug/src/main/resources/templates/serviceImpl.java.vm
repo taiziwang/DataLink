@@ -2,9 +2,9 @@ package ${package.ServiceImpl};
 #set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.datalink.base.lock.DistributedLock;
 import com.datalink.base.model.Result;
 import com.datalink.db.mybatis.annotation.Save;
-import com.datalink.db.mybatis.lock.DistributedLock;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.List;
 
 /**
  * $!{table.comment} 服务实现类
@@ -36,9 +34,9 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void save${entity}(@Validated({Save.class}) ${entity} ${entityNameLow}) throws Exception {
+    public boolean save${entity}(@Validated({Save.class}) ${entity} ${entityNameLow}) throws Exception {
         String code = ${entityNameLow}.getCode();
-        super.saveIdempotency(${entityNameLow}, lock
+        return super.saveIdempotency(${entityNameLow}, lock
         , LOCK_KEY_CODE+code, new QueryWrapper<${entity}>().eq("code", code), "已存在");
     }
 

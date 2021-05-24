@@ -1,4 +1,4 @@
-package com.datalink.db.mybatis.properties;
+package com.datalink.base.properties;
 
 import lombok.Getter;
 import lombok.Setter;

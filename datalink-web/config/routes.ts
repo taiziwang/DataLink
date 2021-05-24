@@ -143,8 +143,19 @@ export default [
           {
             path: '/dlink/flink/sqldev',
             name: 'sqldev',
-            icon: 'smile',
             component: './EmptyPage',
+          },
+        ],
+      },
+      {
+        path: '/dlink/task',
+        name: 'task',
+        icon: 'crown',
+        routes: [
+          {
+            path: '/dlink/task/list',
+            name: 'list',
+            component: './Dlink/Task',
           },
         ],
       },

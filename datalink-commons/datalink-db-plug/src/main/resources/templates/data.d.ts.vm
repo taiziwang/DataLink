@@ -1,5 +1,5 @@
 export type ${entity}TableListItem = {
-#set($hidefield = ["isDelete","tanentId"])
+#set($hidefield = ["isDelete","tenantId"])
 #foreach($field in ${table.fields})
     #if($hidefield.indexOf(${field.propertyName})>-1)
     ${field.propertyName}?:
