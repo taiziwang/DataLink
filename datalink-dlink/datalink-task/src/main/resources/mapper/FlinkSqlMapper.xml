@@ -8,7 +8,7 @@
         <result column="name" property="name" />
         <result column="alias" property="alias" />
         <result column="type" property="type" />
-        <result column="index" property="index" />
+        <result column="sql_index" property="sqlIndex" />
         <result column="statement" property="statement" />
         <result column="note" property="note" />
         <result column="enabled" property="enabled" />
@@ -21,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, alias, type, index, statement, note, enabled, create_user, create_time, update_user, update_time, task_id
+        id, name, alias, type, sql_index, statement, note, enabled, create_user, create_time, update_user, update_time, task_id
     </sql>
 
 

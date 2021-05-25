@@ -20,6 +20,15 @@ export async function removeTask(params: number[]) {
     });
 }
 
+export async function submitTask(params: number[]) {
+  return request('/api-dlink/task/submit', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
 export async function addOrUpdateTask(params: TaskTableListItem) {
     return request('/api-dlink/task', {
         method: 'PUT',

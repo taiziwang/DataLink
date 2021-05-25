@@ -157,6 +157,11 @@ export default [
             name: 'list',
             component: './Dlink/Task',
           },
+          {
+            path: '/dlink/task/flinksql',
+            name: 'flinksql',
+            component: './Dlink/FlinkSql',
+          },
         ],
       },
       {

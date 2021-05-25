@@ -21,7 +21,7 @@ public class MysqlGenerator {
         String packageName = "task";
         String author = "wenmo";
         String tablePrefix = "dlink_";
-        String[] includes = new String[]{"dlink_flink_sql","dlink_task"};
+        String[] includes = new String[]{"dlink_flink_sql"};
         String projectPath = System.getProperty("user.dir");
         String modulePre = "com.datalink.";
 

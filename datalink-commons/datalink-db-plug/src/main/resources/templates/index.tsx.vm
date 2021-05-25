@@ -295,7 +295,7 @@ const ${entity}TableList: React.FC<{}> = () => {
                     {row?.name && (
                         <ProDescriptions<${entity}TableListItem>
                             column={2}
-                            title={row?.rname}
+                            title={row?.name}
                             request={async () => ({
                             data: row || {},
                         })}

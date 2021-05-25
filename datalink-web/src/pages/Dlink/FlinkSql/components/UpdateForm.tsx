@@ -26,10 +26,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         statement: props.values.statement,
         note: props.values.note,
         enabled: props.values.enabled,
-        createUser: props.values.createUser,
-        updateUser: props.values.updateUser,
         taskId: props.values.taskId,
-        tenantId: props.values.tenantId,
     });
 
     const [form] = Form.useForm();
@@ -89,31 +86,13 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                         name="enabled"
                         label="是否启用"
  rules={[{ required: true, message: '请输入是否启用！' }]}                     >
-                        <Switch checkedChildren="启用" unCheckedChildren="禁用" defaultChecked
-                                checked={formVals.enabled}/>
-                    </FormItem>
-                    <FormItem
-                        name="createUser"
-                        label="创建人"
-                    >
-                        <Input placeholder="请输入" />
-                    </FormItem>
-                    <FormItem
-                        name="updateUser"
-                        label="更新人"
-                    >
-                        <Input placeholder="请输入" />
+                        <Switch checkedChildren="启用" unCheckedChildren="禁用"
+                                defaultChecked={formVals.enabled}/>
                     </FormItem>
                     <FormItem
                         name="taskId"
                         label="任务ID"
  rules={[{ required: true, message: '请输入任务ID！' }]}                     >
-                        <Input placeholder="请输入" />
-                    </FormItem>
-                    <FormItem
-                        name="tenantId"
-                        label="租户ID"
-                    >
                         <Input placeholder="请输入" />
                     </FormItem>
             </>
@@ -153,10 +132,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         statement: formVals.statement,
         note: formVals.note,
         enabled: formVals.enabled,
-        createUser: formVals.createUser,
-        updateUser: formVals.updateUser,
         taskId: formVals.taskId,
-        tenantId: formVals.tenantId,
                 }}
             >
                 {renderContent(formVals)}

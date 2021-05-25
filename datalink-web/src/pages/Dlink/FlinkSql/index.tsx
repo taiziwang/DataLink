@@ -8,11 +8,9 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import type { FlinkSqlTableListItem } from './data.d';
-import {queryRule, addOrUpdateUser, removeUser} from './service';
+import {queryFlinkSql, addOrUpdateFlinkSql, removeFlinkSql} from './service';
 
 import styles from './index.less';
-import Avatar from "antd/es/avatar";
-import Image from "antd/es/image";
 import Dropdown from "antd/es/dropdown/dropdown";
 import Menu from "antd/es/menu";
 
@@ -21,7 +19,7 @@ const handleAddOrUpdate = async (fields: FlinkSqlTableListItem) => {
     const tipsTitle = fields.id?"修改":"添加";
     const hide = message.loading(`正在${tipsTitle}`);
     try {
-        const { msg } = await addOrUpdateUser({ ...fields });
+        const { msg } = await addOrUpdateFlinkSql({ ...fields });
         hide();
         message.success(msg);
         return true;
@@ -36,7 +34,7 @@ const handleRemove = async (selectedRows: FlinkSqlTableListItem[]) => {
     const hide = message.loading('正在删除');
     if (!selectedRows) return true;
     try {
-        const { msg } = await removeUser(selectedRows.map((row) => row.id));
+        const { msg } = await removeFlinkSql(selectedRows.map((row) => row.id));
         hide();
         message.success(msg);
         return true;
@@ -48,7 +46,7 @@ const handleRemove = async (selectedRows: FlinkSqlTableListItem[]) => {
 };
 
 
-const TableList: React.FC<{}> = () => {
+const FlinkSqlTableList: React.FC<{}> = () => {
     const [createModalVisible, handleModalVisible] = useState<boolean>(false);
     const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
     const [formValues, setFormValues] = useState({});
@@ -66,8 +64,9 @@ const TableList: React.FC<{}> = () => {
                 content: '确定删除该FlinkSql吗？',
                 okText: '确认',
                 cancelText: '取消',
-                onOk: () => {
-                    handleRemove([currentItem])
+                onOk:async () => {
+                    await handleRemove([currentItem]);
+                    actionRef.current?.reloadAndRest?.();
                 }
             });
         }
@@ -95,33 +94,23 @@ const TableList: React.FC<{}> = () => {
             </a>
         </Dropdown>
     );
-
     const columns: ProColumns<FlinkSqlTableListItem>[] = [
         {
-            title: '编码',
-            dataIndex: 'code',
-            tip: '编码是唯一的',
+            title: '名称',
+            dataIndex: 'name',
+            tip: 'name是唯一的',
             sorter: true,
             formItemProps: {
                 rules: [
                     {
                         required: true,
-                        message: '编码为必填项',
+                        message: 'name为必填项',
                     },
                 ],
             },
             render: (dom, entity) => {
                 return <a onClick={() => setRow(entity)}>{dom}</a>;
             },
-        },
-        },
-        {
-            title: '名称',
-            sorter: true,
-            dataIndex: 'name',
-            hideInForm: false,
-            hideInSearch:true,
-            hideInTable:false,
         },
         {
             title: '别名',
@@ -142,7 +131,7 @@ const TableList: React.FC<{}> = () => {
         {
             title: '次序',
             sorter: true,
-            dataIndex: 'index',
+            dataIndex: 'sqlIndex',
             hideInForm: false,
             hideInSearch:true,
             hideInTable:false,
@@ -153,7 +142,7 @@ const TableList: React.FC<{}> = () => {
             dataIndex: 'statement',
             hideInForm: false,
             hideInSearch:true,
-            hideInTable:false,
+            hideInTable:true,
         },
         {
             title: '备注',
@@ -181,37 +170,49 @@ const TableList: React.FC<{}> = () => {
                  },
              ],
             filterMultiple: false,
+            valueEnum: {
+                true: { text: '正常', status: 'Success' },
+                false: { text: '禁用', status: 'Error' },
+            },
         },
         {
             title: '创建人',
             sorter: true,
             dataIndex: 'createUser',
-            hideInForm: false,
+            hideInForm: true,
             hideInSearch:true,
             hideInTable:false,
         },
+        {
+            title: '创建时间',
+            sorter: true,
+            dataIndex: 'createTime',
+            hideInForm: true,
+            hideInSearch:true,
+            hideInTable:false,
+            valueType: 'dateTime',
         },
         {
             title: '更新人',
             sorter: true,
             dataIndex: 'updateUser',
-            hideInForm: false,
+            hideInForm: true,
             hideInSearch:true,
             hideInTable:false,
         },
+        {
+            title: '更新时间',
+            sorter: true,
+            dataIndex: 'updateTime',
+            hideInForm: true,
+            hideInSearch:true,
+            hideInTable:false,
+            valueType: 'dateTime',
         },
         {
             title: '任务ID',
             sorter: true,
             dataIndex: 'taskId',
-            hideInForm: false,
-            hideInSearch:true,
-            hideInTable:false,
-        },
-        {
-            title: '租户ID',
-            sorter: true,
-            dataIndex: 'tenantId',
             hideInForm: false,
             hideInSearch:true,
             hideInTable:false,
@@ -248,7 +249,7 @@ const TableList: React.FC<{}> = () => {
                     <PlusOutlined /> 新建
                 </Button>,
             ]}
-                request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
+                request={(params, sorter, filter) => queryFlinkSql({ ...params, sorter, filter })}
                 columns={columns}
                 rowSelection={{
                 onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -260,32 +261,56 @@ const TableList: React.FC<{}> = () => {
                             <div>
                                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项&nbsp;&nbsp;
                                 <span>
-                被禁用的用户共 {selectedRowsState.length - selectedRowsState.reduce((pre, item) => pre + (item.enabled?1:0), 0)} 人
+                被禁用的FlinkSql共 {selectedRowsState.length - selectedRowsState.reduce((pre, item) => pre + (item.enabled?1:0), 0)} 人
               </span>
                             </div>
                         }
                     >
                         <Button type="primary" danger
-                                onClick={async () => {
-                                    await handleRemove(selectedRowsState);
-                                    setSelectedRows([]);
-                                    actionRef.current?.reloadAndRest?.();
+                                onClick ={()=>{
+                                    Modal.confirm({
+                                        title: '禁用FlinkSql',
+                                        content: '确定禁用选中的FlinkSql吗？',
+                                        okText: '确认',
+                                        cancelText: '取消',
+                                        onOk:async () => {
+                                            await handleRemove(selectedRowsState);
+                                            setSelectedRows([]);
+                                            actionRef.current?.reloadAndRest?.();
+                                        }
+                                    });
                                 }}
                         >
                             批量删除
                         </Button>
                         <Button type="primary"
-                                onClick={async () => {
-                                    await updateEnabled(selectedRowsState,true);
-                                    setSelectedRows([]);
-                                    actionRef.current?.reloadAndRest?.();
+                                onClick ={()=>{
+                                    Modal.confirm({
+                                        title: '禁用FlinkSql',
+                                        content: '确定禁用选中的FlinkSql吗？',
+                                        okText: '确认',
+                                        cancelText: '取消',
+                                        onOk:async () => {
+                                            await updateEnabled(selectedRowsState,true);
+                                            setSelectedRows([]);
+                                            actionRef.current?.reloadAndRest?.();
+                                        }
+                                    });
                                 }}
                         >批量启用</Button>
                         <Button danger
-                                onClick={async () => {
-                                    await updateEnabled(selectedRowsState,false);
-                                    setSelectedRows([]);
-                                    actionRef.current?.reloadAndRest?.();
+                                onClick ={()=>{
+                                    Modal.confirm({
+                                        title: '禁用FlinkSql',
+                                        content: '确定禁用选中的FlinkSql吗？',
+                                        okText: '确认',
+                                        cancelText: '取消',
+                                        onOk:async () => {
+                                            await updateEnabled(selectedRowsState, false);
+                                            setSelectedRows([]);
+                                            actionRef.current?.reloadAndRest?.();
+                                        }
+                                    });
                                 }}
                         >批量禁用</Button>
                     </FooterToolbar>
@@ -335,10 +360,10 @@ const TableList: React.FC<{}> = () => {
                     }}
                     closable={false}
                 >
-                    {row?.username && (
+                    {row?.name && (
                         <ProDescriptions<FlinkSqlTableListItem>
                             column={2}
-                            title={row?.rname}
+                            title={row?.name}
                             request={async () => ({
                             data: row || {},
                         })}
@@ -353,4 +378,4 @@ const TableList: React.FC<{}> = () => {
 );
 };
 
-export default TableList;
+export default FlinkSqlTableList;

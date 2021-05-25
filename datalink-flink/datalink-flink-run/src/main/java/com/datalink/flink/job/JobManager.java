@@ -44,6 +44,11 @@ public class JobManager {
     private String sessionId;
     private Integer maxRowNum = 100;
 
+    public JobManager(String flinkHost, Integer port) {
+        this.flinkHost = flinkHost;
+        this.port = port;
+    }
+
     public JobManager(String flinkHost, Integer port, String sessionId, Integer maxRowNum) {
         this.flinkHost = flinkHost;
         this.sessionId = sessionId;

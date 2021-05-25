@@ -4,6 +4,7 @@ import com.datalink.base.annotation.LoginUser;
 import com.datalink.base.model.ProTableResult;
 import com.datalink.base.model.Result;
 import com.datalink.base.model.User;
+import com.datalink.flink.result.SubmitResult;
 import com.datalink.task.entity.Task;
 import com.datalink.task.service.TaskService;
 
@@ -96,6 +97,33 @@ public class TaskController {
                 return Result.succeed("删除成功");
             }else {
                 return Result.succeed("删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
+            }
+        }else{
+            return Result.failed("请选择要删除的记录");
+        }
+    }
+
+    /**
+     * 批量执行
+     */
+    @ApiOperation(value = "批量执行")
+    @PostMapping(value = "/submit")
+    public Result submit(@RequestBody JsonNode para) throws Exception {
+        if (para.size()>0){
+            List<SubmitResult> results = new ArrayList<>();
+            List<Integer> error = new ArrayList<>();
+            for (final JsonNode item : para){
+                Integer id = item.asInt();
+                SubmitResult result = taskService.submitByTaskId(id);
+                if(!result.isSuccess()){
+                    error.add(id);
+                }
+                results.add(result);
+            }
+            if(error.size()==0) {
+                return Result.succeed(results,"删除成功");
+            }else {
+                return Result.succeed(results,"删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
             }
         }else{
             return Result.failed("请选择要删除的记录");

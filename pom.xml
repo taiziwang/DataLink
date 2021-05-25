@@ -439,6 +439,11 @@
                 <artifactId>datalink-elasticsearch-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.datalink</groupId>
+                <artifactId>datalink-flink-run</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

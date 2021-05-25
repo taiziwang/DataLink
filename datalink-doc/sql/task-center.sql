@@ -26,7 +26,7 @@ CREATE TABLE `dlink_flink_sql`  (
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '别名',
   `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型',
-  `index` int(2) NULL DEFAULT NULL COMMENT '次序',
+  `sql_index` int(2) NULL DEFAULT NULL COMMENT '次序',
   `statement` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '语句',
   `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `enabled` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用',

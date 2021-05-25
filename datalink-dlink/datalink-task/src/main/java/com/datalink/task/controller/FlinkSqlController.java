@@ -43,7 +43,7 @@ public class FlinkSqlController {
             @ApiImplicitParam(name = "name", value = "名称", required =  false , dataType = "varchar(50)"),
             @ApiImplicitParam(name = "alias", value = "别名", required =  false , dataType = "varchar(255)"),
             @ApiImplicitParam(name = "type", value = "类型", required =  false , dataType = "varchar(50)"),
-            @ApiImplicitParam(name = "index", value = "次序", required =  false , dataType = "int(2)"),
+            @ApiImplicitParam(name = "sqlIndex", value = "次序", required =  false , dataType = "int(2)"),
             @ApiImplicitParam(name = "statement", value = "语句", required =  false , dataType = "text"),
             @ApiImplicitParam(name = "note", value = "备注", required =  false , dataType = "varchar(255)"),
             @ApiImplicitParam(name = "enabled", value = "是否启用", required = true , dataType = "tinyint(1)"),

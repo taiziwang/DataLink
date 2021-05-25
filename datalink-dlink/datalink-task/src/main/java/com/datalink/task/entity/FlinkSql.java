@@ -42,7 +42,7 @@ public class FlinkSql implements Serializable {
     private String type;
 
     @ApiModelProperty(value = "次序")
-    private Integer index;
+    private Integer sqlIndex;
 
     @ApiModelProperty(value = "语句")
     private String statement;

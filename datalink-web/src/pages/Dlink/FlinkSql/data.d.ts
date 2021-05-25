@@ -1,14 +1,17 @@
-export type TaskTableListItem = {
+export type FlinkSqlTableListItem = {
             id: number,
             name: string,
             alias: string,
             type: string,
+            index: number,
+            statement: string,
             note: string,
             enabled: boolean,
             createUser: number,
             createTime: Date,
             updateUser: number,
             updateTime: Date,
+            taskId: number,
 };
 
 export type TableListPagination = {

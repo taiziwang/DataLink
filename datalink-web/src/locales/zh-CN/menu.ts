@@ -73,6 +73,7 @@ export default {
   'menu.dlink.flink.sqldev': 'FlinkSql 编辑器',
   'menu.dlink.task': '作业中心',
   'menu.dlink.task.list': '作业管理',
+  'menu.dlink.task.flinksql': 'FlinkSql管理',
   'menu.dlink.warehouse': '数仓中心',
   'menu.dlink.warehouse.metadata': '元数据管理',
   'menu.dsink': 'Dsink 数据资产',

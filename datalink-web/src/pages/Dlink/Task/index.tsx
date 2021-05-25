@@ -8,7 +8,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import type {TaskTableListItem} from './data.d';
-import {queryTask, addOrUpdateTask, removeTask} from './service';
+import {queryTask, addOrUpdateTask, removeTask, submitTask} from './service';
 
 import styles from './index.less';
 
@@ -46,6 +46,20 @@ const handleRemove = async (selectedRows: TaskTableListItem[]) => {
   }
 };
 
+const handleSubmit = async (selectedRows: TaskTableListItem[]) => {
+  const hide = message.loading('正在执行');
+  if (!selectedRows) return true;
+  try {
+    const {msg} = await submitTask(selectedRows.map((row) => row.id));
+    hide();
+    message.success(msg);
+    return true;
+  } catch (error) {
+    hide();
+    message.error('执行失败，请重试');
+    return false;
+  }
+};
 
 const TaskTableList: React.FC<{}> = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -70,6 +84,17 @@ const TaskTableList: React.FC<{}> = () => {
           actionRef.current?.reloadAndRest?.();
         }
       });
+    } else if (key === 'submit') {
+      Modal.confirm({
+        title: '执行作业',
+        content: '确定执行该作业吗？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk:async () => {
+          await handleSubmit([currentItem]);
+          actionRef.current?.reloadAndRest?.();
+        }
+      });
     }
   };
 
@@ -85,6 +110,7 @@ const TaskTableList: React.FC<{}> = () => {
     <Dropdown
       overlay={
         <Menu onClick={({key}) => editAndDelete(key, item)}>
+          <Menu.Item key="submit">执行</Menu.Item>
           <Menu.Item key="edit">编辑</Menu.Item>
           <Menu.Item key="delete">删除</Menu.Item>
         </Menu>
