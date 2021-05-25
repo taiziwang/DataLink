@@ -2,7 +2,7 @@ package com.datalink.uaa.config;
 
 import com.datalink.base.config.DefaultPasswordConfig;
 import com.datalink.base.constant.SecurityConstant;
-import com.datalink.db.mybatis.properties.TenantProperties;
+import com.datalink.base.properties.TenantProperties;
 import com.datalink.uaa.filter.LoginProcessSetTenantFilter;
 import com.datalink.uaa.handler.OauthLogoutSuccessHandler;
 import com.datalink.uaa.mobile.MobileAuthenticationSecurityConfig;

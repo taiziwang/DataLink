@@ -1,7 +1,7 @@
 export type ${entity}TableListItem = {
-#set($hidefield = ["isDelete","tanentId"])
+#set($hidefield = ["isDelete","tenantId"])
 #foreach($field in ${table.fields})
-    #if($hidefield.indexOf(${field.propertyName})>-1)
+    #if($hidefield.indexOf(${field.propertyName})==-1)
     ${field.propertyName}?:
         #if(${field.propertyType.equals("Integer")}||${field.propertyType.equals("Double")}||${field.propertyType.equals("Float")})
             number;
@@ -13,7 +13,6 @@ export type ${entity}TableListItem = {
             string;
         #end
     #else
-            ${field.propertyName}: props.values.${field.propertyName},
     #end
 #end
 };

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import com.datalink.db.mybatis.handler.DateMetaObjectHandler;
 import com.datalink.db.mybatis.properties.MybatisPlusFillProperties;
-import com.datalink.db.mybatis.properties.TenantProperties;
+import com.datalink.base.properties.TenantProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

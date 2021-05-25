@@ -1,10 +1,10 @@
 import request from 'umi-request';
 import type { TableListParams } from './data.d';
-import {${entity}TableListItem} from "@/pages/Dbase/${entity}/data";
+import {${entity}TableListItem} from "./data.d";
 #set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
 
 export async function query${entity}(params?: TableListParams) {
-    return request('/api-${entityNameLow}/${entityNameLow}s/list', {
+    return request('/api-${entityNameLow}/${entityNameLow}', {
         method: 'POST',
         data: {
             ...params,
@@ -13,7 +13,7 @@ export async function query${entity}(params?: TableListParams) {
 }
 
 export async function remove${entity}(params: number[]) {
-    return request('/api-${entityNameLow}/${entityNameLow}s', {
+    return request('/api-${entityNameLow}/${entityNameLow}', {
         method: 'DELETE',
         data: {
             ...params,
@@ -21,9 +21,9 @@ export async function remove${entity}(params: number[]) {
     });
 }
 
-export async function addOrUpdate${entity}(params: UserTableListItem) {
-    return request('/api-${entityNameLow}/${entityNameLow}s/saveOrUpdate', {
-        method: 'POST',
+export async function addOrUpdate${entity}(params: ${entity}TableListItem) {
+    return request('/api-${entityNameLow}/${entityNameLow}', {
+        method: 'PUT',
         data: {
             ...params,
         },

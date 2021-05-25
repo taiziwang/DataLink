@@ -15,7 +15,7 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
-    void save${entity}(${entity} ${entityNameLow}) throws Exception;
+    boolean save${entity}(${entity} ${entityNameLow}) throws Exception;
 
     Result saveOrUpdate${entity}(${entity} ${entityNameLow}) throws Exception;
 }

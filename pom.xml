@@ -13,6 +13,8 @@
         <module>datalink-dbase</module>
         <module>datalink-uaa</module>
         <module>datalink-gateway</module>
+        <module>datalink-dlink</module>
+        <module>datalink-flink</module>
     </modules>
 
     <name>DataLink :</name>
@@ -435,6 +437,11 @@
             <dependency>
                 <groupId>com.datalink</groupId>
                 <artifactId>datalink-elasticsearch-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datalink</groupId>
+                <artifactId>datalink-flink-run</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
