@@ -1,7 +1,9 @@
 package com.datalink.task.controller;
 
+import com.datalink.base.annotation.LoginUser;
 import com.datalink.base.model.ProTableResult;
 import com.datalink.base.model.Result;
+import com.datalink.base.model.User;
 import com.datalink.task.entity.FlinkSql;
 import com.datalink.task.service.FlinkSqlService;
 
@@ -55,7 +57,11 @@ public class FlinkSqlController {
             @ApiImplicitParam(name = "tenantId", value = "租户ID", required =  false , dataType = "varchar(32)"),
     })
     @PutMapping
-    public Result saveOrUpdate(@RequestBody FlinkSql flinkSql) throws Exception {
+    public Result saveOrUpdate(@LoginUser User user, @RequestBody FlinkSql flinkSql) throws Exception {
+        if(flinkSql.getId()==null){
+            flinkSql.setCreateUser(user.getId());
+        }
+        flinkSql.setUpdateUser(user.getId());
         return flinkSqlService.saveOrUpdateFlinkSql(flinkSql);
     }
 

@@ -28,11 +28,16 @@
     <select id="selectForCTable" resultType="com.datalink.task.entity.FlinkSql">
         select
         a.*
+        ,(select b.nickname from dbase_user b where b.id = a.create_user) as createNickName
+        ,(select b.nickname from dbase_user b where b.id = a.update_user) as updateNickName
         from
         dlink_flink_sql a
         <where>
             <if test='param.name!=null and param.name!=""'>
-                a.name like "%#{param.name}%"
+                a.name like "%${param.name}%"
+            </if>
+            <if test='param.alias!=null and param.alias!=""'>
+                a.alias like "%${param.alias}%"
             </if>
             <if test='param.createTime!=null and param.createTime!=""'>
                 and a.create_time <![CDATA[>=]]> str_to_date( #{param.createTime},'%Y-%m-%d %H:%i:%s')

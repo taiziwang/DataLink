@@ -66,5 +66,10 @@ public class Task implements Serializable {
     @ApiModelProperty(value = "租户")
     private String tenantId;
 
+    @TableField(exist = false)
+    private String createNickName;
+
+    @TableField(exist = false)
+    private String updateNickName;
 
 }

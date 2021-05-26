@@ -121,12 +121,12 @@ public class TaskController {
                 results.add(result);
             }
             if(error.size()==0) {
-                return Result.succeed(results,"删除成功");
+                return Result.succeed(results,"执行成功");
             }else {
-                return Result.succeed(results,"删除部分成功，但"+error.toString()+"删除失败，共"+error.size()+"次失败。");
+                return Result.succeed(results,"执行部分成功，但"+error.toString()+"执行失败，共"+error.size()+"次失败。");
             }
         }else{
-            return Result.failed("请选择要删除的记录");
+            return Result.failed("请选择要执行的记录");
         }
     }
 
@@ -142,5 +142,7 @@ public class TaskController {
         task = taskService.getById(task.getId());
         return Result.succeed(task,"获取成功");
     }
+
+
 }
 

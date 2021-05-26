@@ -8,58 +8,14 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import type {TaskTableListItem} from './data.d';
-import {queryTask, addOrUpdateTask, removeTask, submitTask} from './service';
 
 import styles from './index.less';
 
 import Dropdown from "antd/es/dropdown/dropdown";
 import Menu from "antd/es/menu";
+import {handleAddOrUpdate, handleRemove, handleSubmit, queryData, updateEnabled} from "@/components/Common/crud";
 
-
-const handleAddOrUpdate = async (fields: TaskTableListItem) => {
-  const tipsTitle = fields.id ? "修改" : "添加";
-  const hide = message.loading(`正在${tipsTitle}`);
-  try {
-    const {msg} = await addOrUpdateTask({...fields});
-    hide();
-    message.success(msg);
-    return true;
-  } catch (error) {
-    hide();
-    message.error(error);
-    return false;
-  }
-};
-
-const handleRemove = async (selectedRows: TaskTableListItem[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-  try {
-    const {msg} = await removeTask(selectedRows.map((row) => row.id));
-    hide();
-    message.success(msg);
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
-const handleSubmit = async (selectedRows: TaskTableListItem[]) => {
-  const hide = message.loading('正在执行');
-  if (!selectedRows) return true;
-  try {
-    const {msg} = await submitTask(selectedRows.map((row) => row.id));
-    hide();
-    message.success(msg);
-    return true;
-  } catch (error) {
-    hide();
-    message.error('执行失败，请重试');
-    return false;
-  }
-};
+const url = '/api-dlink/task';
 
 const TaskTableList: React.FC<{}> = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -80,7 +36,7 @@ const TaskTableList: React.FC<{}> = () => {
         okText: '确认',
         cancelText: '取消',
         onOk:async () => {
-          await handleRemove([currentItem]);
+          await handleRemove(url,[currentItem]);
           actionRef.current?.reloadAndRest?.();
         }
       });
@@ -91,18 +47,13 @@ const TaskTableList: React.FC<{}> = () => {
         okText: '确认',
         cancelText: '取消',
         onOk:async () => {
-          await handleSubmit([currentItem]);
+          await handleSubmit(url+'/submit','作业',[currentItem]);
           actionRef.current?.reloadAndRest?.();
         }
       });
     }
   };
 
-  const updateEnabled = (selectedRows: TaskTableListItem[], enabled: boolean) => {
-    selectedRows.forEach((item) => {
-      handleAddOrUpdate({id: item.id, enabled: enabled})
-    })
-  };
 
   const MoreBtn: React.FC<{
     item: TaskTableListItem;
@@ -141,11 +92,16 @@ const TaskTableList: React.FC<{}> = () => {
       },
     },
     {
+      title: '任务ID',
+      dataIndex: 'id',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+    },
+    {
       title: '别名',
       sorter: true,
       dataIndex: 'alias',
-      hideInForm: false,
-      hideInSearch: true,
       hideInTable: false,
     },
     {
@@ -159,14 +115,14 @@ const TaskTableList: React.FC<{}> = () => {
     {
       title: '注释',
       sorter: true,
+      valueType: 'textarea',
       dataIndex: 'note',
       hideInForm: false,
       hideInSearch: true,
-      hideInTable: false,
+      hideInTable: true,
     },
     {
       title: '是否启用',
-      sorter: true,
       dataIndex: 'enabled',
       hideInForm: true,
       hideInSearch: true,
@@ -188,20 +144,73 @@ const TaskTableList: React.FC<{}> = () => {
       },
     },
     {
-      title: '创建人',
+      title: '创建人ID',
       sorter: true,
       dataIndex: 'createUser',
+      hideInForm: true,
+      hideInSearch: true,
+      hideInTable: true,
+      hideInDescriptions:true,
+    },
+    {
+      title: '创建人',
+      sorter: true,
+      dataIndex: 'createNickName',
+      hideInForm: true,
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      sorter: true,
+      valueType: 'dateTime',
+      hideInForm: true,
+      hideInTable:true,
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+        const status = form.getFieldValue('status');
+        if (`${status}` === '0') {
+          return false;
+        }
+        if (`${status}` === '3') {
+          return <Input {...rest} placeholder="请输入异常原因！" />;
+        }
+        return defaultRender(item);
+      },
+    },
+    {
+      title: '更新人ID',
+      sorter: true,
+      dataIndex: 'updateUser',
+      hideInForm: true,
+      hideInSearch: true,
+      hideInTable: true,
+      hideInDescriptions:true,
+    },
+    {
+      title: '更新人',
+      sorter: true,
+      dataIndex: 'updateNickName',
       hideInForm: true,
       hideInSearch: true,
       hideInTable: false,
     },
     {
-      title: '更新人',
+      title: '最近更新时间',
+      dataIndex: 'updateTime',
       sorter: true,
-      dataIndex: 'updateUser',
+      valueType: 'dateTime',
       hideInForm: true,
-      hideInSearch: true,
-      hideInTable: false,
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+        const status = form.getFieldValue('status');
+        if (`${status}` === '0') {
+          return false;
+        }
+        if (`${status}` === '3') {
+          return <Input {...rest} placeholder="请输入异常原因！" />;
+        }
+        return defaultRender(item);
+      },
     },
     {
       title: '操作',
@@ -235,7 +244,7 @@ const TaskTableList: React.FC<{}> = () => {
           <PlusOutlined/> 新建
         </Button>,
       ]}
-        request={(params, sorter, filter) => queryTask({...params, sorter, filter})}
+        request={(params, sorter, filter) => queryData(url,{...params, sorter, filter})}
         columns={columns}
         rowSelection={{
         onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -260,7 +269,7 @@ const TaskTableList: React.FC<{}> = () => {
                         okText: '确认',
                         cancelText: '取消',
                         onOk:async () => {
-                          await handleRemove(selectedRowsState);
+                          await handleRemove(url,selectedRowsState);
                           setSelectedRows([]);
                           actionRef.current?.reloadAndRest?.();
                         }
@@ -277,7 +286,7 @@ const TaskTableList: React.FC<{}> = () => {
                         okText: '确认',
                         cancelText: '取消',
                         onOk:async () => {
-                          await updateEnabled(selectedRowsState, true);
+                          await updateEnabled(url,selectedRowsState, true);
                           setSelectedRows([]);
                           actionRef.current?.reloadAndRest?.();
                         }
@@ -292,7 +301,7 @@ const TaskTableList: React.FC<{}> = () => {
                         okText: '确认',
                         cancelText: '取消',
                         onOk:async () => {
-                          await updateEnabled(selectedRowsState, false);
+                          await updateEnabled(url,selectedRowsState, false);
                           setSelectedRows([]);
                           actionRef.current?.reloadAndRest?.();
                         }
@@ -304,7 +313,7 @@ const TaskTableList: React.FC<{}> = () => {
         <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
           <ProTable<TaskTableListItem, TaskTableListItem>
           onSubmit={async (value) => {
-          const success = await handleAddOrUpdate(value);
+          const success = await handleAddOrUpdate(url,value);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -320,7 +329,7 @@ const TaskTableList: React.FC<{}> = () => {
         {formValues && Object.keys(formValues).length ? (
           <UpdateForm
             onSubmit={async (value) => {
-              const success = await handleAddOrUpdate(value);
+              const success = await handleAddOrUpdate(url,value);
               if (success) {
                 handleUpdateModalVisible(false);
                 setFormValues({});
