@@ -141,9 +141,9 @@ export default [
         icon: 'crown',
         routes: [
           {
-            path: '/dlink/flink/sqldev',
-            name: 'sqldev',
-            component: './EmptyPage',
+            path: '/dlink/flink/studio',
+            name: 'studio',
+            component: './Dlink/Studio',
           },
         ],
       },
@@ -156,6 +156,11 @@ export default [
             path: '/dlink/task/list',
             name: 'list',
             component: './Dlink/Task',
+          },
+          {
+            path: '/dlink/task/create',
+            name: 'create',
+            component: './Common/Build',
           },
           {
             path: '/dlink/task/flinksql',

@@ -26,12 +26,17 @@
     <select id="selectForCTable" resultType="com.datalink.task.entity.Task">
         select
         a.*
+        ,(select b.nickname from dbase_user b where b.id = a.create_user) as createNickName
+        ,(select b.nickname from dbase_user b where b.id = a.update_user) as updateNickName
         from
         dlink_task a
         <where>
             1=1
             <if test='param.name!=null and param.name!=""'>
-                and a.name like "%#{param.name}%"
+                and a.name like "%${param.name}%"
+            </if>
+            <if test='param.alias!=null and param.alias!=""'>
+                and a.alias like "%${param.alias}%"
             </if>
             <if test='param.createTime!=null and param.createTime!=""'>
                 and a.create_time <![CDATA[>=]]> str_to_date( #{param.createTime},'%Y-%m-%d %H:%i:%s')

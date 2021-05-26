@@ -71,4 +71,10 @@ public class FlinkSql implements Serializable {
     @ApiModelProperty(value = "任务ID")
     @NotNull(message = "任务ID不能为空", groups = {Save.class})
     private Integer taskId;
+
+    @TableField(exist = false)
+    private String createNickName;
+
+    @TableField(exist = false)
+    private String updateNickName;
 }

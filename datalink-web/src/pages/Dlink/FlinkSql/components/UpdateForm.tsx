@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import { Form, Button, Input, Modal } from 'antd';
+import { Form, Button, Input, Modal, InputNumber, Select } from 'antd';
 
 import type { TableListItem } from '../data.d';
 import Switch from "antd/es/switch";
+import TextArea from "antd/es/input/TextArea";
+
 export type UpdateFormProps = {
     onCancel: (flag?: boolean, formVals?: Partial<TableListItem>) => void;
     onSubmit: (values: Partial<TableListItem>) => void;
@@ -22,7 +24,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         name: props.values.name,
         alias: props.values.alias,
         type: props.values.type,
-        index: props.values.index,
+        sqlIndex: props.values.sqlIndex,
         statement: props.values.statement,
         note: props.values.note,
         enabled: props.values.enabled,
@@ -55,7 +57,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                     </FormItem>
                     <FormItem
                         name="alias"
-                        label="别名"
+                        label="表名"
                     >
                         <Input placeholder="请输入" />
                     </FormItem>
@@ -63,24 +65,30 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                         name="type"
                         label="类型"
                     >
-                        <Input placeholder="请输入" />
+                      <Select defaultValue="CREATE TABLE" allowClear>
+                        <Option value="CREATE TABLE">CREATE TABLE</Option>
+                        <Option value="INSERT INTO">INSERT INTO</Option>
+                        <Option value="CREATE VIEW">CREATE VIEW</Option>
+                        <Option value="CREATE AGGTABLE">CREATE AGGTABLE</Option>
+                      </Select>
                     </FormItem>
                     <FormItem
-                        name="index"
+                        name="sqlIndex"
                         label="次序"
                     >
-                        <Input placeholder="请输入" />
+                      <InputNumber min={0} max={100}/>
                     </FormItem>
                     <FormItem
                         name="statement"
                         label="语句"
                     >
+                      <TextArea placeholder="添加 Flink Sql..." allowClear autoSize={{ minRows: 3, maxRows: 10 }}/>
                     </FormItem>
                     <FormItem
                         name="note"
                         label="备注"
                     >
-                        <Input placeholder="请输入" />
+                      <TextArea placeholder="添加备注" allowClear />
                     </FormItem>
                     <FormItem
                         name="enabled"
@@ -128,7 +136,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         name: formVals.name,
         alias: formVals.alias,
         type: formVals.type,
-        index: formVals.index,
+        sqlIndex: formVals.sqlIndex,
         statement: formVals.statement,
         note: formVals.note,
         enabled: formVals.enabled,

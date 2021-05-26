@@ -8,16 +8,45 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import type { ${entity}TableListItem } from './data.d';
+import {query${entity}, addOrUpdate${entity}, remove${entity}} from './service';
 
 import styles from './index.less';
 import Avatar from "antd/es/avatar";
 import Image from "antd/es/image";
 import Dropdown from "antd/es/dropdown/dropdown";
 import Menu from "antd/es/menu";
-import {handleAddOrUpdate, handleRemove, handleSubmit, queryData, updateEnabled} from "@/components/Common/crud";
-#set($entityNameLow = ${entity.substring(0,1).toLowerCase()} + ${entity.substring(1)})
 
-const url = '/api-dlink/${entityNameLow}';
+
+const handleAddOrUpdate = async (fields: ${entity}TableListItem) => {
+    const tipsTitle = fields.id?"修改":"添加";
+    const hide = message.loading(`正在${tipsTitle}`);
+    try {
+        const { msg } = await addOrUpdate${entity}({ ...fields });
+        hide();
+        message.success(msg);
+        return true;
+    } catch (error) {
+        hide();
+        message.error(error);
+        return false;
+    }
+};
+
+const handleRemove = async (selectedRows: ${entity}TableListItem[]) => {
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+    try {
+        const { msg } = await remove${entity}(selectedRows.map((row) => row.id));
+        hide();
+        message.success(msg);
+        return true;
+    } catch (error) {
+        hide();
+        message.error('删除失败，请重试');
+        return false;
+    }
+};
+
 
 const ${entity}TableList: React.FC<{}> = () => {
     const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -38,11 +67,17 @@ const ${entity}TableList: React.FC<{}> = () => {
                 okText: '确认',
                 cancelText: '取消',
                 onOk:async () => {
-                    await handleRemove(url,[currentItem]);
+                    await handleRemove([currentItem]);
                     actionRef.current?.reloadAndRest?.();
                 }
             });
         }
+    };
+
+    const updateEnabled = (selectedRows: ${entity}TableListItem[],enabled:boolean) =>{
+        selectedRows.forEach((item)=>{
+            handleAddOrUpdate({id:item.id,enabled:enabled})
+        })
     };
 
     const MoreBtn: React.FC<{
@@ -107,18 +142,8 @@ const ${entity}TableList: React.FC<{}> = () => {
                 true: { text: '正常', status: 'Success' },
                 false: { text: '禁用', status: 'Error' },
             },
-        #elseif(${field.propertyType.equals("LocalDateTime")} || ${field.propertyType.equals("Date")})
+        #elseif(${field.propertyType.equals("LocalDateTime")})
             valueType: 'dateTime',
-            renderFormItem: (item, { defaultRender, ...rest }, form) => {
-                const status = form.getFieldValue('status');
-                if (`${status}` === '0') {
-                    return false;
-                }
-                if (`${status}` === '3') {
-                    return <Input {...rest} placeholder="请输入异常原因！" />;
-                }
-                return defaultRender(item);
-            },
         #else
         #end
         },
@@ -156,7 +181,7 @@ const ${entity}TableList: React.FC<{}> = () => {
                     <PlusOutlined /> 新建
                 </Button>,
             ]}
-                request={(params, sorter, filter) => queryData${entity}(url,{ ...params, sorter, filter })}
+                request={(params, sorter, filter) => query${entity}({ ...params, sorter, filter })}
                 columns={columns}
                 rowSelection={{
                 onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -176,12 +201,12 @@ const ${entity}TableList: React.FC<{}> = () => {
                         <Button type="primary" danger
                                 onClick ={()=>{
                                     Modal.confirm({
-                                        title: '删除$!{table.comment}',
-                                        content: '确定删除选中的$!{table.comment}吗？',
+                                        title: '禁用$!{table.comment}',
+                                        content: '确定禁用选中的$!{table.comment}吗？',
                                         okText: '确认',
                                         cancelText: '取消',
                                         onOk:async () => {
-                                            await handleRemove(url,selectedRowsState);
+                                            await handleRemove(selectedRowsState);
                                             setSelectedRows([]);
                                             actionRef.current?.reloadAndRest?.();
                                         }
@@ -193,12 +218,12 @@ const ${entity}TableList: React.FC<{}> = () => {
                         <Button type="primary"
                                 onClick ={()=>{
                                     Modal.confirm({
-                                        title: '启用$!{table.comment}',
-                                        content: '确定启用选中的$!{table.comment}吗？',
+                                        title: '禁用$!{table.comment}',
+                                        content: '确定禁用选中的$!{table.comment}吗？',
                                         okText: '确认',
                                         cancelText: '取消',
                                         onOk:async () => {
-                                            await updateEnabled(url,selectedRowsState,true);
+                                            await updateEnabled(selectedRowsState,true);
                                             setSelectedRows([]);
                                             actionRef.current?.reloadAndRest?.();
                                         }
@@ -213,7 +238,7 @@ const ${entity}TableList: React.FC<{}> = () => {
                                         okText: '确认',
                                         cancelText: '取消',
                                         onOk:async () => {
-                                            await updateEnabled(url,selectedRowsState, false);
+                                            await updateEnabled(selectedRowsState, false);
                                             setSelectedRows([]);
                                             actionRef.current?.reloadAndRest?.();
                                         }
@@ -225,7 +250,7 @@ const ${entity}TableList: React.FC<{}> = () => {
                 <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
                     <ProTable<${entity}TableListItem, ${entity}TableListItem>
                     onSubmit={async (value) => {
-                    const success = await handleAddOrUpdate(url,value);
+                    const success = await handleAddOrUpdate(value);
                     if (success) {
                         handleModalVisible(false);
                         if (actionRef.current) {
@@ -241,7 +266,7 @@ const ${entity}TableList: React.FC<{}> = () => {
                 {formValues && Object.keys(formValues).length ? (
                     <UpdateForm
                         onSubmit={async (value) => {
-                            const success = await handleAddOrUpdate(url,value);
+                            const success = await handleAddOrUpdate(value);
                             if (success) {
                                 handleUpdateModalVisible(false);
                                 setFormValues({});

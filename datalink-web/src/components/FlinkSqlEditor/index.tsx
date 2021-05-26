@@ -5,6 +5,7 @@ import {BaseDataSourceField, BaseDataSourceHeader, CompletionItem} from "@/compo
 import Completion from "@/components/FlinkSqlEditor/completion";
 import {connect} from "umi";
 import {StateType} from "@/components/FlinkSqlEditor/model";
+import {executeSql} from "@/components/FlinkSqlEditor/service";
 
 let provider = {
   dispose: () => {},
@@ -51,6 +52,10 @@ const FlinkSqlEditor = (props:any) => {
     handleSetEditorVal,
     getEditorData: () => cache.current,
   }));
+
+  const submit = async () => {
+    await executeSql({statement:cache.current});
+  };
 
   const handleSetEditorVal = (value: string): void => {
     if (!value) return;

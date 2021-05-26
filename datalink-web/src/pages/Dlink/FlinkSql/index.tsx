@@ -8,43 +8,13 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import type { FlinkSqlTableListItem } from './data.d';
-import {queryFlinkSql, addOrUpdateFlinkSql, removeFlinkSql} from './service';
 
 import styles from './index.less';
 import Dropdown from "antd/es/dropdown/dropdown";
 import Menu from "antd/es/menu";
+import {handleAddOrUpdate, handleRemove, handleSubmit, queryData, updateEnabled} from "@/components/Common/crud";
 
-
-const handleAddOrUpdate = async (fields: FlinkSqlTableListItem) => {
-    const tipsTitle = fields.id?"修改":"添加";
-    const hide = message.loading(`正在${tipsTitle}`);
-    try {
-        const { msg } = await addOrUpdateFlinkSql({ ...fields });
-        hide();
-        message.success(msg);
-        return true;
-    } catch (error) {
-        hide();
-        message.error(error);
-        return false;
-    }
-};
-
-const handleRemove = async (selectedRows: FlinkSqlTableListItem[]) => {
-    const hide = message.loading('正在删除');
-    if (!selectedRows) return true;
-    try {
-        const { msg } = await removeFlinkSql(selectedRows.map((row) => row.id));
-        hide();
-        message.success(msg);
-        return true;
-    } catch (error) {
-        hide();
-        message.error('删除失败，请重试');
-        return false;
-    }
-};
-
+const url = '/api-dlink/flinkSql';
 
 const FlinkSqlTableList: React.FC<{}> = () => {
     const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -65,17 +35,11 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                 okText: '确认',
                 cancelText: '取消',
                 onOk:async () => {
-                    await handleRemove([currentItem]);
+                    await handleRemove(url,[currentItem]);
                     actionRef.current?.reloadAndRest?.();
                 }
             });
         }
-    };
-
-    const updateEnabled = (selectedRows: FlinkSqlTableListItem[],enabled:boolean) =>{
-        selectedRows.forEach((item)=>{
-            handleAddOrUpdate({id:item.id,enabled:enabled})
-        })
     };
 
     const MoreBtn: React.FC<{
@@ -113,11 +77,10 @@ const FlinkSqlTableList: React.FC<{}> = () => {
             },
         },
         {
-            title: '别名',
+            title: '表名',
             sorter: true,
             dataIndex: 'alias',
             hideInForm: false,
-            hideInSearch:true,
             hideInTable:false,
         },
         {
@@ -127,6 +90,31 @@ const FlinkSqlTableList: React.FC<{}> = () => {
             hideInForm: false,
             hideInSearch:true,
             hideInTable:false,
+            filters: [
+              {
+                text: 'CREATE TABLE',
+                value: 'CREATE TABLE',
+              },
+              {
+                text: 'INSERT INTO',
+                value: 'INSERT INTO',
+              },
+              {
+                text: 'CREATE VIEW',
+                value: 'CREATE VIEW',
+              },
+              {
+                text: 'CREATE AGGTABLE',
+                value: 'CREATE AGGTABLE',
+              },
+            ],
+            filterMultiple: false,
+            valueEnum: {
+              'CREATE TABLE': { text: 'CREATE TABLE'},
+              'INSERT INTO': { text: 'INSERT INTO'},
+              'CREATE VIEW': { text: 'CREATE VIEW' },
+              'CREATE AGGTABLE': { text: 'CREATE AGGTABLE' },
+            },
         },
         {
             title: '次序',
@@ -139,6 +127,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
         {
             title: '语句',
             sorter: true,
+            valueType: 'textarea',
             dataIndex: 'statement',
             hideInForm: false,
             hideInSearch:true,
@@ -148,9 +137,10 @@ const FlinkSqlTableList: React.FC<{}> = () => {
             title: '备注',
             sorter: true,
             dataIndex: 'note',
+            valueType: 'textarea',
             hideInForm: false,
             hideInSearch:true,
-            hideInTable:false,
+            hideInTable:true,
         },
         {
             title: '是否启用',
@@ -176,38 +166,74 @@ const FlinkSqlTableList: React.FC<{}> = () => {
             },
         },
         {
-            title: '创建人',
+            title: '创建人ID',
             sorter: true,
             dataIndex: 'createUser',
             hideInForm: true,
             hideInSearch:true,
-            hideInTable:false,
+            hideInTable:true,
+            hideInDescriptions:true,
+        },
+        {
+          title: '创建人',
+          sorter: true,
+          dataIndex: 'createNickName',
+          hideInForm: true,
+          hideInSearch: true,
+          hideInTable:true,
         },
         {
             title: '创建时间',
             sorter: true,
             dataIndex: 'createTime',
             hideInForm: true,
-            hideInSearch:true,
-            hideInTable:false,
+            hideInTable:true,
             valueType: 'dateTime',
+            renderFormItem: (item, { defaultRender, ...rest }, form) => {
+              const status = form.getFieldValue('status');
+              if (`${status}` === '0') {
+                return false;
+              }
+              if (`${status}` === '3') {
+                return <Input {...rest} placeholder="请输入异常原因！" />;
+              }
+              return defaultRender(item);
+            },
         },
         {
-            title: '更新人',
+            title: '更新人ID',
             sorter: true,
             dataIndex: 'updateUser',
             hideInForm: true,
             hideInSearch:true,
-            hideInTable:false,
+            hideInTable:true,
+            hideInDescriptions:true,
+        },
+        {
+          title: '更新人',
+          sorter: true,
+          dataIndex: 'updateNickName',
+          hideInForm: true,
+          hideInSearch: true,
+          hideInTable: false,
         },
         {
             title: '更新时间',
             sorter: true,
             dataIndex: 'updateTime',
             hideInForm: true,
-            hideInSearch:true,
             hideInTable:false,
             valueType: 'dateTime',
+            renderFormItem: (item, { defaultRender, ...rest }, form) => {
+              const status = form.getFieldValue('status');
+              if (`${status}` === '0') {
+                return false;
+              }
+              if (`${status}` === '3') {
+                return <Input {...rest} placeholder="请输入异常原因！" />;
+              }
+              return defaultRender(item);
+            },
         },
         {
             title: '任务ID',
@@ -249,7 +275,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                     <PlusOutlined /> 新建
                 </Button>,
             ]}
-                request={(params, sorter, filter) => queryFlinkSql({ ...params, sorter, filter })}
+                request={(params, sorter, filter) => queryData(url,{ ...params, sorter, filter })}
                 columns={columns}
                 rowSelection={{
                 onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -274,7 +300,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                                         okText: '确认',
                                         cancelText: '取消',
                                         onOk:async () => {
-                                            await handleRemove(selectedRowsState);
+                                            await handleRemove(url,selectedRowsState);
                                             setSelectedRows([]);
                                             actionRef.current?.reloadAndRest?.();
                                         }
@@ -291,7 +317,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                                         okText: '确认',
                                         cancelText: '取消',
                                         onOk:async () => {
-                                            await updateEnabled(selectedRowsState,true);
+                                            await updateEnabled(url,selectedRowsState,true);
                                             setSelectedRows([]);
                                             actionRef.current?.reloadAndRest?.();
                                         }
@@ -306,7 +332,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                                         okText: '确认',
                                         cancelText: '取消',
                                         onOk:async () => {
-                                            await updateEnabled(selectedRowsState, false);
+                                            await updateEnabled(url,selectedRowsState, false);
                                             setSelectedRows([]);
                                             actionRef.current?.reloadAndRest?.();
                                         }
@@ -318,7 +344,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                 <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
                     <ProTable<FlinkSqlTableListItem, FlinkSqlTableListItem>
                     onSubmit={async (value) => {
-                    const success = await handleAddOrUpdate(value);
+                    const success = await handleAddOrUpdate(url,value);
                     if (success) {
                         handleModalVisible(false);
                         if (actionRef.current) {
@@ -334,7 +360,7 @@ const FlinkSqlTableList: React.FC<{}> = () => {
                 {formValues && Object.keys(formValues).length ? (
                     <UpdateForm
                         onSubmit={async (value) => {
-                            const success = await handleAddOrUpdate(value);
+                            const success = await handleAddOrUpdate(url,value);
                             if (success) {
                                 handleUpdateModalVisible(false);
                                 setFormValues({});

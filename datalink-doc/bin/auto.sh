@@ -7,7 +7,7 @@ LIB_PATH="$(dirname $(pwd))/lib"
 JAR_PATH="$(dirname $(pwd))/module/${PREFIX}-"
 JARS_NAME=("gateway" "uaa" "user" "task")
 # -Djava.ext.dirs=${LIB_PATH} -Doracle.jdbc.thinLogonCapability=o3
-SETTINGS=("" "" "" "-Djava.ext.dirs=${FLINK_HOME}/lib -Doracle.jdbc.thinLogonCapability=o3")
+SETTINGS=("" "" "" "-Djava.ext.dirs=${LIB_PATH} -Doracle.jdbc.thinLogonCapability=o3")
 XMS=("128M" "128M" "128M" "128M")
 XMX=("512M" "512M" "512M" "512M")
 XXPS=("128M" "128M" "128M" "128M")
