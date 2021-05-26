@@ -28,9 +28,9 @@ import java.util.List;
  * @since 2021-05-24
  */
 @Slf4j
-@Api(tags = "任务模块api")
+@Api(tags = "Studio模块api")
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/studio")
 public class StudioController {
     @Autowired
     private StudioService studioService;

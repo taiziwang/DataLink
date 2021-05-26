@@ -29,3 +29,6 @@ export type CompletionItem ={
   insertTextRules?:any,
   detail?:string,
 }
+ export type StudioParam = {
+   statement:string,
+ }

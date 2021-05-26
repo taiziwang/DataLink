@@ -6,6 +6,8 @@ import Space from "antd/es/space";
 import Divider from "antd/es/divider";
 import Button from "antd/es/button/button";
 import Breadcrumb from "antd/es/breadcrumb/Breadcrumb";
+import FlinkSqlEditor from "@/components/FlinkSqlEditor";
+import {Simulate} from "react-dom/test-utils";
 
 const { SubMenu } = Menu;
 //<Button shape="circle" icon={<CaretRightOutlined />} />
@@ -24,6 +26,13 @@ const menu = (
   </Menu>
 );
 
+const runMenu = (
+  <Menu>
+    <Menu.Item onClick={()=>{
+      FlinkSqlEditor.call('submit');
+    }}>远程执行</Menu.Item>
+  </Menu>
+);
 export default () => (
   <Row className={styles.container}>
     <Col span={24}>
@@ -39,7 +48,7 @@ export default () => (
               编辑
             </Button>
           </Dropdown>
-          <Dropdown overlay={menu}>
+          <Dropdown overlay={runMenu}>
             <Button type="text" onClick={e => e.preventDefault()}>
               执行
             </Button>
